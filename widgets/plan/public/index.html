@@ -65,9 +65,12 @@
       var selectedMs = null; // null: now (today, next hours), the start (tomorrow)
       var TABS = ['today', 'tomorrow', 'next'];
       var tabs = document.getElementById('tabs');
-      var tabKey = 'pbth-plan-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
-      var tab = 'today';
-      try { tab = localStorage.getItem(tabKey) || 'today'; } catch (e) { /* no storage: default */ }
+      var key = 'pbth-plan-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var tab = ((typeof Homey.getSettings === 'function' && Homey.getSettings()) || {}).start || 'last';
+      if (tab === 'last') {
+        tab = 'today';
+        try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      }
       if (TABS.indexOf(tab) < 0) tab = 'today';
       TABS.forEach(function (id) {
         var b = document.createElement('button');
@@ -76,8 +79,8 @@
         b.addEventListener('click', function () {
           if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
           tab = id;
+          try { localStorage.setItem(key, id); } catch (e) { /* not kept */ }
           selectedMs = null;
-          try { localStorage.setItem(tabKey, id); } catch (e) { /* not kept */ }
           markTabs();
           refresh();
         });

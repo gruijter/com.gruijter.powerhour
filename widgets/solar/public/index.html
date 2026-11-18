@@ -75,8 +75,11 @@
       var empty = document.getElementById('empty');
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
       var key = 'pbth-solar-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
-      var tab = 'today';
-      try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      var tab = settings.start || 'last';
+      if (tab === 'last') {
+        tab = 'today';
+        try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      }
       if (TABS.indexOf(tab) < 0) tab = 'today';
       var data = null;
       var sel = null; // selected slot or bar; null: the whole period
@@ -120,8 +123,8 @@
         b.addEventListener('click', function () {
           if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
           tab = id;
-          sel = null;
           try { localStorage.setItem(key, id); } catch (e) { /* not kept */ }
+          sel = null;
           markTabs();
           if (stale()) refresh();
           else {

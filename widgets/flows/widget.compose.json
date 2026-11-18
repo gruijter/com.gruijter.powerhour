@@ -155,6 +155,136 @@
           }
         }
       ]
+    },
+    {
+      "id": "start",
+      "type": "dropdown",
+      "title": {
+        "en": "Start tab",
+        "nl": "Starttab",
+        "de": "Start-Tab",
+        "fr": "Onglet de départ",
+        "it": "Scheda iniziale",
+        "sv": "Startflik",
+        "no": "Startfane",
+        "es": "Pestaña inicial",
+        "da": "Startfane",
+        "pl": "Karta startowa",
+        "ru": "Начальная вкладка",
+        "ar": "علامة التبويب الأولى",
+        "ko": "시작 탭"
+      },
+      "value": "last",
+      "values": [
+        {
+          "id": "last",
+          "title": {
+            "en": "Last chosen",
+            "nl": "Laatst gekozen",
+            "de": "Zuletzt gewählt",
+            "fr": "Dernier choisi",
+            "it": "Ultima scelta",
+            "sv": "Senast vald",
+            "no": "Sist valgt",
+            "es": "Última elegida",
+            "da": "Sidst valgt",
+            "pl": "Ostatnio wybrana",
+            "ru": "Последняя выбранная",
+            "ar": "آخر اختيار",
+            "ko": "마지막 선택"
+          }
+        },
+        {
+          "id": "now",
+          "title": {
+            "en": "Now",
+            "nl": "Nu",
+            "de": "Jetzt",
+            "fr": "Direct",
+            "it": "Adesso",
+            "sv": "Nu",
+            "no": "Nå",
+            "es": "Ahora",
+            "da": "Nu",
+            "pl": "Teraz",
+            "ru": "Сейчас",
+            "ar": "الآن",
+            "ko": "현재"
+          }
+        },
+        {
+          "id": "hour",
+          "title": {
+            "en": "Hour",
+            "nl": "Uur",
+            "de": "Stunde",
+            "fr": "Heure",
+            "it": "Ora",
+            "sv": "Timme",
+            "no": "Time",
+            "es": "Hora",
+            "da": "Time",
+            "pl": "Godzina",
+            "ru": "Час",
+            "ar": "ساعة",
+            "ko": "시간"
+          }
+        },
+        {
+          "id": "day",
+          "title": {
+            "en": "Day",
+            "nl": "Dag",
+            "de": "Tag",
+            "fr": "Jour",
+            "it": "Giorno",
+            "sv": "Dag",
+            "no": "Dag",
+            "es": "Día",
+            "da": "Dag",
+            "pl": "Dzień",
+            "ru": "День",
+            "ar": "يوم",
+            "ko": "일"
+          }
+        },
+        {
+          "id": "month",
+          "title": {
+            "en": "Month",
+            "nl": "Maand",
+            "de": "Monat",
+            "fr": "Mois",
+            "it": "Mese",
+            "sv": "Månad",
+            "no": "Måned",
+            "es": "Mes",
+            "da": "Måned",
+            "pl": "Miesiąc",
+            "ru": "Месяц",
+            "ar": "شهر",
+            "ko": "월"
+          }
+        },
+        {
+          "id": "year",
+          "title": {
+            "en": "Year",
+            "nl": "Jaar",
+            "de": "Jahr",
+            "fr": "Année",
+            "it": "Anno",
+            "sv": "År",
+            "no": "År",
+            "es": "Año",
+            "da": "År",
+            "pl": "Rok",
+            "ru": "Год",
+            "ar": "سنة",
+            "ko": "년"
+          }
+        }
+      ]
     }
   ],
   "devices": {

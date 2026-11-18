@@ -88,8 +88,11 @@
       var empty = document.getElementById('empty');
       var tabs = document.getElementById('tabs');
       var key = 'pbth-flows-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
-      var period = 'day';
-      try { period = localStorage.getItem(key) || 'day'; } catch (e) { /* no storage: default */ }
+      var period = ((typeof Homey.getSettings === 'function' && Homey.getSettings()) || {}).start || 'last';
+      if (period === 'last') {
+        period = 'day';
+        try { period = localStorage.getItem(key) || 'day'; } catch (e) { /* no storage: default */ }
+      }
       if (PERIODS.indexOf(period) < 0) period = 'day';
       var ready = false;
       var store = window.PbthPeriodCache();

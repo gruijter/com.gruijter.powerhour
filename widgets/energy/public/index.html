@@ -46,12 +46,13 @@
       var unitTabs = document.getElementById('unit');
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
       var key = 'pbth-energy-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
-      var period = 'day';
+      var period = settings.start || 'last';
+      if (period === 'last') {
+        period = 'day';
+        try { period = localStorage.getItem(key) || 'day'; } catch (e) { /* no storage: default */ }
+      }
       var unit = 'kwh';
-      try {
-        period = localStorage.getItem(key) || 'day';
-        unit = localStorage.getItem(key + '-unit') || 'kwh';
-      } catch (e) { /* no storage: defaults */ }
+      try { unit = localStorage.getItem(key + '-unit') || 'kwh'; } catch (e) { /* no storage: default */ }
       if (PERIODS.indexOf(period) < 0) period = 'day';
       if (UNITS.indexOf(unit) < 0) unit = 'kwh';
       var currency = '€';

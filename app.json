@@ -35437,6 +35437,154 @@
               }
             }
           ]
+        },
+        {
+          "id": "start",
+          "type": "dropdown",
+          "title": {
+            "en": "Start tab",
+            "nl": "Starttab",
+            "de": "Start-Tab",
+            "fr": "Onglet de départ",
+            "it": "Scheda iniziale",
+            "sv": "Startflik",
+            "no": "Startfane",
+            "es": "Pestaña inicial",
+            "da": "Startfane",
+            "pl": "Karta startowa",
+            "ru": "Начальная вкладка",
+            "ar": "علامة التبويب الأولى",
+            "ko": "시작 탭"
+          },
+          "value": "last",
+          "values": [
+            {
+              "id": "last",
+              "title": {
+                "en": "Last chosen",
+                "nl": "Laatst gekozen",
+                "de": "Zuletzt gewählt",
+                "fr": "Dernier choisi",
+                "it": "Ultima scelta",
+                "sv": "Senast vald",
+                "no": "Sist valgt",
+                "es": "Última elegida",
+                "da": "Sidst valgt",
+                "pl": "Ostatnio wybrana",
+                "ru": "Последняя выбранная",
+                "ar": "آخر اختيار",
+                "ko": "마지막 선택"
+              }
+            },
+            {
+              "id": "yesterday",
+              "title": {
+                "en": "Yesterday",
+                "nl": "Gisteren",
+                "de": "Gestern",
+                "fr": "Hier",
+                "it": "Ieri",
+                "sv": "Igår",
+                "no": "I går",
+                "es": "Ayer",
+                "da": "I går",
+                "pl": "Wczoraj",
+                "ru": "Вчера",
+                "ar": "أمس",
+                "ko": "어제"
+              }
+            },
+            {
+              "id": "today",
+              "title": {
+                "en": "Today",
+                "nl": "Vandaag",
+                "de": "Heute",
+                "fr": "Aujourd'hui",
+                "it": "Oggi",
+                "sv": "Idag",
+                "no": "I dag",
+                "es": "Hoy",
+                "da": "I dag",
+                "pl": "Dzisiaj",
+                "ru": "Сегодня",
+                "ar": "اليوم",
+                "ko": "오늘"
+              }
+            },
+            {
+              "id": "tomorrow",
+              "title": {
+                "en": "Tomorrow",
+                "nl": "Morgen",
+                "de": "Morgen",
+                "fr": "Demain",
+                "it": "Domani",
+                "sv": "I morgon",
+                "no": "I morgen",
+                "es": "Mañana",
+                "da": "I morgen",
+                "pl": "Jutro",
+                "ru": "Завтра",
+                "ar": "غداً",
+                "ko": "내일"
+              }
+            },
+            {
+              "id": "next",
+              "title": {
+                "en": "Next hours",
+                "nl": "Komende uren",
+                "de": "Kommende Stunden",
+                "fr": "Prochaines heures",
+                "it": "Prossime ore",
+                "sv": "Kommande timmar",
+                "no": "Neste timer",
+                "es": "Próximas horas",
+                "da": "Næste timer",
+                "pl": "Następne godziny",
+                "ru": "Следующие часы",
+                "ar": "الساعات القادمة",
+                "ko": "다음 시간"
+              }
+            },
+            {
+              "id": "weeks",
+              "title": {
+                "en": "4 weeks",
+                "nl": "4 weken",
+                "de": "4 Wochen",
+                "fr": "4 semaines",
+                "it": "4 settimane",
+                "sv": "4 veckor",
+                "no": "4 uker",
+                "es": "4 semanas",
+                "da": "4 uger",
+                "pl": "4 tygodnie",
+                "ru": "4 недели",
+                "ar": "4 أسابيع",
+                "ko": "4주"
+              }
+            },
+            {
+              "id": "year",
+              "title": {
+                "en": "Year",
+                "nl": "Jaar",
+                "de": "Jahr",
+                "fr": "Année",
+                "it": "Anno",
+                "sv": "År",
+                "no": "År",
+                "es": "Año",
+                "da": "År",
+                "pl": "Rok",
+                "ru": "Год",
+                "ar": "سنة",
+                "ko": "년"
+              }
+            }
+          ]
         }
       ],
       "devices": {
@@ -35588,6 +35736,136 @@
                 "ru": "Широкий",
                 "ar": "عريض",
                 "ko": "와이드"
+              }
+            }
+          ]
+        },
+        {
+          "id": "start",
+          "type": "dropdown",
+          "title": {
+            "en": "Start tab",
+            "nl": "Starttab",
+            "de": "Start-Tab",
+            "fr": "Onglet de départ",
+            "it": "Scheda iniziale",
+            "sv": "Startflik",
+            "no": "Startfane",
+            "es": "Pestaña inicial",
+            "da": "Startfane",
+            "pl": "Karta startowa",
+            "ru": "Начальная вкладка",
+            "ar": "علامة التبويب الأولى",
+            "ko": "시작 탭"
+          },
+          "value": "last",
+          "values": [
+            {
+              "id": "last",
+              "title": {
+                "en": "Last chosen",
+                "nl": "Laatst gekozen",
+                "de": "Zuletzt gewählt",
+                "fr": "Dernier choisi",
+                "it": "Ultima scelta",
+                "sv": "Senast vald",
+                "no": "Sist valgt",
+                "es": "Última elegida",
+                "da": "Sidst valgt",
+                "pl": "Ostatnio wybrana",
+                "ru": "Последняя выбранная",
+                "ar": "آخر اختيار",
+                "ko": "마지막 선택"
+              }
+            },
+            {
+              "id": "now",
+              "title": {
+                "en": "Now",
+                "nl": "Nu",
+                "de": "Jetzt",
+                "fr": "Direct",
+                "it": "Adesso",
+                "sv": "Nu",
+                "no": "Nå",
+                "es": "Ahora",
+                "da": "Nu",
+                "pl": "Teraz",
+                "ru": "Сейчас",
+                "ar": "الآن",
+                "ko": "현재"
+              }
+            },
+            {
+              "id": "hour",
+              "title": {
+                "en": "Hour",
+                "nl": "Uur",
+                "de": "Stunde",
+                "fr": "Heure",
+                "it": "Ora",
+                "sv": "Timme",
+                "no": "Time",
+                "es": "Hora",
+                "da": "Time",
+                "pl": "Godzina",
+                "ru": "Час",
+                "ar": "ساعة",
+                "ko": "시간"
+              }
+            },
+            {
+              "id": "day",
+              "title": {
+                "en": "Day",
+                "nl": "Dag",
+                "de": "Tag",
+                "fr": "Jour",
+                "it": "Giorno",
+                "sv": "Dag",
+                "no": "Dag",
+                "es": "Día",
+                "da": "Dag",
+                "pl": "Dzień",
+                "ru": "День",
+                "ar": "يوم",
+                "ko": "일"
+              }
+            },
+            {
+              "id": "month",
+              "title": {
+                "en": "Month",
+                "nl": "Maand",
+                "de": "Monat",
+                "fr": "Mois",
+                "it": "Mese",
+                "sv": "Månad",
+                "no": "Måned",
+                "es": "Mes",
+                "da": "Måned",
+                "pl": "Miesiąc",
+                "ru": "Месяц",
+                "ar": "شهر",
+                "ko": "월"
+              }
+            },
+            {
+              "id": "year",
+              "title": {
+                "en": "Year",
+                "nl": "Jaar",
+                "de": "Jahr",
+                "fr": "Année",
+                "it": "Anno",
+                "sv": "År",
+                "no": "År",
+                "es": "Año",
+                "da": "År",
+                "pl": "Rok",
+                "ru": "Год",
+                "ar": "سنة",
+                "ko": "년"
               }
             }
           ]
@@ -35758,6 +36036,136 @@
               }
             }
           ]
+        },
+        {
+          "id": "start",
+          "type": "dropdown",
+          "title": {
+            "en": "Start tab",
+            "nl": "Starttab",
+            "de": "Start-Tab",
+            "fr": "Onglet de départ",
+            "it": "Scheda iniziale",
+            "sv": "Startflik",
+            "no": "Startfane",
+            "es": "Pestaña inicial",
+            "da": "Startfane",
+            "pl": "Karta startowa",
+            "ru": "Начальная вкладка",
+            "ar": "علامة التبويب الأولى",
+            "ko": "시작 탭"
+          },
+          "value": "last",
+          "values": [
+            {
+              "id": "last",
+              "title": {
+                "en": "Last chosen",
+                "nl": "Laatst gekozen",
+                "de": "Zuletzt gewählt",
+                "fr": "Dernier choisi",
+                "it": "Ultima scelta",
+                "sv": "Senast vald",
+                "no": "Sist valgt",
+                "es": "Última elegida",
+                "da": "Sidst valgt",
+                "pl": "Ostatnio wybrana",
+                "ru": "Последняя выбранная",
+                "ar": "آخر اختيار",
+                "ko": "마지막 선택"
+              }
+            },
+            {
+              "id": "now",
+              "title": {
+                "en": "Now",
+                "nl": "Nu",
+                "de": "Jetzt",
+                "fr": "Direct",
+                "it": "Adesso",
+                "sv": "Nu",
+                "no": "Nå",
+                "es": "Ahora",
+                "da": "Nu",
+                "pl": "Teraz",
+                "ru": "Сейчас",
+                "ar": "الآن",
+                "ko": "현재"
+              }
+            },
+            {
+              "id": "hour",
+              "title": {
+                "en": "Hour",
+                "nl": "Uur",
+                "de": "Stunde",
+                "fr": "Heure",
+                "it": "Ora",
+                "sv": "Timme",
+                "no": "Time",
+                "es": "Hora",
+                "da": "Time",
+                "pl": "Godzina",
+                "ru": "Час",
+                "ar": "ساعة",
+                "ko": "시간"
+              }
+            },
+            {
+              "id": "day",
+              "title": {
+                "en": "Day",
+                "nl": "Dag",
+                "de": "Tag",
+                "fr": "Jour",
+                "it": "Giorno",
+                "sv": "Dag",
+                "no": "Dag",
+                "es": "Día",
+                "da": "Dag",
+                "pl": "Dzień",
+                "ru": "День",
+                "ar": "يوم",
+                "ko": "일"
+              }
+            },
+            {
+              "id": "month",
+              "title": {
+                "en": "Month",
+                "nl": "Maand",
+                "de": "Monat",
+                "fr": "Mois",
+                "it": "Mese",
+                "sv": "Månad",
+                "no": "Måned",
+                "es": "Mes",
+                "da": "Måned",
+                "pl": "Miesiąc",
+                "ru": "Месяц",
+                "ar": "شهر",
+                "ko": "월"
+              }
+            },
+            {
+              "id": "year",
+              "title": {
+                "en": "Year",
+                "nl": "Jaar",
+                "de": "Jahr",
+                "fr": "Année",
+                "it": "Anno",
+                "sv": "År",
+                "no": "År",
+                "es": "Año",
+                "da": "År",
+                "pl": "Rok",
+                "ru": "Год",
+                "ar": "سنة",
+                "ko": "년"
+              }
+            }
+          ]
         }
       ],
       "devices": {
@@ -35847,6 +36255,100 @@
                 "ru": "Широкий",
                 "ar": "عريض",
                 "ko": "와이드"
+              }
+            }
+          ]
+        },
+        {
+          "id": "start",
+          "type": "dropdown",
+          "title": {
+            "en": "Start tab",
+            "nl": "Starttab",
+            "de": "Start-Tab",
+            "fr": "Onglet de départ",
+            "it": "Scheda iniziale",
+            "sv": "Startflik",
+            "no": "Startfane",
+            "es": "Pestaña inicial",
+            "da": "Startfane",
+            "pl": "Karta startowa",
+            "ru": "Начальная вкладка",
+            "ar": "علامة التبويب الأولى",
+            "ko": "시작 탭"
+          },
+          "value": "last",
+          "values": [
+            {
+              "id": "last",
+              "title": {
+                "en": "Last chosen",
+                "nl": "Laatst gekozen",
+                "de": "Zuletzt gewählt",
+                "fr": "Dernier choisi",
+                "it": "Ultima scelta",
+                "sv": "Senast vald",
+                "no": "Sist valgt",
+                "es": "Última elegida",
+                "da": "Sidst valgt",
+                "pl": "Ostatnio wybrana",
+                "ru": "Последняя выбранная",
+                "ar": "آخر اختيار",
+                "ko": "마지막 선택"
+              }
+            },
+            {
+              "id": "today",
+              "title": {
+                "en": "Today",
+                "nl": "Vandaag",
+                "de": "Heute",
+                "fr": "Aujourd'hui",
+                "it": "Oggi",
+                "sv": "Idag",
+                "no": "I dag",
+                "es": "Hoy",
+                "da": "I dag",
+                "pl": "Dzisiaj",
+                "ru": "Сегодня",
+                "ar": "اليوم",
+                "ko": "오늘"
+              }
+            },
+            {
+              "id": "tomorrow",
+              "title": {
+                "en": "Tomorrow",
+                "nl": "Morgen",
+                "de": "Morgen",
+                "fr": "Demain",
+                "it": "Domani",
+                "sv": "I morgon",
+                "no": "I morgen",
+                "es": "Mañana",
+                "da": "I morgen",
+                "pl": "Jutro",
+                "ru": "Завтра",
+                "ar": "غداً",
+                "ko": "내일"
+              }
+            },
+            {
+              "id": "next",
+              "title": {
+                "en": "Next hours",
+                "nl": "Komende uren",
+                "de": "Kommende Stunden",
+                "fr": "Prochaines heures",
+                "it": "Prossime ore",
+                "sv": "Kommande timmar",
+                "no": "Neste timer",
+                "es": "Próximas horas",
+                "da": "Næste timer",
+                "pl": "Następne godziny",
+                "ru": "Следующие часы",
+                "ar": "الساعات القادمة",
+                "ko": "다음 시간"
               }
             }
           ]
@@ -35955,6 +36457,100 @@
             "ko": "4주 평균 표시"
           },
           "value": true
+        },
+        {
+          "id": "start",
+          "type": "dropdown",
+          "title": {
+            "en": "Start tab",
+            "nl": "Starttab",
+            "de": "Start-Tab",
+            "fr": "Onglet de départ",
+            "it": "Scheda iniziale",
+            "sv": "Startflik",
+            "no": "Startfane",
+            "es": "Pestaña inicial",
+            "da": "Startfane",
+            "pl": "Karta startowa",
+            "ru": "Начальная вкладка",
+            "ar": "علامة التبويب الأولى",
+            "ko": "시작 탭"
+          },
+          "value": "last",
+          "values": [
+            {
+              "id": "last",
+              "title": {
+                "en": "Last chosen",
+                "nl": "Laatst gekozen",
+                "de": "Zuletzt gewählt",
+                "fr": "Dernier choisi",
+                "it": "Ultima scelta",
+                "sv": "Senast vald",
+                "no": "Sist valgt",
+                "es": "Última elegida",
+                "da": "Sidst valgt",
+                "pl": "Ostatnio wybrana",
+                "ru": "Последняя выбранная",
+                "ar": "آخر اختيار",
+                "ko": "마지막 선택"
+              }
+            },
+            {
+              "id": "today",
+              "title": {
+                "en": "Today",
+                "nl": "Vandaag",
+                "de": "Heute",
+                "fr": "Aujourd'hui",
+                "it": "Oggi",
+                "sv": "Idag",
+                "no": "I dag",
+                "es": "Hoy",
+                "da": "I dag",
+                "pl": "Dzisiaj",
+                "ru": "Сегодня",
+                "ar": "اليوم",
+                "ko": "오늘"
+              }
+            },
+            {
+              "id": "tomorrow",
+              "title": {
+                "en": "Tomorrow",
+                "nl": "Morgen",
+                "de": "Morgen",
+                "fr": "Demain",
+                "it": "Domani",
+                "sv": "I morgon",
+                "no": "I morgen",
+                "es": "Mañana",
+                "da": "I morgen",
+                "pl": "Jutro",
+                "ru": "Завтра",
+                "ar": "غداً",
+                "ko": "내일"
+              }
+            },
+            {
+              "id": "next",
+              "title": {
+                "en": "Next hours",
+                "nl": "Komende uren",
+                "de": "Kommende Stunden",
+                "fr": "Prochaines heures",
+                "it": "Prossime ore",
+                "sv": "Kommande timmar",
+                "no": "Neste timer",
+                "es": "Próximas horas",
+                "da": "Næste timer",
+                "pl": "Następne godziny",
+                "ru": "Следующие часы",
+                "ar": "الساعات القادمة",
+                "ko": "다음 시간"
+              }
+            }
+          ]
         }
       ],
       "devices": {
@@ -36048,6 +36644,136 @@
                 "ru": "Широкий",
                 "ar": "عريض",
                 "ko": "와이드"
+              }
+            }
+          ]
+        },
+        {
+          "id": "start",
+          "type": "dropdown",
+          "title": {
+            "en": "Start tab",
+            "nl": "Starttab",
+            "de": "Start-Tab",
+            "fr": "Onglet de départ",
+            "it": "Scheda iniziale",
+            "sv": "Startflik",
+            "no": "Startfane",
+            "es": "Pestaña inicial",
+            "da": "Startfane",
+            "pl": "Karta startowa",
+            "ru": "Начальная вкладка",
+            "ar": "علامة التبويب الأولى",
+            "ko": "시작 탭"
+          },
+          "value": "last",
+          "values": [
+            {
+              "id": "last",
+              "title": {
+                "en": "Last chosen",
+                "nl": "Laatst gekozen",
+                "de": "Zuletzt gewählt",
+                "fr": "Dernier choisi",
+                "it": "Ultima scelta",
+                "sv": "Senast vald",
+                "no": "Sist valgt",
+                "es": "Última elegida",
+                "da": "Sidst valgt",
+                "pl": "Ostatnio wybrana",
+                "ru": "Последняя выбранная",
+                "ar": "آخر اختيار",
+                "ko": "마지막 선택"
+              }
+            },
+            {
+              "id": "yesterday",
+              "title": {
+                "en": "Yesterday",
+                "nl": "Gisteren",
+                "de": "Gestern",
+                "fr": "Hier",
+                "it": "Ieri",
+                "sv": "Igår",
+                "no": "I går",
+                "es": "Ayer",
+                "da": "I går",
+                "pl": "Wczoraj",
+                "ru": "Вчера",
+                "ar": "أمس",
+                "ko": "어제"
+              }
+            },
+            {
+              "id": "today",
+              "title": {
+                "en": "Today",
+                "nl": "Vandaag",
+                "de": "Heute",
+                "fr": "Aujourd'hui",
+                "it": "Oggi",
+                "sv": "Idag",
+                "no": "I dag",
+                "es": "Hoy",
+                "da": "I dag",
+                "pl": "Dzisiaj",
+                "ru": "Сегодня",
+                "ar": "اليوم",
+                "ko": "오늘"
+              }
+            },
+            {
+              "id": "tomorrow",
+              "title": {
+                "en": "Tomorrow",
+                "nl": "Morgen",
+                "de": "Morgen",
+                "fr": "Demain",
+                "it": "Domani",
+                "sv": "I morgon",
+                "no": "I morgen",
+                "es": "Mañana",
+                "da": "I morgen",
+                "pl": "Jutro",
+                "ru": "Завтра",
+                "ar": "غداً",
+                "ko": "내일"
+              }
+            },
+            {
+              "id": "weeks",
+              "title": {
+                "en": "4 weeks",
+                "nl": "4 weken",
+                "de": "4 Wochen",
+                "fr": "4 semaines",
+                "it": "4 settimane",
+                "sv": "4 veckor",
+                "no": "4 uker",
+                "es": "4 semanas",
+                "da": "4 uger",
+                "pl": "4 tygodnie",
+                "ru": "4 недели",
+                "ar": "4 أسابيع",
+                "ko": "4주"
+              }
+            },
+            {
+              "id": "year",
+              "title": {
+                "en": "Year",
+                "nl": "Jaar",
+                "de": "Jahr",
+                "fr": "Année",
+                "it": "Anno",
+                "sv": "År",
+                "no": "År",
+                "es": "Año",
+                "da": "År",
+                "pl": "Rok",
+                "ru": "Год",
+                "ar": "سنة",
+                "ko": "년"
               }
             }
           ]

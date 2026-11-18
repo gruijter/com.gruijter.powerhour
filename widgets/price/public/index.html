@@ -79,8 +79,11 @@
       forecastBtn.textContent = t('enable_forecast');
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
       var key = 'pbth-price-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
-      var tab = 'today';
-      try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      var tab = settings.start || 'last';
+      if (tab === 'last') {
+        tab = 'today';
+        try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      }
       if (TABS.indexOf(tab) < 0) tab = 'today';
       var data = null;
       var sel = null; // selected slot; null: the whole day
@@ -102,8 +105,8 @@
         b.addEventListener('click', function () {
           if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
           tab = id;
-          sel = null;
           try { localStorage.setItem(key, id); } catch (e) { /* not kept */ }
+          sel = null;
           markTabs();
           if (stale()) refresh();
           else {
