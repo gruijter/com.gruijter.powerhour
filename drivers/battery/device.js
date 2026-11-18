@@ -39,7 +39,6 @@ const SettingsView = require('../../lib/helpers/SettingsView');
 const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const BatteryDayLog = require('../../lib/helpers/BatteryDayLog');
-const ContractYear = require('../../lib/helpers/ContractYear');
 
 // A mode write of our own reported back within this time is no change by the battery app.
 const OWN_WRITE_ECHO_MS = 60 * 1000;
@@ -131,15 +130,7 @@ class BatDevice extends GenericDevice {
     const currentSessionId = this.sessionId;
     this.populateHistoryFromInsights().catch((err) => this.error('Error populating battery insights:', err));
     // widgets/battery: the day log, rebuilt once from Insights a few minutes after the start.
-    await BatteryDayLog.load(this).catch((err) => this.error(err));
-    if (BatteryDayLog.historyPending(this)) {
-      this.homey.setTimeout(() => {
-        if (this.sessionId !== currentSessionId) return;
-        ContractYear.serial(() => BatteryDayLog.fill(this))
-          .then((result) => result && this.log('Battery day log from Insights:', JSON.stringify(result)))
-          .catch((err) => this.error(err));
-      }, 5 * 60 * 1000 + Math.random() * 120000);
-    }
+    await BatteryDayLog.start(this);
 
     const initStrategy = async () => {
       await setTimeoutPromise(10000 + (Math.random() * 60000), this);

@@ -197,15 +197,7 @@ class GridDevice extends GenericDevice {
 
     if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit()
     // widgets/grid: the day log, rebuilt once from Insights a few minutes after the start.
-    await GridDayLog.load(this).catch(this.error);
-    if (GridDayLog.historyPending(this)) {
-      this.homey.setTimeout(() => {
-        if (this.sessionId !== sessionIdAfterSuper) return;
-        ContractYear.serial(() => GridDayLog.fill(this))
-          .then((result) => result && this.log('Grid day log from Insights:', JSON.stringify(result)))
-          .catch(this.error);
-      }, 5 * 60 * 1000 + Math.random() * 120000);
-    }
+    await GridDayLog.start(this);
     this.startForecastLoop().catch(this.error);
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     const finishInit = async () => {
