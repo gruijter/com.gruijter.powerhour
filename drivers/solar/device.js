@@ -34,9 +34,9 @@ const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const FileStore = require('../../lib/helpers/FileStore');
 const DayLog = require('../../lib/helpers/DayLog');
 
-const DAY_LOG_VERSION = 2; // format of the day log (dayLogFor())
-const HISTORY_VERSION = 2; // raise to rebuild the day log from Insights once more (SolarHistory)
-const BOOTSTRAP_THRESHOLD_DAYS = 14; // days of training data for the solar model
+const DAY_LOG_VERSION = 2;
+const HISTORY_VERSION = 2;
+const BOOTSTRAP_THRESHOLD_DAYS = 14;
 
 const deviceSpecifics = {
   cmap: {
@@ -57,7 +57,6 @@ const deviceSpecifics = {
 class SolarDevice extends GenericDevice {
 
   async initDeviceValues() {
-    // Before super.initDeviceValues(), or the first poll zeroes it
     this.meterSelfConsumed = await this.getStoreValue('meterSelfConsumed') || 0;
     this.meterTotalIntegrated = await this.getStoreValue('meterTotalIntegrated') || 0;
     await super.initDeviceValues();
@@ -69,19 +68,16 @@ class SolarDevice extends GenericDevice {
 
     const files = await FileStore.open(this, ['powerHistory', 'forecastData', 'forecastHistory', 'dayLog']);
     this.dayLog = files.get('dayLog');
-    // Before super.onInit(): its first poll records samples (mergeStoredHistory).
     let history = files.get('powerHistory');
     if (!Array.isArray(history)) history = [];
     const storedHistory = history.filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number');
     if (storedHistory.length !== history.length) files.set('powerHistory', storedHistory);
     this.powerHistory = mergeStoredHistory(storedHistory, this.powerHistory, 576);
 
-    // Before super.onInit(): it sets initReady partway, after which chart updates may run.
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
     await super.onInit().catch(this.error);
 
-    // A newer onInit() may have started meanwhile: the loops below must not be started twice.
     const sessionIdAfterSuper = this.sessionId;
 
     if (this.hasCapability('alarm_power') && this.getCapabilityValue('alarm_power') === null) {
@@ -106,14 +102,14 @@ class SolarDevice extends GenericDevice {
     const lon = Number(s.lon);
     if (!s.lat || !s.lon || (lat === 0 && lon === 0) || Number.isNaN(lat) || Number.isNaN(lon)) {
       await this.setUnavailable(this.homey.__('error_no_location')).catch(this.error);
-      return; // until a valid location is set
+      return;
     }
     await this.setAvailable().catch(this.error);
 
     this.retrainListener = this.registerCapabilityListener('button.retrain', async () => {
       this.peakPowerAllTime = 0;
       await this.setStoreValue('peakPowerAllTime', 0);
-      await this.retrainSolarModel(true); // manual: retrain from scratch
+      await this.retrainSolarModel(true);
       return true;
     });
 
@@ -124,7 +120,7 @@ class SolarDevice extends GenericDevice {
 
     const storedYieldFactors = await this.getStoreValue('yieldFactors');
     this.yieldFactors = storedYieldFactors || new Array(96).fill(0);
-    this.forecastData = files.get('forecastData') || {}; // { time: radiation }
+    this.forecastData = files.get('forecastData') || {};
     this.forecastHistory = files.get('forecastHistory') || { today: null, yesterday: null };
     this.globalMaxYF = await this.getStoreValue('globalMaxYF') || 0;
     this.peakPowerAllTime = await this.getStoreValue('peakPowerAllTime') || 0;
@@ -136,20 +132,19 @@ class SolarDevice extends GenericDevice {
     this.lastRetrainFinishedAt = await this.getStoreValue('lastRetrainFinishedAt') || 0;
     await this.updateTrainingStatus();
 
-    if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit()
+    if (this.sessionId !== sessionIdAfterSuper) return;
     this.startForecastLoop().catch(this.error);
     if (this.forecastData && Object.keys(this.forecastData).length > 0) {
       this.updateForecastDisplay(false).catch(this.error);
     }
     if (this.historyPending()) this.driver.scheduleHistory();
-    // Delayed, to let the source device settle
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     const finishInit = async () => {
       await this.populatePowerHistory();
       if (!storedYieldFactors) {
         await this.attemptInitialBackfill();
       }
-      this.startLearningLoop().catch(this.error); // after the retrain
+      this.startLearningLoop().catch(this.error);
       this.initLearningTimeout = null;
     };
     this.initLearningTimeout = this.homey.setTimeout(() => {
@@ -157,8 +152,6 @@ class SolarDevice extends GenericDevice {
     }, 15000);
   }
 
-  // The app API may still be connecting after pairing, and retrainSolarModel() swallows "API not
-  // ready": retry, or a device paired then never gets its one-time backfill (as in grid).
   async attemptInitialBackfill(attempt = 1) {
     const maxAttempts = 5;
     const retryDelayMs = 30000;
@@ -185,14 +178,11 @@ class SolarDevice extends GenericDevice {
     await this.retrainSolarModel(true);
   }
 
-  // While undertrained the bootstrap warning, before the price warning of the base class.
   deviceWarning() {
     if ((this.trainingCoverageDays || 0) < BOOTSTRAP_THRESHOLD_DAYS) return this.homey.__('solar_bootstrap_warning');
     return super.deviceWarning();
   }
 
-  // trainingCoverageDays (set per retrain) against the 14-day window: a device warning while
-  // undertrained, and the settings label "training_status".
   async updateTrainingStatus() {
     const days = this.trainingCoverageDays || 0;
 
@@ -208,7 +198,6 @@ class SolarDevice extends GenericDevice {
       }).catch(this.error);
     }
 
-    // Not on every reading: the label is refreshed with training_status.
     await this.setSettings({ peakPowerAllTime: String(Math.round(this.peakPowerAllTime || 0)) }).catch(this.error);
   }
 
@@ -217,8 +206,6 @@ class SolarDevice extends GenericDevice {
   }
 
   async startForecastLoop() {
-    // Idempotent; the epoch makes an invocation already running stand down (as in grid
-    // startForecastLoop()).
     if (this.forecastTimeout) this.homey.clearTimeout(this.forecastTimeout);
     this.forecastEpoch = (this.forecastEpoch || 0) + 1;
     const epoch = this.forecastEpoch;
@@ -229,7 +216,6 @@ class SolarDevice extends GenericDevice {
         await this.updateForecastDisplay(false);
 
         const now = new Date();
-        // Local hour: Homey runs in UTC
         const localNow = TimeHelpers.toLocalDate(now, this.timeZone);
         if (localNow.getHours() === 1) {
           const lastRun = new Date(this.lastAutoRetrain);
@@ -257,8 +243,6 @@ class SolarDevice extends GenericDevice {
   }
 
   async startLearningLoop() {
-    // Every minute: curtailment detection, the h0 forecast, power history and self-consumption.
-    // The model itself is only written by retrainSolarModel(). Idempotent, as startForecastLoop().
     if (this.learningTimeout) this.homey.clearTimeout(this.learningTimeout);
     this.learningEpoch = (this.learningEpoch || 0) + 1;
     const epoch = this.learningEpoch;
@@ -314,8 +298,6 @@ class SolarDevice extends GenericDevice {
 
     const data = await OpenMeteo.fetchForecast(lat, lon);
     if (data && Object.keys(data).length > 0) {
-      // Eclipse correction (Open-Meteo ignores eclipses), before the time shift: it is tied to
-      // astronomical time.
       this.eclipseCache = this.eclipseCache || {};
       const eclipseAdjusted = SolarEclipse.applyToForecast(data, lat, lon, this.eclipseCache);
 
@@ -346,7 +328,7 @@ class SolarDevice extends GenericDevice {
 
     const deltaTmMs = currentTimestamp - (this.lastLearningTimestamp || currentTimestamp);
     this.lastLearningTimestamp = currentTimestamp;
-    if (deltaTmMs > 0 && deltaTmMs < 300000) { // max 5 min gap
+    if (deltaTmMs > 0 && deltaTmMs < 300000) {
       const scPower = this.currentSelfConsumedPower !== undefined ? this.currentSelfConsumedPower : (rawPower || 0);
       const deltaKwh = (Math.max(0, scPower) * deltaTmMs) / 3600000000;
       this.meterSelfConsumed += deltaKwh;
@@ -379,7 +361,6 @@ class SolarDevice extends GenericDevice {
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
-      // One entry per 5 minutes: the 576-entry cap is 48 h at that spacing.
       if (!lastEntry || (currentTimestamp - lastEntry.time) > 5 * 60 * 1000) {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
         if (this.powerHistory.length > 576) this.powerHistory.shift();
@@ -410,7 +391,6 @@ class SolarDevice extends GenericDevice {
           try {
             app = this.homey.app;
           } catch {
-            // ignore
           }
           if (curtailment.isActive && app && app.trigger_solar_curtailment_active) {
             app.trigger_solar_curtailment_active(this, {}, {}).catch(this.error);
@@ -422,8 +402,6 @@ class SolarDevice extends GenericDevice {
     }
   }
 
-  // Finds a usable Insights log (:energy_power, else :meter_power converted) by test-fetching for
-  // real (>10 W) data: a log can exist without values. logs14: that 'last14Days' fetch, for the caller.
   async findTargetInsightsLog(api, sourceDevice, startDate14, endDate) {
     const deviceLogs = await InsightsHistory.deviceLogs(api, sourceDevice.id, ['energy_power', 'meter_power']);
     const availableCaps = (sourceDevice.capabilities || []).join(', ');
@@ -475,7 +453,7 @@ class SolarDevice extends GenericDevice {
       this.log('Already retraining, skipping...');
       return;
     }
-    this.retraining = true; // Pauses live updates
+    this.retraining = true;
     this.log(`Starting solar model retraining... (Mode: ${fromScratch ? 'From Scratch' : 'Blend'})`);
 
     if (this.manualCurtailment) {
@@ -490,7 +468,6 @@ class SolarDevice extends GenericDevice {
       try {
         api = this.homey.app.api;
       } catch {
-        // ignore
       }
       if (!api) throw new Error('Homey API not ready');
 
@@ -519,7 +496,6 @@ class SolarDevice extends GenericDevice {
       }
       this.log(`Got ${weatherHistory.length} weather samples`);
 
-      // Eclipse correction before the time shift; same cache as fetchForecast().
       this.eclipseCache = this.eclipseCache || {};
       const eclipseMap = SolarEclipse.applyToForecast(
         weatherHistory.reduce((m, e) => {
@@ -551,20 +527,16 @@ class SolarDevice extends GenericDevice {
 
       const { targetLog, isCumulative, logs14: found14 } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
 
-      // Samples of step 1 (hourly) and step 2 (5-min), aggregated once at the end.
       let slotSamples1 = new Array(96).fill(0).map(() => []);
       let slotSamples2 = new Array(96).fill(0).map(() => []);
 
       const peakPowerSetting = this.getSettings().peakPower || 0;
-      // Without a Peak Power setting the observed all-time peak is used, but only for the soft
-      // ceilings (they only loosen); never for the hard reject filter, as it starts low and grows.
       const effectivePeakPower = peakPowerSetting > 0 ? peakPowerSetting : this.peakPowerAllTime;
 
       this.log('Step 1: Coarse learning (up to 14 days, hourly)');
       try {
         const logs14 = found14;
 
-        // Training coverage from the fetched data (see updateTrainingStatus()).
         if (logs14 && logs14.values && logs14.values.length > 0) {
           const earliestMs = Math.min(...logs14.values.map((e) => new Date(e.t).getTime()));
           const coverageDays = Math.min(14, (endDate.getTime() - earliestMs) / (24 * 60 * 60 * 1000));
@@ -573,8 +545,6 @@ class SolarDevice extends GenericDevice {
           await this.updateTrainingStatus();
         }
 
-        // Training needs hourly points: 'last14Days' is not always hourly (InsightsHistory). The
-        // coverage above still counts how far the history reaches.
         let hourly = logs14;
         if (!(InsightsHistory.stepOf(logs14) <= InsightsHistory.HOUR_MS)) {
           hourly = await api.insights.getLogEntries({
@@ -588,12 +558,10 @@ class SolarDevice extends GenericDevice {
         }
 
         if (hourly && hourly.values && hourly.values.length > 50) {
-          // Without the last 24 h: step 2 covers those at higher resolution
           const cutoffTime = new Date();
           cutoffTime.setDate(cutoffTime.getDate() - 1);
           let powerEntries = hourly.values.filter((e) => new Date(e.t) < cutoffTime);
 
-          // Hourly points: the training reads them as hours.
           if (isCumulative) powerEntries = InsightsHistory.meterToPower(powerEntries, { maxW: 30000, maxGapMs: 24 * 3600 * 1000 });
 
           let maxSeen = 0;
@@ -705,20 +673,17 @@ class SolarDevice extends GenericDevice {
       const mergeResult = SolarLearningStrategy.mergeYields({
         historicYields: aggregateResult.yieldFactors,
         previousYields: fromScratch ? new Array(96).fill(0) : this.yieldFactors,
-        alpha: fromScratch ? 1.0 : 0.7, // 100% historic from scratch, else 70%
+        alpha: fromScratch ? 1.0 : 0.7,
         limit: aggregateResult.limit,
         peakPower: effectivePeakPower,
-        // scales alpha per slot (see mergeYields())
         trainingConfidence: aggregateResult.trainingConfidence,
       });
       this.yieldFactors = mergeResult.yieldFactors;
       this.log(mergeResult.log);
 
-      // Not blended: reflects tonight's window only.
       this.trainingConfidence = aggregateResult.trainingConfidence;
       await this.setStoreValue('trainingConfidence', this.trainingConfidence);
 
-      // p90, not the max: ignores isolated morning/evening spikes
       const activeYields = [...this.yieldFactors].filter((y) => y > 0).sort((a, b) => a - b);
       if (activeYields.length > 0) {
         const p90Index = Math.floor(activeYields.length * 0.90);
@@ -744,16 +709,11 @@ class SolarDevice extends GenericDevice {
     }
   }
 
-  // Maintenance action: logs settings and raw Insights power (14 days hourly + 24 h 5-min) as JSON
-  // for a diagnostics report. Read-only; no weather (re-fetchable from lat/lon).
-  // Result shown via setWarning(): a thrown error shows no text in the mobile app, and a
-  // notification is easily missed (both confirmed on a device).
   async exportDiagnostics() {
     let api;
     try {
       api = this.homey.app.api;
     } catch {
-      // ignore
     }
     if (!api) throw new Error('Homey API not ready - please try again in a moment.');
 
@@ -768,7 +728,6 @@ class SolarDevice extends GenericDevice {
 
     const { targetLog, isCumulative, logs14: found14 } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
 
-    // Hourly, as the retrain uses it: 'last7Days' when 'last14Days' is not hourly (InsightsHistory).
     let logs14 = found14;
     if (!(InsightsHistory.stepOf(logs14) <= InsightsHistory.HOUR_MS)) {
       logs14 = await api.insights.getLogEntries({
@@ -785,7 +744,6 @@ class SolarDevice extends GenericDevice {
       hourly14d = convertCumulativeToPower(hourly14d);
       high24h = convertCumulativeToPower(high24h);
     }
-    // { t, y }, as the CSVs in zzz_solarLearning_modelling/data
     const normalize = (entries) => entries
       .filter((e) => e && e.t !== undefined && (e.y !== undefined || e.v !== undefined))
       .map((e) => ({ t: e.t, y: e.y !== undefined ? e.y : e.v }));
@@ -803,7 +761,6 @@ class SolarDevice extends GenericDevice {
 
     this.log(`[SOLAR DIAGNOSTICS EXPORT] ${JSON.stringify(diagnostics)}`);
 
-    // Cleared again by the next updateWarning().
     this.warningShown = this.homey.__('solar_export_diagnostics_popup');
     await this.setWarning(this.warningShown).catch(this.error);
   }
@@ -813,7 +770,6 @@ class SolarDevice extends GenericDevice {
       const now = Date.now();
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-      // ~40 hours are needed to cover yesterday morning
       const hasData = this.powerHistory.length > 24 && this.powerHistory[0].time < (now - 40 * 60 * 60 * 1000);
       const hasRecent = this.powerHistory.length > 0 && this.powerHistory[this.powerHistory.length - 1].time > (now - 6 * 60 * 60 * 1000);
 
@@ -845,7 +801,7 @@ class SolarDevice extends GenericDevice {
         deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':meter_power')),
       ].filter(Boolean);
 
-      let targetLog = candidates[0]; // first if none has data
+      let targetLog = candidates[0];
       for (const candidate of candidates) {
         const testLogs = await api.insights.getLogEntries({
           id: candidate.id,
@@ -913,14 +869,12 @@ class SolarDevice extends GenericDevice {
     const now = new Date();
     let dayChanged = false;
 
-    const nowLocalStr = now.toLocaleDateString('en-CA', { timeZone: this.timeZone }); // YYYY-MM-DD
+    const nowLocalStr = now.toLocaleDateString('en-CA', { timeZone: this.timeZone });
 
-    // Real UTC instants of the local midnights; yieldFactors[] is indexed by UTC hour.
     const localDayStart = TimeHelpers.getLocalMidnightUTC(now, this.timeZone);
     const localDayEnd = new Date(localDayStart.getTime() + 26 * 60 * 60 * 1000);
     localDayEnd.setTime(TimeHelpers.getLocalMidnightUTC(localDayEnd, this.timeZone).getTime());
 
-    // Rebuilt only when forecastData/yieldFactors or the date changed.
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
 
@@ -942,8 +896,6 @@ class SolarDevice extends GenericDevice {
         dayChanged = true;
       }
 
-      // Backfill yesterday when missing, all-zero, or not on the local-midnight grid (snapshots from
-      // an older getLocalMidnightUTC() bug).
       const yesterdayLocalStr = yesterday.toLocaleDateString('en-CA', { timeZone: this.timeZone });
       const localYesterdayStart = TimeHelpers.getLocalMidnightUTC(yesterday, this.timeZone);
       const localYesterdayEnd = localDayStart;
@@ -1003,13 +955,12 @@ class SolarDevice extends GenericDevice {
     let forecastH0 = 0;
     const startOfHour = TimeHelpers.startOfLocalBlock(now, 60, this.timeZone);
     for (let i = 0; i < 4; i += 1) {
-      const power = this.forecastPowerAt(startOfHour + i * 15 * 60 * 1000); // W
-      forecastH0 += (power * 0.25) / 1000; // kWh
+      const power = this.forecastPowerAt(startOfHour + i * 15 * 60 * 1000);
+      forecastH0 += (power * 0.25) / 1000;
     }
     await this.setCapabilityValue('meter_kwh_forecast.h0', Number(forecastH0.toFixed(2))).catch(this.error);
     await this.setCapabilityValue('meter_kwh_forecast.this_day', totalYield).catch(this.error);
 
-    // Forecast tomorrow (real UTC boundaries, DST-safe)
     const localDayAfterTomorrowStart = TimeHelpers.getLocalMidnightUTC(
       new Date(localDayEnd.getTime() + 26 * 60 * 60 * 1000),
       this.timeZone,
@@ -1027,10 +978,8 @@ class SolarDevice extends GenericDevice {
     await this.setCapabilityValue('meter_kwh_forecast.tomorrow', Number(tomorrowYield.toFixed(2))).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', tomorrowPeak).catch(this.error);
 
-    // --- Update Charts --- (not time-critical: after a slot boundary's burst, LoadSpread)
-    // Calls merged into one deferred run: what any of them changed is drawn.
     const flags = {
-      yieldFactorsUpdated, forecastChanged: this.forecastChanged, dayChanged, quarter: now.getMinutes() % 15 === 0, // forecastChanged: reset below
+      yieldFactorsUpdated, forecastChanged: this.forecastChanged, dayChanged, quarter: now.getMinutes() % 15 === 0,
     };
     await LoadSpread.run(this, 'forecastCharts', async ({
       yieldFactorsUpdated: yfUpdated, forecastChanged, dayChanged: dayRolled, quarter,
@@ -1072,7 +1021,6 @@ class SolarDevice extends GenericDevice {
       }
     }, flags);
 
-    // Solar yield flows at the start of each 15-minute slot
     const currentSlot = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);
     if (this.lastSolarTriggerSlot !== currentSlot || yieldFactorsUpdated || this.forecastChanged) {
       this.lastSolarTriggerSlot = currentSlot;
@@ -1095,8 +1043,6 @@ class SolarDevice extends GenericDevice {
     return reading;
   }
 
-  // handleUpdateMeter() runs serialized, so `periods` and the deltas can be taken before super
-  // updates the lastReading objects.
   async handleUpdateMeter(reading) {
     const periods = this.getPeriods(reading);
 
@@ -1121,7 +1067,6 @@ class SolarDevice extends GenericDevice {
 
     await super.handleUpdateMeter(reading);
 
-    // The day's money is rolled into meterMoney.lastDay by the base.
     if (dayEnded) this.logDay(dayEnded.reading, dayEnded.kwh, dayEnded.share, this.meterMoney ? this.meterMoney.lastDay : null);
 
     const setPct = async (cap, valSC, valTotal, isNewPeriod) => {
@@ -1139,18 +1084,12 @@ class SolarDevice extends GenericDevice {
     await setPct('measure_solar_use.this_year', valYearSC, valYearTot, periods.newYear);
   }
 
-  // Per local day of this year, for widgets/solar: dayLog { v: 2, year, kwh, own (kWh used at home),
-  // money (value), est (1: estimated from Insights) [366 by day of the year], mShare, mValue (own
-  // use share and value per kWh of a month, from Insights) [12], prev (the last 31 days of the year
-  // before) }; -1: unknown. Plain number arrays, ~12 KB. Days are logged at midnight; the days before
-  // are rebuilt once from Insights (SolarHistory).
   dayLogFor(year) {
     const log = DayLog.yearLog(this.dayLog, DAY_LOG_VERSION, year, ['kwh', 'own', 'money', 'est'], ['mShare', 'mValue']);
     if (log) this.dayLog = log;
     return log;
   }
 
-  // A logged day { kwh, own, money, est } (own and money null when unknown), null without.
   loggedDay(year, dayOfYear) {
     const slot = DayLog.daySlot(this.dayLog, DAY_LOG_VERSION, year, dayOfYear);
     if (!slot) return null;
@@ -1161,7 +1100,6 @@ class SolarDevice extends GenericDevice {
     };
   }
 
-  // Money may be below 0 (export at negative prices): unknown is exactly -1.
   logDay(reading, kwh, share, money) {
     this.dayLogFor(reading.year);
     const slot = DayLog.daySlot(this.dayLog, DAY_LOG_VERSION, reading.year, DayLog.doyOf(reading.year, reading.month, reading.day));
@@ -1174,7 +1112,6 @@ class SolarDevice extends GenericDevice {
     this.fileStore.set('dayLog', this.dayLog);
   }
 
-  // To disk now: a file write waits up to 5 minutes (FileStore), the done flag must not run ahead.
   async saveDayLog() {
     this.fileStore.set('dayLog', this.dayLog);
     await this.fileStore.flush();
@@ -1188,8 +1125,6 @@ class SolarDevice extends GenericDevice {
     await this.setStoreValue('dayLogFilled', HISTORY_VERSION);
   }
 
-  // The model's forecast (W) at t, without the intraday correction. yieldFactors[] is indexed by
-  // real UTC hour.
   basePowerAt(t) {
     const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData || {});
     const d = new Date(t);
@@ -1198,15 +1133,12 @@ class SolarDevice extends GenericDevice {
     return rad * yf;
   }
 
-  // Chart scale (W): the Peak Power setting, else the higher of the all-time peak and an estimated
-  // Wpeak. 850 instead of 1000: GHI is roughly 85% of a tilted roof's irradiance at summer peak (estimate).
   chartPeak() {
     if (this.getSettings().peakPower) return this.getSettings().peakPower;
     const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 850) : 0;
     return Math.max(this.peakPowerAllTime || 0, estimatedWpeak);
   }
 
-  // The sun hours of a day ('yesterday' | 'today' | 'tomorrow'), or null without a forecast.
   solarDayBounds(which) {
     const day = new Date();
     if (which === 'yesterday') day.setDate(day.getDate() - 1);
@@ -1216,8 +1148,6 @@ class SolarDevice extends GenericDevice {
     return SolarLearningStrategy.getSunBounds(day, data, this.timeZone);
   }
 
-  // Forecast and measured W per 15 minutes of a day (chart image and solar widget), within bounds
-  // (default the day's sun hours). Yesterday: the forecast as made then (frozen W, yields 1).
   solarDay(which, bounds = this.solarDayBounds(which)) {
     if (!bounds) return null;
     if (which === 'yesterday') {
@@ -1233,13 +1163,10 @@ class SolarDevice extends GenericDevice {
     return i ? SolarLearningStrategy.intradayFactor(i.ratio, t, i.nowMs, i.untilMs) : 1;
   }
 
-  // Forecast (W) at t with the intraday correction: what the planners and flows use.
   forecastPowerAt(t) {
     return this.basePowerAt(t) * this.intradayFactorAt(t);
   }
 
-  // Measured against forecast power so far today (SolarLearningStrategy.intradayRatio()). Not while
-  // curtailed, and only from samples after it: then the panels could give more than measured.
   updateIntraday(now, untilMs) {
     const curtailed = this.manualCurtailment || this.getCapabilityValue('alarm_power') === true;
     if (curtailed) this.curtailedTm = now.getTime();
@@ -1256,7 +1183,6 @@ class SolarDevice extends GenericDevice {
     this.intraday = { ratio, nowMs: now.getTime(), untilMs };
   }
 
-  // Forecast power (W) per 15-minute slot from startMs (incl.) to endMs (excl.), real UTC ms.
   getForecastSeries(startMs, endMs) {
     const values = [];
     for (let t = startMs; t < endMs; t += 15 * 60 * 1000) values.push(Math.round(this.forecastPowerAt(t)));
@@ -1278,7 +1204,6 @@ class SolarDevice extends GenericDevice {
     const timezone = this.timeZone || 'UTC';
     const nowLocal = TimeHelpers.toLocalDate(now, timezone);
 
-    // End before start: the next occurrence (e.g. 22:00 -> 06:00).
     const adjustedEnd = new Date(endLocal);
     if (adjustedEnd < startLocal) {
       adjustedEnd.setDate(adjustedEnd.getDate() + 1);
@@ -1293,10 +1218,10 @@ class SolarDevice extends GenericDevice {
     const startSlot = Math.ceil(startTimeUTC / (15 * 60 * 1000)) * 15 * 60 * 1000;
 
     for (let t = startSlot; t < endTimeUTC; t += 15 * 60 * 1000) {
-      const power = this.forecastPowerAt(t); // W
+      const power = this.forecastPowerAt(t);
       const roundedPower = Math.round(power);
       if (roundedPower > peakPower) peakPower = roundedPower;
-      totalYield += (power * 0.25) / 1000; // kWh
+      totalYield += (power * 0.25) / 1000;
     }
 
     return {
@@ -1319,7 +1244,6 @@ class SolarDevice extends GenericDevice {
 
   stopPolling() {
     super.stopPolling();
-    // Bump the epochs, so invocations already running do not reschedule (see startForecastLoop()).
     this.forecastEpoch = (this.forecastEpoch || 0) + 1;
     this.learningEpoch = (this.learningEpoch || 0) + 1;
     if (this.forecastTimeout) {

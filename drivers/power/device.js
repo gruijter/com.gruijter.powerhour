@@ -48,28 +48,20 @@ const deviceSpecifics = {
     minMaxPrefix: 'measure_watt',
   },
 };
-// p1 consumption counter (low/all tariff).
-// p2 consumption counter (high tariff).
-// n1 returned counter (low/all tariff).
-// n2 returned counter (high tariff).
-// total energy counter = p1+p2-n1-n2
 
 const APPLIANCE_SAMPLE_MS = 60 * 1000;
 const APPLIANCE_SAVE_MS = 15 * 60 * 1000;
-const RECENT_MS = 3 * 60 * 60 * 1000; // meter samples kept for getAvgPower()
-const SLOT_HISTORY = 200; // measured 15-minute slots kept for the charts (> 2 days)
+const RECENT_MS = 3 * 60 * 60 * 1000;
+const SLOT_HISTORY = 200;
 const { SLOT_MS } = ApplianceModel;
-const PLANNED_START_MS = 30 * 60 * 1000; // a run this close to the planned start is the planned run
-const PLAN_LEAD_MS = 2 * 60 * 60 * 1000; // a run this long before a plan's window is its run, started earlier
+const PLANNED_START_MS = 30 * 60 * 1000;
+const PLAN_LEAD_MS = 2 * 60 * 60 * 1000;
 
 class PowerDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
     this.flows = new PowerFlows(this);
-    // With forecast (setting appliance_mode): learned apart from the home load, with plan also
-    // planned like an EV charge, see lib/strategies/ApplianceModel.js. Its charts are registered
-    // before super.onInit(), like the other drivers' charts (lib/helpers/ChartImages.js).
     const mode = this.driver.constructor.applianceMode(this.getSettings());
     this.isAppliance = mode !== 'off';
     this.appliancePlanning = mode === 'plan';
@@ -93,7 +85,7 @@ class PowerDevice extends GenericDevice {
       if (this.getStoreKeys().includes(key)) await this.unsetStoreValue(key).catch(this.error);
     }
     this.applianceSlots = (await this.getStoreValue('applianceSlots')) || [];
-    await this.syncFlowDay(); // a plan from before the picker "Via flow"
+    await this.syncFlowDay();
     if (this.migrateApplianceDeadlines()) {
       await this.saveAppliance();
       await this.setStoreValue('appliancePlan', this.appliancePlan).catch(this.error);
@@ -101,7 +93,6 @@ class PowerDevice extends GenericDevice {
     if (this.applianceModel.bootstrapped !== ApplianceModel.BOOTSTRAP_VERSION) await this.bootstrapAppliance().catch(this.error);
     this.recentMeter = [];
     this.applianceSaveTm = Date.now();
-    // Once per capability: restartDevice() keeps this instance, and a mode change adds capabilities.
     if (!this.applianceListeners) this.applianceListeners = new Set();
     const listen = (cap, fn) => {
       if (this.applianceListeners.has(cap)) return;
@@ -118,7 +109,6 @@ class PowerDevice extends GenericDevice {
     });
     for (const day of this.appliancePlanning ? ['today', 'tomorrow'] : []) {
       listen(`appliance_${day}`, async (value) => {
-        // Refused (a time already past): the picker shows the day's setting again.
         await this.setApplianceDay(day, value).catch((err) => {
           this.updateAppliancePlanDisplay().catch(this.error);
           throw err;
@@ -133,17 +123,13 @@ class PowerDevice extends GenericDevice {
     await this.updateAppliancePlanDisplay();
   }
 
-  // First time, and on the retrain button: learn the runs and start times of the last 14 days from
-  // the source device's Insights (hourly, the last 24 hours per 5 minutes), like the EV charger
-  // learns its history. Runs measured live before that history are kept.
   async bootstrapAppliance() {
     let api;
     try {
       api = this.homey.app.api;
     } catch {
-      // not ready
     }
-    if (!api) return; // tried again at the next start
+    if (!api) return;
     const endDate = new Date();
     const entries = await EvHistory.fetchPowerLog({
       api,
@@ -151,7 +137,7 @@ class PowerDevice extends GenericDevice {
       capNames: ['energy_power', 'meter_power'],
       startDate: new Date(endDate.getTime() - 14 * 24 * 60 * 60 * 1000),
       endDate,
-      coarseResolutions: ['last14Days', 'last7Days'], // the first that is hourly
+      coarseResolutions: ['last14Days', 'last7Days'],
     }) || [];
     const model = ApplianceModel.learnHistory(ApplianceModel.initModel(), entries, {
       timezone: this.timeZone,
@@ -165,7 +151,6 @@ class PowerDevice extends GenericDevice {
     this.log(`Appliance learned from history: ${entries.length} entries, ${model.runs.length} runs`);
   }
 
-  // Planned runs and the plan had a ready-by time; now the latest start (deadline).
   migrateApplianceDeadlines() {
     const items = [...this.applianceModel.runs, this.applianceModel.run, this.appliancePlan].filter((x) => x && x.readyBy);
     items.forEach((x) => {
@@ -189,7 +174,6 @@ class PowerDevice extends GenericDevice {
     await this.setStoreValue('applianceSlots', this.applianceSlots || []).catch(this.error);
   }
 
-  // Measured energy per 15-minute slot, for the charts.
   recordApplianceSlot(t, meterKwh) {
     const last = this.lastSlotMeter;
     this.lastSlotMeter = { t, meter: meterKwh };
@@ -199,7 +183,7 @@ class PowerDevice extends GenericDevice {
     if (entry && entry.t === slot) entry.kwh += meterKwh - last.meter;
     else this.applianceSlots.push({ t: slot, kwh: meterKwh - last.meter });
     if (this.applianceSlots.length > SLOT_HISTORY) this.applianceSlots.shift();
-    return !entry || entry.t !== slot; // a new slot
+    return !entry || entry.t !== slot;
   }
 
   async sampleAppliance() {
@@ -212,11 +196,9 @@ class PowerDevice extends GenericDevice {
     while (this.recentMeter.length && this.recentMeter[0].t < t - RECENT_MS) this.recentMeter.shift();
     const newSlot = this.recordApplianceSlot(t, meterKwh);
 
-    // A start at the planned start (by the flow of "Planned start") is a planned run.
     const plan = this.appliancePlan;
     const profile = this.getApplianceProfile();
     const deadlineFor = (start) => (plan && plan.startMs && Math.abs(start - plan.startMs) <= PLANNED_START_MS ? plan.deadline : null);
-    // A day set by hand is not learned as a normal day; a day "Via flow" is (as before the picker).
     const todayEntry = this.applianceDays()[ApplianceModel.localDay(t, this.timeZone).date];
     const skipToday = !!todayEntry && todayEntry.value !== 'flow';
     const {
@@ -235,7 +217,6 @@ class PowerDevice extends GenericDevice {
     const before = this.applianceModel.run;
     this.applianceModel = model;
     if (event === 'started') await this.onApplianceStarted(t);
-    // A program (enough energy) ended before its confirmation (in one sample): confirmed now.
     if (event === 'finished' && before && !before.confirmed && run && run.start === before.start) await this.onApplianceConfirmed(run.start);
     if (event === 'finished') await this.onApplianceFinished(run);
     if (restarted) await this.onApplianceStarted(t);
@@ -263,8 +244,6 @@ class PowerDevice extends GenericDevice {
     return ApplianceModel.isReady(this.applianceModel, this.getApplianceProfile());
   }
 
-  // Ready or no longer an appliance: the grid relearns its home load from Insights, with or
-  // without this appliance. Else the learned load keeps (or misses) it for weeks.
   async checkApplianceReady() {
     const ready = this.isApplianceReady();
     if (!!(await this.getStoreValue('applianceReady')) === ready) return;
@@ -279,7 +258,6 @@ class PowerDevice extends GenericDevice {
         if (typeof dev.retrainLoadModel === 'function') dev.retrainLoadModel(true).catch(this.error);
       });
     } catch {
-      // no grid device
     }
   }
 
@@ -298,7 +276,6 @@ class PowerDevice extends GenericDevice {
     return `${String(local.getHours()).padStart(2, '0')}:${String(local.getMinutes()).padStart(2, '0')}`;
   }
 
-  // 'Tue 02:15'
   dayHhmm(ms) {
     const lang = this.homey.i18n.getLanguage() || 'en';
     return `${new Date(ms).toLocaleDateString(lang, { weekday: 'short', timeZone: this.timeZone })} ${this.hhmm(ms)}`;
@@ -315,10 +292,6 @@ class PowerDevice extends GenericDevice {
     if (this.homey.app.trigger_appliance_started) await this.homey.app.trigger_appliance_started(this, tokens, {});
   }
 
-  // A run is a program once it used MIN_RUN_KWH (not a pump or the display): its day's start is
-  // done, and a flow's plan it belongs to (started in its window or the hours before it, also
-  // earlier by hand or by the cheapest start cards) ends. "Via flow" of its days back to as
-  // learned: the run, not the flow, started it.
   async onApplianceConfirmed(runStart) {
     const dateOf = (ms) => ApplianceModel.localDay(ms, this.timeZone).date;
     const plan = this.appliancePlan;
@@ -328,7 +301,7 @@ class PowerDevice extends GenericDevice {
     this.log(`Appliance program confirmed (start ${this.hhmm(runStart)})${inPlan ? ', ends the flow plan' : ''}`);
     const days = { ...this.applianceDays() };
     const entry = days[date];
-    if (entry && !(date === planDate && !inPlan)) { // not the day of a plan that stays
+    if (entry && !(date === planDate && !inPlan)) {
       if (entry.value === 'flow') delete days[date];
       else if (!entry.done && entry.value !== 'unused') days[date] = { ...entry, done: true };
     }
@@ -338,8 +311,6 @@ class PowerDevice extends GenericDevice {
     else await this.updateAppliancePlanDisplay();
   }
 
-  // Runs from this time on (to its deadline) belong to the plan: its window (earliest, a fixed
-  // start, or from when it was made) and the hours before it, not before the plan was made.
   planScopeFrom(plan) {
     const from = plan.earliest || plan.fixedStartMs || plan.createdMs || plan.startMs;
     const scope = from === plan.createdMs ? from : from - PLAN_LEAD_MS;
@@ -354,7 +325,6 @@ class PowerDevice extends GenericDevice {
     if (this.homey.app.trigger_appliance_finished) await this.homey.app.trigger_appliance_finished(this, { kwh, duration }, {});
   }
 
-  // Weekly chart and the status in the settings.
   async updateApplianceDisplay() {
     const profile = this.getApplianceProfile();
     const { runs } = this.applianceModel;
@@ -370,7 +340,7 @@ class PowerDevice extends GenericDevice {
     if (this.getSettings().appliance_status !== text) await this.setSettings({ appliance_status: text }).catch(this.error);
     const lang = this.homey.i18n.getLanguage() || 'en';
     const dayNames = [0, 1, 2, 3, 4, 5, 6].map((i) => new Date(Date.UTC(2026, 8, 28 + i, 12))
-      .toLocaleDateString(lang, { weekday: 'short', timeZone: 'UTC' })); // Monday first
+      .toLocaleDateString(lang, { weekday: 'short', timeZone: 'UTC' }));
     const chart = getApplianceWeeklyChart(ApplianceModel.getWeekly(this.applianceModel, this.timeZone), {
       dayNames,
       labels: {
@@ -383,7 +353,6 @@ class PowerDevice extends GenericDevice {
       this.chartApplianceWeekly = chart;
       await this.applianceWeeklyImage.update().catch(this.error);
     }
-    // The typical run and last run only from runs measured per minute (or 5 minutes).
     const program = getApplianceProgramChart(profile, runs.filter((r) => !r.coarse).pop() || null, {
       typical: this.homey.__('appliance_chart_typical'),
       estimate: this.homey.__('appliance_chart_estimate'),
@@ -395,7 +364,6 @@ class PowerDevice extends GenericDevice {
     }
   }
 
-  // The grid forecast includes this appliance: rebuild it after a start, end or new plan.
   notifyGrid() {
     let grid;
     try {
@@ -408,7 +376,6 @@ class PowerDevice extends GenericDevice {
     });
   }
 
-  // Expected power (W) per 15-minute slot from startMs to endMs, for the grid forecast.
   getForecastSeries(startMs, endMs) {
     if (!this.isApplianceReady()) return null;
     return ApplianceModel.getForecastSeries(
@@ -424,8 +391,6 @@ class PowerDevice extends GenericDevice {
     );
   }
 
-  // Measured average power (W) from startMs to endMs, or null without samples covering it: the
-  // grid learns the home load without this appliance.
   getAvgPower(startMs, endMs) {
     const samples = this.recentMeter || [];
     if (!this.applianceModel || samples.length < 2 || !(endMs > startMs)) return null;
@@ -445,8 +410,6 @@ class PowerDevice extends GenericDevice {
     return Math.max(0, ((to - from) * 3600000000) / (endMs - startMs));
   }
 
-  // Price entry of the tariff group's price devices for ms (today, coming days, yesterday) or null.
-  // Memoized per minute and price list: the plan searches call it for the same times many times.
   priceEntryAt(ms) {
     const intervalMs = (this.priceInterval || 60) * 60 * 1000;
     const minute = Math.floor(Date.now() / 60000);
@@ -472,12 +435,10 @@ class PowerDevice extends GenericDevice {
     return typeof entry.price === 'number' ? entry.price : null;
   }
 
-  // 'HH:MM': the next time it is that time.
   nextLocalTime(hhmm) {
     return TimeHelpers.nextLocalTime(hhmm, this.timeZone);
   }
 
-  // Flow: a run that starts by deadline (ms), once; earliest (ms): not before.
   async planStartBy(deadline, earliest = null) {
     if (!this.getApplianceProfile()) throw Error(this.homey.__('error_appliance_not_learned', { runs: ApplianceModel.MIN_RUNS }));
     return this.setAppliancePlan({
@@ -496,8 +457,6 @@ class PowerDevice extends GenericDevice {
     return this.appliancePlan;
   }
 
-  // The cheapest start from now (or the plan's earliest) to the deadline; without prices at the deadline.
-  // A fixed start (fixedStartMs) stays; only its cost follows the prices.
   replanAppliance() {
     const plan = this.appliancePlan;
     const profile = this.getApplianceProfile();
@@ -516,11 +475,9 @@ class PowerDevice extends GenericDevice {
     plan.startMs = best ? best.startMs : Math.max(nowMs, plan.deadline);
     plan.cost = best ? best.cost : null;
     plan.costNow = best ? best.costNow : null;
-    if (nowMs > now) plan.costNow = ApplianceModel.runCost(profile, priceAt, now); // "Saving vs now" stays vs now
+    if (nowMs > now) plan.costNow = ApplianceModel.runCost(profile, priceAt, now);
   }
 
-  // The planned start: trigger the flow once; a plan without a run soon after its deadline ends.
-  // Not while a run is running: once confirmed it ends the plan, else it waits for its end.
   async checkPlannedStart(t) {
     const plan = this.appliancePlan;
     if (!plan) return;
@@ -529,14 +486,12 @@ class PowerDevice extends GenericDevice {
       return;
     }
     if (plan.notified || t < plan.startMs || this.applianceModel.run) return;
-    // A program since the plan was made, ended less than a program length ago: started earlier
-    // than the plan's hours before its window; no second start, the plan is done.
     const last = this.applianceModel.runs[this.applianceModel.runs.length - 1];
     const profile = this.getApplianceProfile();
     const recentMs = profile ? profile.durationMin * 60000 : PLAN_LEAD_MS;
     if (last && last.start >= (plan.createdMs || 0) && t - last.end < recentMs) {
       this.log(`Appliance planned start skipped: a program ran ${this.hhmm(last.start)}-${this.hhmm(last.end)}`);
-      await this.setAppliancePlan(null); // its "Via flow" day back to as learned (syncFlowDay)
+      await this.setAppliancePlan(null);
       return;
     }
     plan.notified = true;
@@ -547,7 +502,6 @@ class PowerDevice extends GenericDevice {
     await this.updateAppliancePlanDisplay();
   }
 
-  // New prices: a plan not started yet moves to the cheapest start again.
   async updateTariffHistory(...args) {
     await super.updateTariffHistory(...args);
     if (!this.applianceModel) return;
@@ -564,8 +518,6 @@ class PowerDevice extends GenericDevice {
     await this.updateAppliancePlanDisplay();
   }
 
-  // Cheapest start cards (like the price cards): checked once per 15-minute slot, at its
-  // first sample; not while a program runs. A restart later in the slot does not trigger again.
   async checkStartTriggers(t) {
     const slot = Math.floor(t / SLOT_MS) * SLOT_MS;
     if (slot === this.startTriggerSlot || t - slot > 3 * APPLIANCE_SAMPLE_MS) return;
@@ -582,7 +534,6 @@ class PowerDevice extends GenericDevice {
     if (app.trigger_appliance_cheapest_start_next_hours) await app.trigger_appliance_cheapest_start_next_hours(this, tokens, {});
   }
 
-  // Flow: this 15-minute slot is the cheapest start from fromMs to toMs (excl.).
   isCheapestStart(fromMs, toMs) {
     const profile = this.getApplianceProfile();
     if (!profile) throw Error(this.homey.__('error_appliance_not_learned', { runs: ApplianceModel.MIN_RUNS }));
@@ -592,9 +543,6 @@ class PowerDevice extends GenericDevice {
     return !!best && best.startMs === slot;
   }
 
-  // Flow: starts in the window from to to (over midnight when to is not later), the whole window
-  // also when now is in it, like the price cards. To is the latest start (included), like the
-  // plan cards: the slot at to still belongs to its window.
   isCheapestStartBetween(from, to) {
     const fromH = TimeHelpers.parseClock(from);
     const toH = TimeHelpers.parseClock(to);
@@ -606,17 +554,13 @@ class PowerDevice extends GenericDevice {
     return this.isCheapestStart(window.windowFromMs, window.toMs + 1);
   }
 
-  // Flow: starts from now to period hours ahead.
   isCheapestStartNextHours(period) {
     const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
     return this.isCheapestStart(slot, slot + Number(period) * 3600000);
   }
 
-  // --- Day pickers "Start today/tomorrow": per local date 'unused', 'cheapest' or 'HH:MM', once ---
-
-  // { [date]: { value, done } } from today on; done: started, or its start passed.
   applianceDays() {
-    if (!this.appliancePlanning) return {}; // the day pickers are planning
+    if (!this.appliancePlanning) return {};
     const today = ApplianceModel.localDay(Date.now(), this.timeZone).date;
     const stored = this.getStoreValue('applianceDays') || {};
     const days = Object.fromEntries(Object.entries(stored).filter(([date]) => date >= today));
@@ -631,7 +575,6 @@ class PowerDevice extends GenericDevice {
     await this.setStoreValue('applianceDays', days).catch(this.error);
   }
 
-  // Local midnight (ms) of a date 'YYYY-MM-DD' and of the day after.
   dayBounds(date) {
     const [y, m, d] = date.split('-').map(Number);
     const start = TimeHelpers.getLocalMidnightUTC(new Date(Date.UTC(y, m - 1, d, 12)), this.timeZone);
@@ -654,21 +597,16 @@ class PowerDevice extends GenericDevice {
     }
     this.log(`Appliance ${day} (${date}) set to ${value}`);
     await this.saveApplianceDay(date, value === 'auto' ? null : { value, done: false });
-    // Another choice for the day of the flow's plan: the choice by hand wins.
     if (value !== 'flow' && this.planDate() === date) await this.setAppliancePlan(null);
     await this.updateAppliancePlanDisplay();
     this.notifyGrid();
   }
 
-  // Local date of the start of the flow's plan not started yet, else null.
   planDate() {
     const plan = this.appliancePlan;
     return plan && plan.startMs && !plan.notified ? ApplianceModel.localDay(plan.startMs, this.timeZone).date : null;
   }
 
-  // The day picker of the plan's start shows "Via flow" (byPlan); a day it set before and no longer
-  // has the plan (a new plan, the start moved past midnight, the plan ended) back to as learned.
-  // "Via flow" chosen by hand stays: that day waits for the flow.
   async syncFlowDay() {
     const date = this.planDate();
     const days = { ...this.applianceDays() };
@@ -686,7 +624,6 @@ class PowerDevice extends GenericDevice {
     if (changed) await this.setStoreValue('applianceDays', days).catch(this.error);
   }
 
-  // Flow "Cancel planned program": no plan, and the days "Via flow" not started back to as learned.
   async cancelAppliancePlan() {
     const days = { ...this.applianceDays() };
     Object.entries(days).forEach(([d, entry]) => {
@@ -696,14 +633,12 @@ class PowerDevice extends GenericDevice {
     await this.setAppliancePlan(null);
   }
 
-  // Days with a start not done yet: [{ date, startMs, cost }] by start. 'cheapest': the cheapest
-  // start left that day; none yet without prices.
   dayPlans(now = Date.now()) {
     const profile = this.getApplianceProfile();
     const priceAt = (ms) => this.priceAt(ms);
     const out = [];
     Object.entries(this.applianceDays()).forEach(([date, { value, done }]) => {
-      if (done || value === 'unused' || value === 'flow') return; // flow: the plan has the start
+      if (done || value === 'unused' || value === 'flow') return;
       const { start, end } = this.dayBounds(date);
       if (value === 'cheapest') {
         const fromMs = Math.max(start.getTime(), Math.floor(now / SLOT_MS) * SLOT_MS);
@@ -717,8 +652,6 @@ class PowerDevice extends GenericDevice {
     return out.sort((a, b) => a.startMs - b.startMs);
   }
 
-  // For the forecast: the days set by hand and their starts not done yet.
-  // A day "Via flow" has only the flow's plan (none while it waits for the flow).
   forecastDays() {
     const days = this.applianceDays();
     const starts = this.dayPlans().map((p) => p.startMs);
@@ -727,9 +660,8 @@ class PowerDevice extends GenericDevice {
     return { dates: Object.keys(days), starts };
   }
 
-  // A day's start reached: "Planned start" once (not when it passed long ago, e.g. Homey was off).
   async checkDayPlans(t) {
-    if (this.applianceModel.run) return; // like checkPlannedStart
+    if (this.applianceModel.run) return;
     const due = this.dayPlans(t).filter((p) => p.startMs <= t);
     if (!due.length) return;
     const days = this.applianceDays();
@@ -757,14 +689,12 @@ class PowerDevice extends GenericDevice {
     };
   }
 
-  // Flow: plan the cheapest start from now to a time; tokens of the plan.
   async planAppliance(time) {
     const hhmm = EvPlanner.parseTime(time);
     if (!hhmm) throw Error(this.homey.__('error_invalid_time', { time }));
     return this.planTokens(await this.planStartBy(this.nextLocalTime(hhmm)));
   }
 
-  // Flow: plan a start at a time (the next time it is that time); tokens of the plan.
   async planApplianceAt(time) {
     const hhmm = EvPlanner.parseTime(time);
     if (!hhmm) throw Error(this.homey.__('error_invalid_time', { time }));
@@ -774,8 +704,6 @@ class PowerDevice extends GenericDevice {
     }));
   }
 
-  // Flow: plan the cheapest start between two times (over midnight when to is not later), an
-  // empty from: from now; tokens.
   async planApplianceBetween(from, to) {
     if (String(from ?? '').trim() === '') return this.planAppliance(TimeHelpers.parseClock(to) === 24 ? '00:00' : to);
     const fromH = TimeHelpers.parseClock(from);
@@ -787,9 +715,6 @@ class PowerDevice extends GenericDevice {
     return this.planTokens(await this.planStartBy(window.toMs, window.fromMs));
   }
 
-  // The next run: running, the flow's plan, else the earlier of a day picker's start and the
-  // expected start from the learned starts. { startMs, source: 'run'|'plan'|'day'|'expected' } or
-  // null. The tile "Next run", the charts and "Planned start" follow it.
   nextRun(now = Date.now()) {
     if (this.applianceModel && this.applianceModel.run) return { startMs: this.applianceModel.run.start, source: 'run' };
     if (this.appliancePlan && this.appliancePlan.startMs) return { startMs: this.appliancePlan.startMs, source: 'plan' };
@@ -801,8 +726,6 @@ class PowerDevice extends GenericDevice {
     return expected === null ? null : { startMs: expected, source: 'expected' };
   }
 
-  // The expected start reached: "Planned start" once, also when it is expected again later (the
-  // flow's plan and the day pickers trigger their own). Not after a restart later in that quarter.
   async checkExpectedStart(t) {
     const next = this.nextRun(t);
     if (!next || next.source !== 'expected' || next.startMs > t || next.startMs === this.expectedStartFired) return;
@@ -816,7 +739,6 @@ class PowerDevice extends GenericDevice {
     if (this.homey.app.trigger_appliance_planned_start) await this.homey.app.trigger_appliance_planned_start(this, tokens, {});
   }
 
-  // Tiles: next run and the day pickers; then the charts.
   async updateAppliancePlanDisplay() {
     if (!this.applianceModel) return;
     const profile = this.getApplianceProfile();
@@ -827,7 +749,6 @@ class PowerDevice extends GenericDevice {
     const nextRun = this.nextRun(now);
     const days = this.applianceDays();
     const dateOf = (ms) => ApplianceModel.localDay(ms, this.timeZone).date;
-    // A day "Via flow" before the next run, without a plan yet: it waits for the flow.
     const waiting = !run && !this.appliancePlan && Object.entries(days)
       .some(([date, e]) => e.value === 'flow' && !e.done && (!nextRun || date <= dateOf(nextRun.startMs)));
     let next = '-';
@@ -835,10 +756,8 @@ class PowerDevice extends GenericDevice {
     else if (nextRun) {
       const start = nextRun.startMs <= now ? this.homey.__('ev_now') : this.dayHhmm(nextRun.startMs);
       let end = (run ? run.start : Math.max(nextRun.startMs, now)) + runMs;
-      // A run past its expected end: at the earliest at the end of this quarter (moves on per slot).
       if (run && end <= now) end = Math.floor(now / SLOT_MS) * SLOT_MS + SLOT_MS;
       next = profile ? `${start}–${this.hhmm(end)}` : start;
-      // Who planned it: the flow, or the day picker "Cheapest".
       const entry = days[dateOf(nextRun.startMs)];
       if (nextRun.source === 'plan') next += ` · ${this.homey.__('appliance_by_flow')}`;
       else if (nextRun.source === 'day' && entry && entry.value === 'cheapest') next += ` · ${this.homey.__('appliance_by_cheapest')}`;
@@ -852,9 +771,6 @@ class PowerDevice extends GenericDevice {
     await this.renderAppliancePlanCharts().catch(this.error);
   }
 
-  // Today, tomorrow and next hours, like the EV charger: prices, the planned run (bars) and the
-  // measured power (line), per 15 minutes.
-  // Not time-critical: after a slot boundary's burst (LoadSpread).
   renderAppliancePlanCharts() {
     return LoadSpread.run(this, 'applianceCharts', () => this.drawAppliancePlanCharts());
   }
@@ -868,7 +784,6 @@ class PowerDevice extends GenericDevice {
     const measured = new Map((this.applianceSlots || []).map((e) => [e.t, Math.round(e.kwh * 4000)]));
     const { currency } = MoneyUnit.get(this);
     const translations = { price: this.homey.__('price'), power: this.homey.__('power'), soc: this.homey.__('soc') };
-    // A running program: the curve of the earlier runs that started most like it.
     const curveW = this.applianceModel.run
       ? ApplianceModel.runningCurveW(this.applianceModel, profile, now) : profile && profile.curveW;
     const maxW = curveW ? Math.max(...curveW) : 2000;
@@ -911,15 +826,14 @@ class PowerDevice extends GenericDevice {
   }
 
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined;
     if (changedKeys.includes('appliance_mode')) {
       this.driver.checkApplianceSource(newSettings);
-      this.migrated = false; // adds or removes the appliance capabilities after the restart
+      this.migrated = false;
     }
     return super.onSettings({ oldSettings, newSettings, changedKeys });
   }
 
-  // A deleted ready appliance is missing from the learned home load: relearn it.
   onDeleted() {
     const wasReady = this.isApplianceReady();
     this.applianceModel = null;
@@ -934,13 +848,12 @@ class PowerDevice extends GenericDevice {
 
   stopPolling() {
     super.stopPolling();
-    if (this.applianceTimer) this.saveAppliance().catch(this.error); // before a restart reloads it
+    if (this.applianceTimer) this.saveAppliance().catch(this.error);
     this.stopAppliance();
   }
 
 }
 
-// Prices of the tariff group's price devices, shared with the battery and EV charger.
 const {
   _priceOrderKey, _groupPriceDevices, _groupPriceLogIds, refreshGroupPrices,
   _fetchInsightsPriceHistory, _fetchGroupPriceHistory, _findPriceEntryForSlot,

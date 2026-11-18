@@ -25,9 +25,6 @@ const SourceCaps = require('../../lib/helpers/SourceCaps');
 
 const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 
-// Dependencies are lazy loaded in methods to save memory
-
-// The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source', 'homey_device_daily_reset'], roles: true },
   { id: 'appliance', ids: ['appliance_mode'] },
@@ -39,25 +36,25 @@ const STEPS = [
 
 const driverSpecifics = {
   driverId: 'power',
-  fallbackMeter: 'meter_power', // a source device's primary meter, when nothing else is detected
+  fallbackMeter: 'meter_power',
   energyCaps: { meter_power: 'meter_power_hidden' },
   originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed', 'meter_power.delivered',
     'meter_power.import', 'meter_power.total_power', 'meter_power.t1', 'meter_power.consumedL1', 'measure_energy_consumption_today'],
   sourceCapGroups: [
     {
-      p1: 'meter_power.total_power', p2: null, n1: null, n2: null, // huawei solar
+      p1: 'meter_power.total_power', p2: null, n1: null, n2: null,
     },
     {
-      p1: 'meter_power.t1', p2: 'meter_power.t2', n1: 'meter_power.rt1', n2: 'meter_power.rt2', // iungo
+      p1: 'meter_power.t1', p2: 'meter_power.t2', n1: 'meter_power.rt1', n2: 'meter_power.rt2',
     },
     {
-      p1: 'meter_power', p2: null, n1: null, n2: null, // youless
+      p1: 'meter_power', p2: null, n1: null, n2: null,
     },
     {
       p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
     },
     {
-      p1: 'meter_power.consumedL1', p2: 'meter_power.consumedL2', n1: null, n2: null, // ztaz P1
+      p1: 'meter_power.consumedL1', p2: 'meter_power.consumedL2', n1: null, n2: null,
     },
     {
       p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
@@ -69,10 +66,10 @@ const driverSpecifics = {
       p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
     },
     {
-      p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null, // qubino
+      p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null,
     },
     {
-      p1: 'measure_energy_consumption_today', p2: null, n1: null, n2: null, // toshiba
+      p1: 'measure_energy_consumption_today', p2: null, n1: null, n2: null,
     },
   ],
   deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
@@ -85,12 +82,9 @@ const driverSpecifics = {
     'measure_watt_min.day', 'measure_watt_max.day',
     'measure_watt_min.month', 'measure_watt_max.month',
     'measure_watt_min.year', 'measure_watt_max.year'],
-  // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
     settings: STEPS.flatMap((st) => st.ids),
     steps: STEPS,
-    // Low (or single) and normal tariff registers of a smart meter; the extra ones only show when
-    // the source has them (optional: see generic_sum_driver.setupRoles()).
     roles: [{ key: 'p1', kind: 'kwh', label: 'p1_low' }, {
       key: 'p2', kind: 'kwh', label: 'p2_normal', optional: true,
     }, {
@@ -99,12 +93,11 @@ const driverSpecifics = {
       key: 'n2', kind: 'kwh', label: 'n2_normal', optional: true,
     },
     {
-      key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
+      key: 'watt', kind: 'w', label: 'power', watt: true,
     }],
-    match: { energy: (energy) => energy.cumulative === true }, // a smart meter
+    match: { energy: (energy) => energy.cumulative === true },
     requirePrice: true,
   },
-  // Only registered with forecast (setting appliance_mode) - see lib/helpers/ChartImages.js.
   chartImages: [
     {
       id: 'applianceToday', prop: 'applianceTodayImage', chartProp: 'chartApplianceToday', titleKey: 'today',
@@ -139,10 +132,7 @@ class PowerDriver extends GenericDriver {
     });
   }
 
-  // Forecast: the appliance is taken out of the home load. Only for a Homey device as source; the
-  // source of an EV charger device is out of it already: as an appliance it would count twice.
   checkApplianceSource(settings) {
-    // Homey Energy and flow sources are totals, no single appliance: the mode is off (applianceMode()).
     if (PowerDriver.applianceMode(settings) === 'off') return;
     let chargers = [];
     try {
@@ -155,19 +145,15 @@ class PowerDriver extends GenericDriver {
     }
   }
 
-  // The settings page (SettingsView): the appliance mode in effect.
   viewValue(id, settings, value) {
     return id === 'appliance_mode' ? this.constructor.applianceMode(settings) : value;
   }
 
-  // 'off', 'forecast' or 'plan' (setting appliance_mode); only a Homey device as source learns.
   static applianceMode(settings = {}) {
     if (settings.source_device_type !== 'Homey device') return 'off';
     return ['forecast', 'plan'].includes(settings.appliance_mode) ? settings.appliance_mode : 'off';
   }
 
-  // With forecast: the retrain button, which also shows the started/finished cards (their filter).
-  // With plan: next run and the day pickers; appliance_next_run shows the planner cards.
   capabilitiesFor(settings = {}) {
     const caps = super.capabilitiesFor(settings);
     const mode = PowerDriver.applianceMode(settings);
@@ -188,7 +174,6 @@ class PowerDriver extends GenericDriver {
       result.useMeasureSource = !hasSourceCapGroup;
       return result;
     }
-    // Other meters: their capabilities are mapped in the setup view.
     if (SourceCaps.hasKind(homeyDevice, 'kwh')) return { found: true, useMeasureSource: false, needsMapping: true };
     return { found: false };
   }

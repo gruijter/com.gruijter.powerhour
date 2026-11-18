@@ -19,17 +19,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-/**
- * TIME HANDLING DOCUMENTATION
- *
- * Homey Environment (Intended Runtime):
- * - Homey runs its internal clock in UTC.
- * - `new Date()` returns the current time in UTC.
- * - Local time calculations (e.g. start of day) depend on the Homey's configured location/timezone.
- * - The app uses `TimeHelpers.getUTCPeriods(timeZone)` to calculate the UTC start/end timestamps
- *   for "Today", "Tomorrow", etc., from the Homey's location based local timezone.
- */
-
 const Homey = require('homey');
 const { HomeyAPI } = require('homey-api');
 const Flows = require('./lib/flows/Flows');
@@ -42,8 +31,6 @@ const CrashNotice = require('./lib/helpers/CrashNotice');
 class MyApp extends Homey.App {
 
   async onInit() {
-    // Diagnostics, only in a development build (env.json): PBTH_INSPECT=1 opens the V8 inspector to the
-    // LAN (no authentication), PBTH_MEMLOG=1 logs memory to the app settings (MemLog).
     // eslint-disable-next-line global-require, node/no-unsupported-features/node-builtins
     if (Homey.env.PBTH_INSPECT === '1') require('inspector').open(9222, '0.0.0.0', false);
     if (Homey.env.PBTH_MEMLOG === '1') {
@@ -62,7 +49,6 @@ class MyApp extends Homey.App {
       this.retry(5);
       this.migrationNotice = new MigrationNotice(this.homey);
       this.migrationNotice.start();
-      // An app-wide contract start of a beta after v9.0.3: every meter counts calendar years now.
       if (this.homey.settings.get('contractStart')) this.homey.settings.unset('contractStart');
 
       this.log(`Power by the Hour app is running... Timezone: ${this.homey.clock.getTimezone()}`);
@@ -90,8 +76,6 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('price_source_removed_PBTH');
   }
 
-  // One fetch per key and local day, shared by all devices. An empty or partial ({ partial: true })
-  // result is not kept: the caller retries later.
   getSharedDaily(key, day, fetch) {
     if (!this.sharedDaily || this.sharedDaily.day !== day) this.sharedDaily = { day, values: new Map() };
     const { values } = this.sharedDaily;
@@ -122,9 +106,6 @@ class MyApp extends Homey.App {
     }
   }
 
-  // The new price slot's tariff on every consumer device, once per boundary (the first caller runs
-  // it, one driver after the other). Price devices fire their period triggers after it, so a flow on
-  // that trigger reads the new meter_tariff (generic_price_driver).
   slotTariffs() {
     const slot = TimeHelpers.startOfLocalBlock(Date.now(), 15, this.homey.clock.getTimezone());
     if (!this.slotTariffRun || this.slotTariffRun.slot !== slot) {
@@ -145,8 +126,6 @@ class MyApp extends Homey.App {
 
   scheduleNextHour() {
     if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
-    // The local hour: the process clock runs in UTC, and in a half-hour-offset zone the UTC hour
-    // starts at local :30.
     const nowMs = Date.now();
     const nextHour = TimeHelpers.startOfLocalBlock(nowMs, 60, this.homey.clock.getTimezone()) + (60 * 60 * 1000) + 10;
     const delay = nextHour - nowMs;
@@ -174,7 +153,6 @@ class MyApp extends Homey.App {
     const delay = nextXminutes - nowMs;
 
     this.everyXMinutesId = this.homey.setTimeout(() => {
-      // Only emit if not on a full local hour (handled by everyHour)
       if (TimeHelpers.toLocalDate(new Date(), tz).getMinutes() !== 0) {
         try {
           this.homey.emit('every15m_PBTH', true);
@@ -203,13 +181,6 @@ class MyApp extends Homey.App {
     flows.register();
   }
 
-  /**
-   * Build the normalized prices payload for the inter-app API.
-   * Includes all future slots (from the current period onwards) for every
-   * configured price device (PriceDrivers.DRIVER_IDS) that has valid prices.
-   *
-   * @returns {object} payload  { generatedAt, prices: [...] }
-   */
   getPricesPayload() {
     const now = new Date();
     const priceEntries = PriceDrivers.getDevices(this.homey)

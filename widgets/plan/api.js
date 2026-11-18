@@ -22,7 +22,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const { getPlan } = require('../../lib/helpers/WidgetData');
 
 module.exports = {
-  // day: next (hours), today or tomorrow.
   async getPlan({ homey, query }) {
     return getPlan(homey, query && query.day);
   },

@@ -23,7 +23,6 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 
-// The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['homey_device_daily_reset'], roles: true },
   { id: 'price', ids: ['tariff_update_group', 'tariff', 'currency', ...MARKUP_IDS, 'start_date'] },
@@ -33,10 +32,10 @@ const STEPS = [
 
 const driverSpecifics = {
   driverId: 'gas',
-  fallbackMeter: 'meter_gas', // a source device's primary meter, when nothing else is detected
+  fallbackMeter: 'meter_gas',
   sourceCapGroups: [
     {
-      p1: 'meter_gas.current', p2: null, n1: null, n2: null, // ZTAZ P1
+      p1: 'meter_gas.current', p2: null, n1: null, n2: null,
     },
     {
       p1: 'meter_gas.consumed', p2: null, n1: null, n2: null,

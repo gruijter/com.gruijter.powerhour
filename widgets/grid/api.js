@@ -22,7 +22,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const { getGrid } = require('../../lib/helpers/WidgetData');
 
 module.exports = {
-  // day: yesterday, today, tomorrow, weeks or year.
   async getGrid({ homey, query }) {
     return getGrid(homey, query && query.day);
   },

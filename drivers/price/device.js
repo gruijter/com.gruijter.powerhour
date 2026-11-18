@@ -32,35 +32,28 @@ const PriceDeviceProfile = require('../../lib/helpers/PriceDeviceProfile');
 const PriceProfile = require('../../lib/strategies/PriceProfile');
 
 const FORMULA_KEYS = ['formula', 'export_formula'];
-// Changing these needs new market prices (repair).
 const MARKET_KEYS = ['commodity', 'tariffType', 'biddingZone', 'priceInterval'];
-// Another market or currency: the price profile starts over (PriceDeviceProfile.reset()).
 const PROFILE_KEYS = ['commodity', 'tariffType', 'biddingZone', 'currency', 'fetchExchangeRate'];
 const PRICE_KEYS = [
   'tax', 'vat', 'fixedMarkupInclVat', 'taxInclVat', 'fixedMarkupTODInclVat', 'fixedMarkupWeekendInclVat', 'formula',
 ].flatMap((id) => [id, `export_${id}`]);
-// Price cards per price period; gas has one price per day, water a fixed tariff: no cheapest or most
-// expensive cards.
 const POWER_TRIGGERS = ['price_cheapest_next', 'price_cheapest_between', 'price_block_next', 'price_block_between', 'price_vs_avg'];
 const GAS_TRIGGERS = ['price_vs_avg'];
 
 class PriceDevice extends GenericDevice {
 
   async onInit() {
-    // Store flag of the flow warning before it followed PriceDrivers.flowConflict().
     if (this.getStoreValue('tariffFlowWarning')) await this.unsetStoreValue('tariffFlowWarning').catch((err) => this.error(err));
     await this.syncFormulaLabels().catch((err) => this.error(err));
     await DapTakeover.applyMonthAvg(this).catch((err) => this.error(err));
     await super.onInit();
     await this.updateGroupWarning().catch((err) => this.error(err));
     await PriceDeviceProfile.load(this).catch((err) => this.error(err));
-    // After the start burst: the history read is not urgent.
     this.homey.setTimeout(() => {
       if (!this.isDestroyed) PriceDeviceProfile.learn(this).catch((err) => this.error(err));
     }, 60000 + Math.random() * 60000);
   }
 
-  // The price profile (PriceDeviceProfile) with the known prices, before the group plans with them.
   async beforeBroadcast() {
     await PriceDeviceProfile.learnKnown(this);
     const avg = PriceProfile.average(this.priceProfile);
@@ -69,7 +62,6 @@ class PriceDevice extends GenericDevice {
     }
   }
 
-  // Another price device or a flow sends to the same tariff group (PriceDrivers.priceWarning()).
   async updateGroupWarning() {
     const commodity = this.commodity || PriceDrivers.commodityOf('price', this.getSettings());
     const warning = PriceDrivers.priceWarning(this.homey, commodity, this.getSettings().tariff_update_group, false);
@@ -79,7 +71,6 @@ class PriceDevice extends GenericDevice {
     else await this.unsetWarning();
   }
 
-  // A flow conflict ends when its flow stops running (PriceDrivers.flowConflict()).
   async onHourlyEvent() {
     await super.onHourlyEvent();
     await this.updateGroupWarning().catch((err) => this.error(err));
@@ -94,8 +85,6 @@ class PriceDevice extends GenericDevice {
     return this.getSettings().tariffType !== 'fixed';
   }
 
-  // Fixed tariff: price slots from yesterday to the end of tomorrow with market price 0; the price
-  // comes from the price settings (markup, tax, time of day, weekend).
   async fetchPrices() {
     if (this.usesMarketPrices()) return super.fetchPrices();
     try {
@@ -113,7 +102,6 @@ class PriceDevice extends GenericDevice {
     return undefined;
   }
 
-  // The rank capabilities count the slots of this interval.
   capabilityOptions() {
     const options = super.capabilityOptions();
     const perDay = (24 * 60) / this.priceInterval;
@@ -158,7 +146,6 @@ class PriceDevice extends GenericDevice {
     await app.trigger_price_new_prices(this, { ...tokens, export_prices: this.exportPricesJson(state.period) }, state);
   }
 
-  // Export prices of a period as JSON ('[]' for gas and water).
   exportPricesJson(period) {
     if (!this.hasExport) return '[]';
     let prices;
@@ -194,7 +181,6 @@ class PriceDevice extends GenericDevice {
     await this.setCapability('meter_rank_price_h0_next_8h', rank(s.pricesNext8h));
   }
 
-  // The formula labels in the settings: the formula in use.
   async syncFormulaLabels() {
     const settings = this.getSettings();
     const labels = {
@@ -204,7 +190,6 @@ class PriceDevice extends GenericDevice {
     if (Object.keys(labels).some((id) => labels[id] !== settings[id])) await this.setSettings(labels);
   }
 
-  // Throws a translated error when a formula or time of day markup in settings is invalid.
   validatePriceSettings(settings) {
     FORMULA_KEYS.forEach((id) => {
       const formula = String(settings[id] || '').trim();
@@ -219,7 +204,7 @@ class PriceDevice extends GenericDevice {
   }
 
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined;
     if (['commodity', 'tariffType', 'biddingZone'].some((id) => changedKeys.includes(id))) {
       throw Error(this.homey.__('price_setup.error_use_repair'));
     }
@@ -229,7 +214,6 @@ class PriceDevice extends GenericDevice {
     return super.onSettings({ oldSettings, newSettings, changedKeys });
   }
 
-  // Stored prices are of one zone and interval: cleared when either changes.
   async resetPrices() {
     this.prices = [{ time: null, price: null, muPrice: null }];
     this.marketPrices = [];
@@ -241,8 +225,6 @@ class PriceDevice extends GenericDevice {
     GenericDevice.STORED_PRICES.forEach((key) => files.set(key, []));
   }
 
-  // New settings from the repair view (PriceSetup). A new market clears the prices; a new energy
-  // type also changes the capabilities (migrate() at the restart).
   async applySetup(settings) {
     const old = this.getSettings();
     this.validatePriceSettings({ ...old, ...settings });
@@ -261,8 +243,6 @@ class PriceDevice extends GenericDevice {
       .catch((err) => this.error(err));
   }
 
-  // Price settings changed by flow: recalculated right away, no restart. A fixed tariff whose time
-  // of day markup needs other slots (15 or 60 minutes) gets new prices with a restart.
   async updatePriceSettings(values) {
     const old = this.getSettings();
     const settings = { ...old, ...values };

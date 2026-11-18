@@ -40,44 +40,29 @@ const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const BatteryDayLog = require('../../lib/helpers/BatteryDayLog');
 
-// A mode write of our own reported back within this time is no change by the battery app.
 const OWN_WRITE_ECHO_MS = 60 * 1000;
-// Plan again when the SoC is this far (%) from the plan, at most every SOC_REPLAN_MS. 3: above the
-// 1 % steps most batteries report.
 const SOC_REPLAN_PCT = 3;
 const SOC_REPLAN_MS = 10 * 60 * 1000;
-const SETUP_CHECK_MS = 60 * 1000; // setup conflicts on the control tick: at most once a minute
+const SETUP_CHECK_MS = 60 * 1000;
 const RELEASE_RETRY_MS = 60 * 1000;
-const RELEASE_FAST_MS = 15 * 60 * 1000; // refused this long: then once a night (RELEASE_NIGHT)
+const RELEASE_FAST_MS = 15 * 60 * 1000;
 const RELEASE_NIGHT = '03:00';
-// After a start, smart leaves the batteries as they are until the first plan, at most this long.
 const PLAN_WAIT_MS = 10 * 60 * 1000;
-// A setpoint at least this recent: the battery is under control (keepalive every 60 s).
 const FUSE_YIELD_MS = 2 * 60 * 1000;
-// Smallest power step (W) PhaseLearning learns the phase from.
 const PHASE_STEP_W = 600;
-// Home use the planner assumes without a grid forecast (no grid device).
 const HOME_USE_W = 300;
-// The planners look this far ahead (48 h): beyond the published prices on expected ones.
 const PLAN_HOURS = 48;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
 const LEARN_APPLY_MS = 24 * 60 * 60 * 1000;
-// Calibration (setting calibrateDays): new targets tried at most this often; only in the modes that
-// follow the plan.
 const CAL_RETRY_MS = 15 * 60 * 1000;
 const CAL_MODES = ['smart', 'self_consumption'];
 const CAL_DAYS = 7;
-// No Grid Monitor is warned for this long after the start (it may start after the battery).
 const GRID_WARN_AFTER_MS = 2 * 60 * 1000;
-// Targets again at most this often; not from this long before the battery has to start.
 const CAL_REFRESH_MS = 5 * 60 * 1000;
 const CAL_LEAD_MS = 60 * 60 * 1000;
-// The learned taper (BatteryTaper) is stored at most this often.
 const TAPER_SAVE_MS = 15 * 60 * 1000;
-const USE_SAVE_CYCLES = 0.02; // store write at most every 4 % SoC moved
+const USE_SAVE_CYCLES = 0.02;
 
-// Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
-// The tighter of two bounds, null: none.
 const bound = (pick) => (a, b) => {
   if (typeof a !== 'number') return typeof b === 'number' ? b : null;
   return typeof b === 'number' ? pick(a, b) : a;
@@ -92,12 +77,9 @@ class BatDevice extends GenericDevice {
   async onInit() {
     this.ds = deviceSpecifics;
     this.initTm = Date.now();
-    // A (re)init can follow a settings change: never let the chart reuse a plan from before it.
     this.lastPlanTm = null;
-    // Before super.onInit(): it sets initReady partway, and onPricesUpdated() then renders charts.
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
-    // Before super.onInit(): its first samples would otherwise overwrite the stored history.
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
     this.tempMode = this.getStoreValue('batTempMode') || null;
@@ -111,9 +93,7 @@ class BatDevice extends GenericDevice {
       this.calibration = BatteryCalibration.createState(Date.now());
       await this.setStoreValue('batteryCalibration', this.calibration).catch(this.error);
     }
-    // A sample over a restart misses energy when the meters are integrated from power: start anew.
     if (this.efficiency) this.efficiency.win = null;
-    // Homey keeps a warning over a restart: the first updateWarning() writes or clears it.
     this.controlError = null;
     this.warningShown = undefined;
     this.controlState = {};
@@ -121,7 +101,6 @@ class BatDevice extends GenericDevice {
 
     if (this.hasCapability('battery_mode')) {
       if (!this.getCapabilityValue('battery_mode')) await this.setCapabilityValue('battery_mode', 'smart').catch(this.error);
-      // Once: onInit() runs again on every restart of the device.
       if (!this.batteryModeListener) {
         this.batteryModeListener = true;
         this.registerCapabilityListener('battery_mode', (mode) => this.setBatteryMode(mode, 'set by user'));
@@ -130,7 +109,6 @@ class BatDevice extends GenericDevice {
 
     const currentSessionId = this.sessionId;
     this.populateHistoryFromInsights().catch((err) => this.error('Error populating battery insights:', err));
-    // widgets/battery: the day log, rebuilt once from Insights a few minutes after the start.
     await BatteryDayLog.start(this);
 
     const initStrategy = async () => {
@@ -151,7 +129,7 @@ class BatDevice extends GenericDevice {
   }
 
   async onPricesUpdated() {
-    this.pricesUpdatedTm = Date.now(); // see updatePlan(): only reuse plans made after this
+    this.pricesUpdatedTm = Date.now();
     this.pricesUpdated = true;
     await this.applyAutoMinProfit().catch((err) => this.error(err));
     await this.updatePriceProfile().catch((err) => this.error(err));
@@ -159,8 +137,6 @@ class BatDevice extends GenericDevice {
     await this.updatePlan();
   }
 
-  // Paired before its tariff group had prices (store minProfitAuto): the minimum profit from the
-  // first ones, unless the user set one meanwhile (not 0).
   async applyAutoMinProfit() {
     if (!this.getStoreValue('minProfitAuto')) return;
     const settings = this.getSettings();
@@ -173,7 +149,6 @@ class BatDevice extends GenericDevice {
     await this.setStoreValue('minProfitAuto', false);
   }
 
-  // The expected prices beyond the published ones (PriceProfile), learned from the published ones.
   async updatePriceProfile() {
     if (!this.pricesNextHours) return;
     await this.bootstrapPriceProfile();
@@ -184,7 +159,6 @@ class BatDevice extends GenericDevice {
     this.expectedPrice = this.expectedPriceFn(known, tz, now);
   }
 
-  // Plan prices up to PLAN_HOURS: after the published (and forecast) prices the expected ones.
   extendPlanPrices(prices, exportPrices, startMs, planMin) {
     const n = Math.round((PLAN_HOURS * 60) / planMin);
     const imp = [...(prices || [])];
@@ -199,7 +173,6 @@ class BatDevice extends GenericDevice {
     return { prices: imp, exportPrices: exp };
   }
 
-  // Detected by the driver, with the choice from the setup view (store 'sourceCaps').
   async addSourceCapGroup() {
     const resolved = this.driver.sourceCapGroupFor(this.sourceDevice, this.getStoreValue('sourceCaps'));
     if (!resolved) {
@@ -212,7 +185,6 @@ class BatDevice extends GenericDevice {
     await SettingsView.update(this).catch((err) => this.error(err));
   }
 
-  // SettingsView: a capability role in use (null: not known yet).
   roleUsed(role) {
     return this.sourceCapGroup ? !!this.sourceCapGroup[role] : null;
   }
@@ -222,7 +194,6 @@ class BatDevice extends GenericDevice {
     try {
       api = this.homey.app.api;
     } catch {
-      // ignore
     }
     if (!api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
@@ -237,7 +208,6 @@ class BatDevice extends GenericDevice {
       }
     });
     if ((this.sourceDevice.capabilities || []).includes('target_power_mode')) {
-      // Followed from the events: the source device object keeps the value of when it was fetched.
       const obj = this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.target_power_mode;
       this.sourceModeValue = obj ? obj.value : null;
       this.capabilityInstances.sourceMode = this.sourceDevice.makeCapabilityInstance('target_power_mode', (value) => {
@@ -246,14 +216,11 @@ class BatDevice extends GenericDevice {
     }
   }
 
-  // The day that ended, into the day log (widgets/battery).
   onDayEnded() {
     return BatteryDayLog.logYesterday(this);
   }
 
   async onUninit() {
-    // Never leave the battery on a last setpoint while this app is not running. isDestroyed first:
-    // a driver tick during the release must not take control again.
     this.isDestroyed = true;
     await this.releaseControl('app stopped').catch((err) => this.error(err));
     if (this.use) await this.setStoreValue('batteryUse', this.use).catch(this.error);
@@ -270,9 +237,6 @@ class BatDevice extends GenericDevice {
     return (this.hasCapability('battery_mode') && this.getCapabilityValue('battery_mode')) || 'smart';
   }
 
-  // The single entry for the picker, the flow and the battery app taking over. durationMin > 0:
-  // back to the mode before after that time. Batteries in the group share one mode: the driver
-  // passes a change to all of them (sync), except 'device', which is per battery.
   async setBatteryMode(mode, reason, durationMin = 0, { sync = true, until = null } = {}) {
     if (!BatteryControl.MODES.includes(mode)) throw Error(`Unknown battery mode ${mode}`);
     const end = until || (durationMin > 0 ? Date.now() + (durationMin * 60 * 1000) : null);
@@ -292,26 +256,20 @@ class BatDevice extends GenericDevice {
       this.log('[Bat Control] Out of the group: if this battery does zero on the meter itself, two controls act on one meter');
     }
     const planned = (m) => JSON.stringify(BatteryControl.planOptionsFor(m));
-    // The EV chargers price solar surplus by what the batteries store (driver.solarStorage()): they
-    // plan again after this plan.
     const replan = planned(mode) !== planned(current) ? this.replan('mode', { quick: true }) : Promise.resolve();
     replan.catch((err) => this.error(err)).then(() => this.driver.replanEvChargers()).catch((err) => this.error(err));
   }
 
-  // Each battery of the group has the same temporary mode: each ends it by itself.
   async endTempModeIfDue(now) {
     if (!this.tempMode || now < this.tempMode.until) return;
     await this.setBatteryMode(this.tempMode.previousMode, 'temporary mode ended', 0, { sync: false });
   }
 
-  // Planned as one with the other batteries of the group (setting groupPlan), whether this app or
-  // flows control it. 'device' leaves the group.
   inGroup() {
     const settings = this.getSettings();
     return settings.groupPlan !== false && this.getBatteryMode() !== 'device';
   }
 
-  // After a crash with the LP on (CrashNotice): the light planner from now on, planned anew.
   async stopPrecisePlanning() {
     await this.setSettings({ precisePlanning: false });
     this.groupPlans = null;
@@ -321,14 +279,12 @@ class BatDevice extends GenericDevice {
     await SettingsView.update(this).catch((err) => this.error(err));
   }
 
-  // Once on entering the group: take the group's mode and planner (of the battery with the lowest id).
   async joinGroup() {
     if (this.groupJoined) return;
     this.groupJoined = true;
     const group = this.driver.groupDevices();
     const ref = group.sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1))[0];
     if (!ref || ref === this) return;
-    // Not yet migrated (still starting): no planner to take.
     const { precisePlanning } = ref.getSettings();
     if (typeof precisePlanning === 'boolean' && !!this.getSettings().precisePlanning !== precisePlanning) {
       await this.setSettings({ precisePlanning }).catch((err) => this.error(err));
@@ -342,31 +298,24 @@ class BatDevice extends GenericDevice {
     await this.setBatteryMode(mode, `group of ${ref.getName()}`, 0, { sync: false, until });
   }
 
-  // Control is set up: the setting, a setpoint capability and the mode picker.
   isControlConfigured() {
     return !!(this.getSettings().batteryControl && this.sourceCapGroup && this.sourceCapGroup.setpoint
       && this.sourceDevice && this.hasCapability('battery_mode'));
   }
 
-  // Controlled by this app now (the driver splits zero on the meter among those).
   isXomControlled() {
     return this.isControlConfigured() && this.getBatteryMode() !== 'device';
   }
 
-  // The power this battery adds to the grid: the last setpoint while controlling (the measured
-  // power lags it), else the measured power (set on every measurement).
   controlPowerW() {
     return typeof this.lastSetpointW === 'number' && this.getStoreValue('controlTakeover')
       ? this.lastSetpointW : (Number(this.getCapabilityValue('measure_watt_avg')) || 0);
   }
 
-  // What control decided last (not rounded to the write steps): zero on the meter integrates on
-  // it, as the XOM flow on its smoothed power.
   controlCommandW() {
     return typeof this.decidedW === 'number' && this.getStoreValue('controlTakeover') ? this.decidedW : this.controlPowerW();
   }
 
-  // controlCommandW() within the lead of the measured power (BatteryControl.leadLimitW()).
   integratorW() {
     const settings = this.getSettings();
     return BatteryControl.leadLimitW({
@@ -378,8 +327,6 @@ class BatDevice extends GenericDevice {
     });
   }
 
-  // How often the source reports its power while running (average ms); idle sources often report
-  // only on change.
   async updateMeterFromMeasure(val) {
     const now = Date.now();
     if (this.lastReportTm && typeof val === 'number' && Math.abs(val) > 50 && Math.abs(this.lastReportW || 0) > 50) {
@@ -406,7 +353,6 @@ class BatDevice extends GenericDevice {
     return super.updateMeterFromMeasure(val);
   }
 
-  // Driver tick, step 1: housekeeping, and what this battery does now. null: not controlled.
   async controlPrepare(now) {
     if (!this.initReady || this.isDestroyed) return null;
     await this.updateWarning(now, true);
@@ -425,7 +371,6 @@ class BatDevice extends GenericDevice {
     const mode = this.getBatteryMode();
     const slot = BatteryControl.slotAt(this.latestPlan, now);
     if (mode === 'smart' && !this.latestPlan && now - this.initTm < PLAN_WAIT_MS) {
-      // Waiting for the first plan the battery is left alone, unless the connection is overloaded.
       if (!this.fuseAtRisk()) return null;
       return {
         mode: 'idle', slot: null, block: 'idle', noCharge: false, refill: false,
@@ -434,7 +379,6 @@ class BatDevice extends GenericDevice {
     await this.updateCalibration(now);
     await this.learnTaper(now);
     const calibrate = this.calibrationActive() ? BatteryCalibration.tail(this.calibration, this.soc) : null;
-    // Below the reserve it recharges (BatteryControl): no zero on the meter then.
     const refill = typeof this.soc === 'number' && this.soc < this.reservePct() && BatteryControl.refillsReserve(mode);
     const plan = BatteryControl.blockFor(mode, slot, calibrate);
     return {
@@ -442,13 +386,8 @@ class BatDevice extends GenericDevice {
     };
   }
 
-  // Driver tick, step 2. xom: { targetW, needW } from XomSplit in a xom/hold block.
-  // share: this battery's part of the import headroom.
-  // share: this battery's part of the correction; phaseShare: of a phase correction (the batteries
-  // that may be on its phases).
   async controlApply(prep, now, gridW, xom, share = 1, phaseShare = share) {
     if (this.controlRun) return;
-    // Kept so that releaseControl() can wait for a write in progress.
     this.controlRun = this.applyControl(prep, now, gridW, xom, share, phaseShare).finally(() => {
       this.controlRun = null;
     });
@@ -458,9 +397,6 @@ class BatDevice extends GenericDevice {
   async applyControl(prep, now, gridW, xom, share, phaseShare = share) {
     const settings = this.batterySettings();
     const batteryW = this.controlPowerW();
-    // Limits from the base the grid reading holds: while ramping the measured power lags the
-    // setpoint, so the side with less room (import: the lower, export: the higher) counts.
-    // Only a recent report counts (an idle source reports seldom).
     const rawW = this.getCapabilityValue('measure_watt_avg');
     const fresh = typeof rawW === 'number' && this.lastReportTm && now - this.lastReportTm <= BatteryControl.FAST_REPORT_MS;
     const importBaseW = fresh ? Math.min(batteryW, rawW) : batteryW;
@@ -469,7 +405,6 @@ class BatDevice extends GenericDevice {
       this.xomAvgW = BatteryControl.average(this.xomAvgW, xom.needW, now - (this.xomAvgTm || now));
       this.xomAvgTm = now;
     }
-    // Idle: nothing, only the main fuse (hard limit) still protected.
     const shave = settings.peakShaving === true && prep.mode !== 'idle';
     const protect = settings.fuseProtection !== false;
     const grid = GridConnection.gridDevice(this.homey);
@@ -529,7 +464,6 @@ class BatDevice extends GenericDevice {
     this.checkSocDeviation(prep.slot, now);
   }
 
-  // BatteryControl.pulseParams(), rebuilt when the speeds or the learned start change.
   pulseParams(settings) {
     const res = this.response && this.response.standstill;
     const key = JSON.stringify([BatterySplit.speedsFromSettings(settings), res && res.n >= 3 ? Math.round(res.ms / 1000) : null]);
@@ -540,7 +474,6 @@ class BatDevice extends GenericDevice {
     return this.pulse;
   }
 
-  // Pulse start and end, for tuning the assumed fans, start and run-out (BatteryControl).
   logPulse(r, prep, now) {
     const p = this.pulse;
     if (r.state.pulseOn) {
@@ -557,16 +490,12 @@ class BatDevice extends GenericDevice {
     this.pulseStart = null;
   }
 
-  // xomTarget is the XOM target of all batteries, used every control tick: no restart for it.
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined;
     if (changedKeys.includes('xomTarget')) this.driver.setXomTargetFromSetting(newSettings.xomTarget, this);
     if (changedKeys.every((key) => key === 'xomTarget')) return true;
-    // After the base: it can still reject the change.
     const result = await super.onSettings({ newSettings, changedKeys });
     if (changedKeys.includes('batCapacity')) await this.rescaleEfficiency(oldSettings.batCapacity, newSettings.batCapacity);
-    // No plan of the other planner kept. The group plans as one: one planner (precisePlanning) for
-    // all. newSettings: groupPlan can change in the same repair (getSettings() is still the old).
     if (changedKeys.includes('precisePlanning')) {
       const inGroup = newSettings.groupPlan !== false && this.getBatteryMode() !== 'device';
       const members = inGroup ? [this, ...this.driver.groupDevices().filter((d) => d !== this)] : [this];
@@ -583,14 +512,11 @@ class BatDevice extends GenericDevice {
     return result;
   }
 
-  // The battery_action capability, on a change only.
   async setAction(action) {
     if (!this.hasCapability('battery_action') || this.getCapabilityValue('battery_action') === action) return;
     await this.setCapabilityValue('battery_action', action).catch(this.error);
   }
 
-  // In zero on the meter: the most this battery does while it does not do its setpoint
-  // (BatteryControl.followCap()); the driver gives the rest to the other batteries.
   updateFollowCap(block, now, settings) {
     const prev = this.followCapW || null;
     if (block !== 'xom') {
@@ -614,8 +540,6 @@ class BatDevice extends GenericDevice {
     }
   }
 
-  // The phases of the battery (setting batteryPhase, on auto learned), a FuseGuard spec. known:
-  // set or learned (trustLearned).
   fusePhases(trustLearned = true) {
     const s = this.getSettings();
     const spec = PhaseLearning.specOf(s.batteryPhase, this.getStoreValue('phaseVotes'), trustLearned);
@@ -625,8 +549,6 @@ class BatDevice extends GenericDevice {
     };
   }
 
-  // Bounds on the setpoint (W) from the phase fuses: { maxW, minW }, null none. Unknown phases
-  // only limit the power (down to 0), never force the other way: the battery may be on another phase.
   phaseBounds(grid, now, importBaseW, exportBaseW, phaseShare) {
     if (typeof grid.getPhaseRoomW !== 'function') return {};
     const spec = this.fusePhases(grid.trustsLearnedPhases(now));
@@ -641,8 +563,6 @@ class BatDevice extends GenericDevice {
     return { maxW, minW };
   }
 
-  // The grid is over the hard import limit or the export limit now, in total or on a phase of this
-  // battery (setting fuseProtection).
   fuseAtRisk() {
     if (this.getSettings().fuseProtection === false) return false;
     const grid = GridConnection.gridDevice(this.homey);
@@ -653,9 +573,6 @@ class BatDevice extends GenericDevice {
     return rooms.some((w) => typeof w === 'number' && w < 0);
   }
 
-  // Grid charging (W) this battery gives way with under the hard limit: only while this app
-  // controls it (a setpoint written within FUSE_YIELD_MS). At most the measured power: a full
-  // battery still asked to charge (BatteryControl, planned 100 %) takes nothing.
   fuseYieldW(now = Date.now()) {
     if (this.getSettings().fuseProtection === false || !this.getStoreValue('controlTakeover')) return 0;
     if (typeof this.lastSetpointW !== 'number' || !this.lastSetpointTm || now - this.lastSetpointTm > FUSE_YIELD_MS) return 0;
@@ -675,9 +592,6 @@ class BatDevice extends GenericDevice {
     this.log(`[Bat Control] Taking control of ${this.sourceDevice.name}${prevMode ? ` (its mode was ${prevMode})` : ''}`);
   }
 
-  // Back to the battery: its mode from before, or (without a mode capability) setpoint 0.
-  // The takeover is cleared only once the battery has it back: a failed write is tried again
-  // (controlPrepare()), every RELEASE_RETRY_MS; refused for RELEASE_FAST_MS, once a night.
   async releaseControl(reason) {
     if (this.controlRun) await this.controlRun.catch(() => {});
     const takeover = this.getStoreValue('controlTakeover');
@@ -715,12 +629,11 @@ class BatDevice extends GenericDevice {
     await this.setStoreValue('controlTakeover', null);
   }
 
-  // The battery app switched its own mode: it takes over, this app stops controlling.
   async onSourceModeChanged(value) {
     this.sourceModeValue = value;
     if (!this.getStoreValue('controlTakeover') || value === 'homey') return;
     if (this.ownModeWriteTm && Date.now() - this.ownModeWriteTm < OWN_WRITE_ECHO_MS) return;
-    await this.setStoreValue('controlTakeover', null); // keep the battery app's choice
+    await this.setStoreValue('controlTakeover', null);
     await this.setBatteryMode('device', `battery app switched to ${value}`, 0, { sync: false });
   }
 
@@ -734,11 +647,9 @@ class BatDevice extends GenericDevice {
     const obj = (this.sourceDevice.capabilitiesObj || {})[cap] || {};
     if (typeof obj.min === 'number') value = Math.max(obj.min, value);
     if (typeof obj.max === 'number') value = Math.min(obj.max, value);
-    // For BatteryTaper: what the battery was asked, and since when.
     const writtenW = this.setpointInvert ? -value : value;
     if (typeof this.writtenW !== 'number' || Math.abs(writtenW - this.writtenW) >= 100) this.setChangeTm = now;
     this.writtenW = writtenW;
-    // Also on failure: the next try comes with the keepalive, not every tick.
     if (this.response) {
       this.response = BatteryResponse.onWrite(this.response, {
         now, setW: powerW, actW: Number(this.getCapabilityValue('measure_watt_avg')), idleMs: this.lastActiveTm ? now - this.lastActiveTm : null,
@@ -762,11 +673,6 @@ class BatDevice extends GenericDevice {
     await this.updateWarning();
   }
 
-  // The device warning: a failed setpoint write, else no Grid Monitor while this app controls the
-  // battery in a mode that follows the plan (it then assumes HOME_USE_W). undefined: not known yet,
-  // the warning from before the start stays as it is.
-  // tick: the setup conflicts as checked within the last minute (they change with settings, which
-  // check them at once).
   deviceWarning(now = Date.now(), tick = false) {
     if (this.controlError) return this.controlError;
     if (!tick || !(now - (this.setupCheckTm || 0) < SETUP_CHECK_MS)) {
@@ -789,11 +695,8 @@ class BatDevice extends GenericDevice {
     else await this.unsetWarning().catch(this.error);
   }
 
-  // The SoC is far from the plan (forecast off, a large load): plan again.
   checkSocDeviation(slot, now) {
     if (!slot || !(slot.index >= 0) || typeof this.soc !== 'number') return;
-    // The plan's SoC now: from the end of the previous slot (the first slot: the SoC when planned)
-    // toward the end of this one. Below the reserve the plan starts at the reserve (planBattery()).
     const plan = this.latestPlan;
     const reserve = this.reservePct();
     const slotStartMs = slot.endMs - plan.intervalMs;
@@ -808,7 +711,6 @@ class BatDevice extends GenericDevice {
     if (this.lastSocReplanTm && now - this.lastSocReplanTm < SOC_REPLAN_MS) return;
     this.lastSocReplanTm = now;
     this.log(`[Bat Control] SoC ${this.soc}% vs planned ${planned}%: plan again`);
-    // Not from the caches: they only see the SoC change since the plan, not the deviation.
     this.lastPlanTm = null;
     this.lastPlanKey = null;
     const group = this.planGroup ? this.planGroup() : null;
@@ -823,7 +725,6 @@ class BatDevice extends GenericDevice {
     await this.updatePlan();
   }
 
-  // A plan input that the plan caches do not see (the costs): no cached plan, the whole group again.
   async replanGroup(reason) {
     const members = this.planGroup() || [this];
     members.forEach((d) => {
@@ -868,8 +769,6 @@ class BatDevice extends GenericDevice {
       const endDate = new Date();
       const startDate = new Date(endDate.getTime() - 48 * 60 * 60 * 1000);
 
-      // {time, value}: hourly for the older part, ~5-minute for the last day (InsightsHistory). The
-      // charged minus discharged meter of a battery goes both ways (signed).
       const fetchEntries = async (log) => {
         if (!log) return null;
         const series = await InsightsHistory.fetchSeries({
@@ -878,9 +777,6 @@ class BatDevice extends GenericDevice {
         return series ? series.map((e) => ({ time: e.t, value: Math.round(e.v) })) : null;
       };
 
-      // 1. Power history: the capability addSourceCapGroup() resolved, with its sign. A bare
-      // 'measure_power' is read from 'energy_power' (a 'measure_power' log can exist but is empty,
-      // skill section 3); suffixed variants under their own name.
       const resolvedPowerCap = (this.sourceCapGroup && (this.sourceCapGroup.newMeasurePower || this.sourceCapGroup.power)) || null;
       const resolvedPowerInvert = !!this.sourcePowerInvert;
 
@@ -890,11 +786,9 @@ class BatDevice extends GenericDevice {
       }
       powerCandidates.push({ cap: 'energy_power', invert: false });
       if (!resolvedPowerCap) {
-        // No signed power capability resolved: broad guess as a last resort.
         ['measure_power.battery', 'measure_power.sessy', 'meter_power'].forEach((cap) => powerCandidates.push({ cap, invert: false }));
       }
 
-      // The logs looked up below; without a resolved power, its measure_power.* capabilities.
       const guessed = resolvedPowerCap ? [] : (this.sourceDevice.capabilities || []).filter((c) => c.startsWith('measure_power.'));
       const socCaps = [...new Set([this.sourceCapGroup && this.sourceCapGroup.soc, 'measure_battery', 'soc'].filter(Boolean))];
       const devLogs = await InsightsHistory.deviceLogs(api, sourceId, [
@@ -965,7 +859,6 @@ class BatDevice extends GenericDevice {
     }
   }
 
-  // A price-slot list (from the current price slot) per plan slot (from the current plan slot).
   toPlanSlots(list, now = Date.now()) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const priceMin = this.priceInterval || 60;
@@ -974,9 +867,6 @@ class BatDevice extends GenericDevice {
       TimeHelpers.startOfLocalBlock(now, planMin, tz), planMin);
   }
 
-  // The batteries planned as one with this one (sorted by id, the first plans), or null. A battery
-  // that calibrates plans alone: its targets are its own. An unavailable one (source missing) is not
-  // planned: it only made the LP larger.
   planGroup() {
     if (!this.inGroup() || this.calibrationActive() || !this.getAvailable()) return null;
     const group = this.driver.groupDevices().filter((d) => !d.calibrationActive() && d.getAvailable())
@@ -984,24 +874,18 @@ class BatDevice extends GenericDevice {
     return group.length > 1 && group.includes(this) ? group : null;
   }
 
-  // The reserve (%): kept always, recharged as soon as possible; only peak shaving may use it. Not
-  // while calibrating: the other batteries keep theirs (driver.calibrationTick()).
   reservePct() {
     if (this.calibrationActive()) return 0;
     return Math.min(90, Math.max(0, Number(this.getSettings().peakReservePct) || 0));
   }
 
-  // A plan SoC (%) back to the battery's: the planner only sees the part above the reserve.
   planSocToReal(socPct) {
     const r = this.reservePct();
     return r ? Math.round(r + ((socPct * (100 - r)) / 100)) : socPct;
   }
 
-  // A battery for PrecisePlanner: its SoC, capacity, charge/discharge speeds with efficiency, and the
-  // learned taper near full and empty.
   planBattery() {
     const settings = this.batterySettings();
-    // The planner works above the reserve: that part of the capacity, the SoC within it.
     const r = this.reservePct();
     const soc = Number(this.soc) || 0;
     return {
@@ -1012,8 +896,6 @@ class BatDevice extends GenericDevice {
     };
   }
 
-  // Use (BatteryUse) from the SoC. A new battery starts at the mean of the others: it does not take
-  // all the work until it has caught up.
   async initUse() {
     let state = this.getStoreValue('batteryUse');
     if (!state) {
@@ -1021,7 +903,6 @@ class BatDevice extends GenericDevice {
       state = BatteryUse.createState(others.length ? others.reduce((a, u) => a + u.cycles, 0) / others.length : 0);
       await this.setStoreValue('batteryUse', state).catch(this.error);
     }
-    // The stored anchor: use while restarting counts too.
     this.use = { anchor: null, ...state };
     this.useSavedCycles = this.use.cycles;
   }
@@ -1034,7 +915,6 @@ class BatDevice extends GenericDevice {
     await this.setStoreValue('batteryUse', this.use).catch(this.error);
   }
 
-  // For the split over a group: wear per kWh and use.
   useInfo() {
     return {
       wear: Number(this.getSettings().wearCost) || 0,
@@ -1042,7 +922,6 @@ class BatDevice extends GenericDevice {
     };
   }
 
-  // Every control tick: the power the battery still does near full and empty while asked more.
   async learnTaper(now) {
     const controlled = !!this.getStoreValue('controlTakeover') && now - (this.lastSetpointTm || 0) <= FUSE_YIELD_MS;
     const before = this.taper;
@@ -1056,7 +935,6 @@ class BatDevice extends GenericDevice {
     });
     this.taper = state;
     if (!sample) return;
-    // Stored (and logged) when it gets learned, else at most every TAPER_SAVE_MS.
     const nowLearned = !BatteryTaper.learned(before, sample.dir) && BatteryTaper.learned(this.taper, sample.dir);
     if (!nowLearned && this.taperSaveTm && now - this.taperSaveTm < TAPER_SAVE_MS) return;
     this.taperSaveTm = now;
@@ -1064,8 +942,6 @@ class BatDevice extends GenericDevice {
     await this.setStoreValue('batteryTaper', this.taper).catch(this.error);
   }
 
-  // Input for PrecisePlanner: plan() for this battery, or with a group planEach() with
-  // each battery of the group as it is.
   buildPlanOptions(minPriceDelta, group = null) {
     const members = group || [this];
     const now = Date.now();
@@ -1085,14 +961,12 @@ class BatDevice extends GenericDevice {
       minPriceDelta,
       wearCost: this.wearCostFor(members),
       ...(group ? { batteries: members.map((d) => ({ ...d.planBattery(), ...d.useInfo() })) } : this.planBattery()),
-      // Local minute: slots follow local time (half-hour-offset zones differ from UTC).
       startMinute: TimeHelpers.toLocalDate(new Date(now), tz).getMinutes(),
       priceInterval: planMin,
       homePowerUsage: HOME_USE_W,
       net: forecast ? forecast.net : null,
       peakWindowMin: forecast ? forecast.peakWindowMin : 15,
       ...BatteryControl.planOptionsFor(this.getBatteryMode()),
-      // Calibrating: full from the grid too, whatever the mode.
       ...(socBounds ? { socBounds, allowGridCharge: true } : {}),
     };
   }
@@ -1102,12 +976,10 @@ class BatDevice extends GenericDevice {
     return typeof days === 'number' ? Math.max(0, days) : CAL_DAYS;
   }
 
-  // Follows its targets: under this app's control, in a mode that follows the plan.
   calibrationActive() {
     return !!(this.calibration && this.calibration.phase) && this.isControlConfigured() && CAL_MODES.includes(this.getBatteryMode());
   }
 
-  // May start one now (driver.calibrationTick()).
   calibrationReady() {
     return this.isControlConfigured() && CAL_MODES.includes(this.getBatteryMode()) && !!this.pricesNextHours;
   }
@@ -1116,7 +988,6 @@ class BatDevice extends GenericDevice {
     return BatteryCalibration.isDue(this.calibration, this.calibrationDays(), now);
   }
 
-  // When to be empty, then full, from the prices and the forecast; null: not far enough ahead.
   calibrationTargets(phase, now) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const planMin = this.planIntervalMin();
@@ -1151,7 +1022,6 @@ class BatDevice extends GenericDevice {
     return true;
   }
 
-  // Flow: start as soon as the other batteries allow (driver.calibrationTick()), or stop.
   async requestCalibration() {
     if (!this.isControlConfigured()) throw Error(this.homey.__('battery_calibration.no_control'));
     if (this.calibration.phase || this.calibration.requested) return;
@@ -1169,7 +1039,6 @@ class BatDevice extends GenericDevice {
     await this.saveCalibration(running);
   }
 
-  // Every control tick: a stop at empty or full, and new targets when the current one passed.
   async updateCalibration(now) {
     const r = BatteryCalibration.onTick(this.calibration, {
       now,
@@ -1197,9 +1066,6 @@ class BatDevice extends GenericDevice {
     await this.saveCalibration(true);
   }
 
-  // Each plan: targets again from the SoC and prices now (the SoC can have changed by another mode,
-  // new prices can be better), until the battery is on its way: then they stay. Never later: the
-  // battery would undo its progress, and the calibration runs out of time.
   refreshCalibrationTargets(now) {
     const c = this.calibration;
     if (now - (this.calRefreshTm || 0) < CAL_REFRESH_MS) return;
@@ -1219,14 +1085,12 @@ class BatDevice extends GenericDevice {
     this.saveCalibration(false).catch((err) => this.error(err));
   }
 
-  // replan: the targets or the group changed, all batteries plan again.
   async saveCalibration(replan) {
     await this.setStoreValue('batteryCalibration', this.calibration).catch(this.error);
     await this.updateCalibrationInfo().catch((err) => this.error(err));
     if (replan) this.driver.replanAll('calibration').catch((err) => this.error(err));
   }
 
-  // The label 'Calibration' in the settings.
   async updateCalibrationInfo() {
     const c = this.calibration;
     const tz = this.timeZone || this.homey.clock.getTimezone();
@@ -1244,7 +1108,6 @@ class BatDevice extends GenericDevice {
     if (this.getSettings().calibrationInfo !== text) await this.setSettings({ calibrationInfo: text });
   }
 
-  // Wear per kWh cycled; a group: weighted by capacity.
   wearCostFor(members) {
     const cap = (d) => d.capacityKwh();
     const total = members.reduce((a, d) => a + cap(d), 0);
@@ -1252,10 +1115,6 @@ class BatDevice extends GenericDevice {
     return members.reduce((a, d) => a + (cap(d) * (Number(d.getSettings().wearCost) || 0)), 0) / total;
   }
 
-  // The home's net per plan slot from the grid forecast, for the planner: without batteries, plus
-  // the plans of the batteries before this one (device id), so they do not plan on the same
-  // surplus. Never the grid's netPlanned (it holds this battery's own plan). members: the batteries
-  // planned as one (a group). null without a grid.
   planNetForecast(startMs, n, planMin, members = [this]) {
     const grid = GridConnection.gridDevice(this.homey);
     if (!grid || !(n > 0)) return null;
@@ -1281,16 +1140,12 @@ class BatDevice extends GenericDevice {
         return null;
       }
     });
-    // Surplus kept low by the measured forecast error: relying on solar that does not come costs
-    // more than leaving some unused.
     const accuracy = typeof grid.getForecastAccuracy === 'function' ? grid.getForecastAccuracy() : null;
     const marginW = (accuracy && accuracy.maeW) || 0;
-    // A group: one battery can run alone (XomSplit), so the lowest threshold counts.
     const minChargeW = Math.min(...members.map((d) => Number(d.batterySettings().minChargeW) || 0));
     const minDischargeW = Math.min(...members.map((d) => Number(d.batterySettings().minDischargeW) || 0));
     const toEv = members.every((d) => d.getSettings().dischargeToEv !== false);
     const shave = members.every((d) => d.getSettings().peakShaving === true);
-    // Protection when one battery of the group protects: the limit is shared.
     const protect = members.some((d) => d.getSettings().fuseProtection !== false);
     const perSlot = Math.max(1, Math.round(planMin / 15));
     const mean = (vals) => vals.reduce((a, v) => a + v, 0) / vals.length;
@@ -1312,8 +1167,6 @@ class BatDevice extends GenericDevice {
         penaltyPerKw: null,
         exportLimitW: protect && peak && peak.exportLimitW > 0 ? peak.exportLimitW : null,
       };
-      // Capacity tariff limit (when one is set and the batteries shave peaks) and the hard limit
-      // (contract or main fuse, when the connection is protected).
       const peakSlots = peak && Array.isArray(peak.slots) ? qs.map((q) => peak.slots[q]).filter(Boolean) : [];
       const tariffLimits = peak && peak.active && shave
         ? peakSlots.map((p) => p.limitW).filter((v) => typeof v === 'number' && Number.isFinite(v)) : [];
@@ -1322,8 +1175,6 @@ class BatDevice extends GenericDevice {
       if (Math.min(tariffW, hardW) < Infinity) {
         slot.limitW = Math.round(Math.min(tariffW, hardW));
         const first = peakSlots[0] || {};
-        // null: no price known (as low as possible), or the hard limit: the planner uses a large penalty.
-        // stepJump is a one-off monthly increase, used as a price per kW: a linear approximation.
         slot.penaltyPerKw = hardW < tariffW ? null : (first.penaltyPerKw ?? first.stepJump ?? null);
       }
       net.push(slot);
@@ -1345,7 +1196,6 @@ class BatDevice extends GenericDevice {
     return Math.max(Number(settings.chargePower) || 0, Number(settings.dischargePower) || 0) || null;
   }
 
-  // The learned efficiency chart, built only when the image is opened (ChartImages reads it then).
   get chartEfficiency() {
     return getEfficiencyChart(BatteryEfficiency.summary(this.efficiency), {
       maxW: this.maxPowerW() || 2500,
@@ -1359,9 +1209,6 @@ class BatDevice extends GenericDevice {
     });
   }
 
-  // With nothing learned yet (at most once a day): the last 24 h of this device's own Insights
-  // (5-minute values, any battery), so the efficiency chart does not start empty. Live samples
-  // take over as old ones fade.
   async bootstrapEfficiency() {
     const learned = (state) => {
       const sm = BatteryEfficiency.summary(state);
@@ -1381,7 +1228,6 @@ class BatDevice extends GenericDevice {
     const stored = await entries('meter_kwh_stored');
     const charged = await entries('meter_kwh_charging');
     const discharged = await entries('meter_kwh_discharging');
-    // meter_kwh_stored is on the usable capacity; the samples are on the capacity setting.
     const capacityKwh = this.getSettings().batCapacity;
     const usableKwh = this.capacityKwh();
     const maxW = this.maxPowerW();
@@ -1390,7 +1236,6 @@ class BatDevice extends GenericDevice {
     for (const [t, kwh] of stored) {
       if (charged.has(t) && discharged.has(t)) {
         const res = BatteryEfficiency.onSoc(state, {
-          // 5-minute means blur the SoC: samples of at least 3 %, and a quarter of a live sample's weight.
           now: Date.parse(t), soc: (kwh / usableKwh) * 100, inKwh: charged.get(t), outKwh: discharged.get(t), capacityKwh, maxW, minSocStep: 3, weight: 0.25,
         });
         ({ state } = res);
@@ -1405,13 +1250,11 @@ class BatDevice extends GenericDevice {
     await this.setStoreValue('batteryEfficiency', state).catch(this.error);
   }
 
-  // The efficiency per power level, learned from each SoC change and the AC meters.
   async learnEfficiency(soc) {
     const now = Date.now();
     const { state, sample, reason } = BatteryEfficiency.onSoc(this.efficiency, {
       now,
       soc: Number(soc),
-      // The source's own meters when it has them: Homey keeps capability meters in 10 Wh steps.
       inKwh: typeof this.lastMeterCharging === 'number' ? this.lastMeterCharging : this.getCapabilityValue('meter_kwh_charging'),
       outKwh: typeof this.lastMeterDischarging === 'number' ? this.lastMeterDischarging : this.getCapabilityValue('meter_kwh_discharging'),
       capacityKwh: this.getSettings().batCapacity,
@@ -1431,7 +1274,6 @@ class BatDevice extends GenericDevice {
     await this.updateLearnedInfo().catch((err) => this.error(err));
   }
 
-  // The settings with the battery properties: learned (store batteryProps), else start values.
   batterySettings(settings = this.getSettings()) {
     return BatteryEfficiency.withProps(settings, this.batteryProps);
   }
@@ -1440,8 +1282,6 @@ class BatDevice extends GenericDevice {
     return Number(this.batterySettings().batCapacity) || 0;
   }
 
-  // For the EV planner (driver.solarStorage()): per 15 min from the plan the AC energy this battery
-  // can still take at the start (null: no plan) and whether storing surplus pays there.
   solarStorageSeries(startMs, endMs) {
     const plan = this.latestPlan;
     const capKwh = this.capacityKwh();
@@ -1463,8 +1303,6 @@ class BatDevice extends GenericDevice {
     };
   }
 
-  // Once, from before the properties were learned only: the values in the old settings are the start
-  // (Homey keeps the values of settings removed from the manifest, skill section 22).
   takeOverProps() {
     const settings = this.getSettings();
     const props = {};
@@ -1476,7 +1314,6 @@ class BatDevice extends GenericDevice {
     return props;
   }
 
-  // The learned capacity, loss values and min. power into the properties, at most once a day.
   async applyLearnedProps(now = Date.now()) {
     if (!BatteryEfficiency.progress(this.efficiency).learned) return;
     if (this.learnAppliedTm && now - this.learnAppliedTm < LEARN_APPLY_MS) return;
@@ -1490,12 +1327,10 @@ class BatDevice extends GenericDevice {
     this.log(`[Bat Eff] learned: ${Object.entries(changes).map(([key, value]) => `${key} ${current[key]} -> ${value}`).join(', ')}`);
   }
 
-  // The label 'Learned' in the settings: progress, or the learned values.
   async updateLearnedInfo() {
     const p = BatteryEfficiency.progress(this.efficiency);
     const b = this.batterySettings();
     const pct = (loss) => 1 - ((Number(loss) || 0) / 100);
-    // Learned: applied by applyLearnedProps() just before (no changes: the values match).
     const text = p.learned
       ? this.homey.__('battery_learned.learned', {
         kwh: (Number(b.batCapacity) || 0).toFixed(2),
@@ -1509,12 +1344,10 @@ class BatDevice extends GenericDevice {
     if (this.getSettings().learnedInfo !== text) await this.setSettings({ learnedInfo: text });
   }
 
-  // Repair option: forget what was learned (another battery, or learned wrong). No Insights
-  // bootstrap for a day: those still hold the old battery.
   async onRepairAction(id) {
     if (id !== 'learnReset') return;
     this.efficiency = BatteryEfficiency.createState();
-    this.batteryProps = {}; // not null: takeOverProps() would take the old settings again
+    this.batteryProps = {};
     this.learnAppliedTm = null;
     this.taper = BatteryTaper.createState();
     await this.setStoreValue('batteryTaper', this.taper).catch(this.error);
@@ -1524,7 +1357,6 @@ class BatDevice extends GenericDevice {
     this.log('[Bat Eff] learned values reset (repair)');
   }
 
-  // The learned SoC energy belongs to the capacity it was measured with.
   async rescaleEfficiency(oldKwh, newKwh) {
     if (!this.efficiency || !(oldKwh > 0) || !(newKwh > 0) || oldKwh === newKwh) return;
     this.efficiency = BatteryEfficiency.rescale(this.efficiency, newKwh / oldKwh);
@@ -1532,10 +1364,8 @@ class BatDevice extends GenericDevice {
   }
 
   async handleUpdateMeter(reading) {
-    // Must call the base, or meter periods and money are skipped.
     await super.handleUpdateMeter(reading);
 
-    // The live signed power is on 'measure_watt_avg'.
     let livePower = (reading && typeof reading.measure_power === 'number') ? reading.measure_power : null;
     if (livePower === null && this.hasCapability('measure_watt_avg')) {
       livePower = this.getCapabilityValue('measure_watt_avg');
@@ -1556,15 +1386,12 @@ class BatDevice extends GenericDevice {
     }
   }
 
-  // From the driver's energy tick and each meter reading: a source that reports rarely must not
-  // delay the plan.
   checkPlanSlot(now) {
     const slotStart = TimeHelpers.startOfLocalBlock(now, this.planIntervalMin(), this.timeZone || this.homey.clock.getTimezone());
     if (this.lastPlanSlotStart && slotStart !== this.lastPlanSlotStart) this.onPlanSlot(slotStart).catch((err) => this.error(err));
     this.lastPlanSlotStart = slotStart;
   }
 
-  // A new plan slot: plan again. A price slot needs no broadcast: the list has its prices.
   async onPlanSlot() {
     await this.updateWarning();
     if (!this.pricesNextHours) return;
@@ -1572,16 +1399,11 @@ class BatDevice extends GenericDevice {
     await this.updatePlan();
   }
 
-  // The plan of the device settings (BatteryPlan): taken in use for the control and the grid
-  // forecast (applyPlan()), then drawn.
   async updatePlan() {
     if (!this.pricesNextHours || !this.getAvailable()) return;
     await this.refreshGroupPrices().catch(() => {});
     const minPriceDelta = this.getSettings().minProfit;
-    // Reuse a plan from the same price slot and minPriceDelta (a flow trigger usually computed it
-    // seconds ago), if made after the latest price update and the last (re)init.
     const slotMs = this.planIntervalMin() * 60 * 1000;
-    // Price slots follow local time: bucket on local (offset-shifted) timestamps, not UTC epoch.
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const localSlot = (ms) => Math.floor(TimeHelpers.toLocalDate(new Date(ms), tz).getTime() / slotMs);
     const sameSlot = this.lastPlanTm && localSlot(this.lastPlanTm) === localSlot(Date.now());
@@ -1594,13 +1416,11 @@ class BatDevice extends GenericDevice {
     await this.setCapability('roi_duration', tokens.duration).catch((err) => this.error(err));
 
     const scheme = JSON.parse(tokens.scheme);
-    // Forecast prices, and the expected ones after the list.
     const isForecast = this.toPlanSlots(this.pricesFromNow().isForecast) || [];
     Object.keys(scheme).forEach((k) => {
       if (isForecast[k] || Number(k) >= isForecast.length) scheme[k].isForecast = true;
     });
 
-    // In use for the control and the grid forecast first; the charts only show it.
     const periods = await this.applyPlan({ scheme, planTm: this.lastPlanTm || Date.now() });
     await this.renderChargeCharts({
       scheme,

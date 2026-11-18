@@ -37,8 +37,7 @@ const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const ContractYear = require('../../lib/helpers/ContractYear');
 const HistoryRestore = require('../../lib/helpers/HistoryRestore');
 
-const SPLIT_PERIODS = ['hour', 'day', 'month', 'year', 'contract']; // contract: with a contract start
-// The share of a counter's growth since from that is since to (1 when unknown).
+const SPLIT_PERIODS = ['hour', 'day', 'month', 'year', 'contract'];
 const kwhRatio = (now, from, to) => {
   if (![now, from, to].every(Number.isFinite) || now === from) return 1;
   const r = (now - to) / (now - from);
@@ -51,11 +50,8 @@ const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
 const PeakTariff = require('../../lib/strategies/PeakTariff');
 
-// Power per phase of the source (W): signed like measure_power, + import (verified live on Sessy P1
-// and Enelogic LS120, HomeWizard P1 by its API docs v2).
 const PHASE_CAPS = ['measure_power.l1', 'measure_power.l2', 'measure_power.l3'];
 const PHASE_HISTORY_MS = 90 * 1000;
-// Only L1 above 0 this long: a 1-phase connection (a 3-phase home always uses some power per phase).
 const PHASE_CHECK_MS = 60 * 60 * 1000;
 
 const deviceSpecifics = {
@@ -70,7 +66,6 @@ const deviceSpecifics = {
     last_year: 'meter_kwh_last_year',
     this_contract: 'meter_kwh_this_contract',
     last_contract: 'meter_kwh_last_contract',
-    // Hidden internal meter for the base class's accounting, as in the battery/evCharger drivers.
     meter_source: 'meter_power_hidden.grid',
     measure_source: 'measure_watt_grid',
     minMaxPrefix: 'measure_watt',
@@ -84,7 +79,6 @@ class GridDevice extends GenericDevice {
     this.flows = new GridFlows(this);
 
     const files = await FileStore.open(this, ['powerHistory', 'netForecastHistory', 'forecastErrors']);
-    // Before super.onInit(): its first poll records samples (mergeStoredHistory).
     let history = files.get('powerHistory');
     if (!Array.isArray(history)) history = [];
     const ceilingW = this.getHomePowerCeilingW();
@@ -100,23 +94,17 @@ class GridDevice extends GenericDevice {
       .filter((e) => e.power >= 0 && e.power <= ceilingW);
     this.powerHistory = mergeStoredHistory(storedHistory, this.powerHistory, 2880);
 
-    // Grid forecast per slot as it was when the slot started (battery/EV plans are not kept).
     const netForecastHistory = files.get('netForecastHistory');
     this.netForecastHistory = mergeStoredHistory(netForecastHistory, this.netForecastHistory, 200);
 
-    // Before super.onInit(): it sets initReady partway, after which chart updates may run.
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
-    // Restored before super.onInit(): its first poll already reaches handleUpdateMeter(); without
-    // the anchors it would re-bootstrap and zero this_* imported/exported and splitMoney.
     const book = await this.restoreBookkeeping();
-    // Per-direction register state for the 'perDirection'/'fixedBlock' schemes.
     this.directionalMeter = book.directionalMeter || { importValue: null, exportValue: null };
     this.lastDirectionalSnapshot = book.lastDirectionalSnapshot;
     this.directionalPseudoState = book.directionalPseudoState;
     this.directionalBlockState = book.directionalBlockState;
 
-    // Lazily bootstrapped on the first tick (updateSplitMeters()/updateSplitMoney()).
     this.lastDirectionalReadingHour = book.lastDirectionalReadingHour;
     this.lastDirectionalReadingDay = book.lastDirectionalReadingDay;
     this.lastDirectionalReadingMonth = book.lastDirectionalReadingMonth;
@@ -124,19 +112,13 @@ class GridDevice extends GenericDevice {
     this.lastDirectionalReadingContract = book.lastDirectionalReadingContract;
     this.splitMoney = book.splitMoney;
 
-    // Capacity-tariff peak state (updatePeakLoad()), lazily bootstrapped.
     this.peakLoad = book.peakLoad;
     this.lastPeakLoadReading = book.lastPeakLoadReading;
-    // Stored, so a restart mid-slot does not fire peak_projected_exceeded again.
     this.peakExceededSlot = await this.getStoreValue('peakExceededSlot');
-    // Capacity tariff: this month's closed windows (PeakTariff.recordWindow()).
     this.peakHistory = book.peakHistory;
     this.meterPowerHome = book.meterPowerHome || 0;
     this.peakConfig = PeakTariff.configFromSettings(this.getSettings());
 
-    // A repair can re-point this device at another meter (new homey_device_id). The anchors above
-    // diff the old meter's registers: drop them, or the first tick books one huge bogus delta (and
-    // a peak that sticks all year). Checked here, as setSettings() does not call onSettings() (SDK).
     const boundSourceId = await this.getStoreValue('directionalSourceId');
     const sourceId = this.getSettings().homey_device_id;
     if (boundSourceId && boundSourceId !== sourceId) {
@@ -147,11 +129,8 @@ class GridDevice extends GenericDevice {
 
     await super.onInit().catch(this.error);
 
-    // A newer onInit() may have started meanwhile: the loops below must not be started twice.
     const sessionIdAfterSuper = this.sessionId;
 
-    // Migrate the old 'enableDirectionalNetting' boolean once. A store flag, not an undefined
-    // check: Homey fills in the new setting's default before onInit().
     if (!(await this.getStoreValue('directionalSchemeMigrated'))) {
       const s = this.getSettings();
       if (typeof s.enableDirectionalNetting === 'boolean') {
@@ -162,12 +141,10 @@ class GridDevice extends GenericDevice {
       }
       await this.setStoreValue('directionalSchemeMigrated', true).catch(this.error);
     }
-    // 'off' is no longer a scheme value.
     if (this.getSettings().directionalNettingScheme === 'off') {
       await this.setSettings({ directionalNettingScheme: 'continuousNet' }).catch(this.error);
     }
 
-    // Legacy comparison capabilities.
     for (const cap of ['meter_money_this_hour_directional', 'meter_money_this_day_directional',
       'meter_money_this_month_directional', 'meter_money_this_year_directional']) {
       if (this.hasCapability(cap)) {
@@ -195,8 +172,7 @@ class GridDevice extends GenericDevice {
       return true;
     });
 
-    if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit()
-    // widgets/grid: the day log, rebuilt once from Insights a few minutes after the start.
+    if (this.sessionId !== sessionIdAfterSuper) return;
     await GridDayLog.start(this);
     this.startForecastLoop().catch(this.error);
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
@@ -214,8 +190,6 @@ class GridDevice extends GenericDevice {
     }, 15000);
   }
 
-  // The app API may still be connecting after pairing, and retrainLoadModel() swallows "API not
-  // ready": retry, or a device paired then never gets its one-time Insights backfill.
   async attemptInitialBackfill(attempt = 1) {
     const maxAttempts = 5;
     const retryDelayMs = 30000;
@@ -243,20 +217,17 @@ class GridDevice extends GenericDevice {
   }
 
   async initDeviceValues() {
-    if (typeof this.meterPowerHome !== 'number') this.meterPowerHome = 0; // restoreBookkeeping()
+    if (typeof this.meterPowerHome !== 'number') this.meterPowerHome = 0;
     if (this.hasCapability('meter_power_hidden.home')) {
       await this.setCapabilityValue('meter_power_hidden.home', this.meterPowerHome).catch(this.error);
     }
     await super.initDeviceValues();
   }
 
-  // A scheme switch resets the running this_* money buckets so two methods are not blended;
-  // last_* and the raw register state are kept. super.onSettings() restarts the device.
   async onSettings({ newSettings, changedKeys }) {
-    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined;
     const peakReason = PeakTariff.invalidReason(newSettings);
     if (peakReason) throw Error(this.homey.__(peakReason));
-    // Applied after the restart (applyPeakSettingsChange()): Homey refuses setSettings now.
     if (changedKeys.includes('peakPreset')) this.peakSettingsPending = { preset: newSettings.peakPreset };
     else if (PeakTariff.leavesPreset(newSettings.peakPreset, changedKeys)) {
       this.peakSettingsPending = { custom: true };
@@ -274,7 +245,6 @@ class GridDevice extends GenericDevice {
       await this.setStoreValue('fixedMoney', this.fixedMoney).catch((err) => this.error(err));
       this.directionalBlockState = null;
       this.lastDirectionalSnapshot = null;
-      // Forced flush, so a dirty mark from the last tick cannot write the old state back.
       this.markStoreDirty('directionalBlockState');
       this.markStoreDirty('lastDirectionalSnapshot');
       await this.flushDirtyStore({ force: true });
@@ -287,7 +257,7 @@ class GridDevice extends GenericDevice {
     }
     if (changedKeys.includes('peakLoadIntervalMinutes')) {
       this.resetPeakWindow();
-      await this.flushDirtyStore({ force: true }); // the restart reads peakLoad from the store
+      await this.flushDirtyStore({ force: true });
       await this.updatePeakLoadCapabilityTitles().catch(this.error);
     }
     return super.onSettings({ newSettings, changedKeys });
@@ -299,7 +269,6 @@ class GridDevice extends GenericDevice {
       const nowMs = Date.now();
       if (this.gridPowerTm) this.gridIntervalMs = FuseGuard.readingInterval(this.gridIntervalMs, nowMs - this.gridPowerTm);
       this.gridPowerTm = nowMs;
-      // Contained: must never stop the power update itself.
       try {
         this.recordPhasePower(nowMs);
         this.checkFuseOverload(this.gridPowerTm);
@@ -332,7 +301,6 @@ class GridDevice extends GenericDevice {
         }
       }
 
-      // Fallback to Homey Energy when there are no PbtH solar devices
       if (!hasPbthSolar) {
         const report = this.driver.lastEnergyReport;
         if (report && report.totalGenerated && typeof report.totalGenerated.W === 'number') {
@@ -360,15 +328,10 @@ class GridDevice extends GenericDevice {
       await this.setCapability('measure_watt_battery', Math.round(batteryPower)).catch(this.error);
       await this.setCapability('measure_watt_evcharger', Math.round(evPower)).catch(this.error);
 
-      // Home = grid (+ import) + solar - battery (+ charging) - EV
       const homePower = Math.round(gridPower + solarPower - batteryPower - evPower);
 
-      // 2-minute rolling average: grid, battery and solar report at different moments, which
-      // gives spikes when the battery switches direction.
       const now = Date.now();
       if (!Array.isArray(this.homePowerBuffer)) this.homePowerBuffer = [];
-      // A negative result is a timing skew, not a reading: count it as 0 (skipping it biases the
-      // average upward). Above the ceiling a sample is implausible and skipped.
       const ceilingW = this.getHomePowerCeilingW();
       if (homePower <= ceilingW) {
         this.homePowerBuffer.push({ time: now, value: Math.max(0, homePower), grid: gridPower });
@@ -386,7 +349,6 @@ class GridDevice extends GenericDevice {
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       if (typeof safeHomePower === 'number' && safeHomePower >= 0 && safeHomePower <= ceilingW) {
         const lastEntry = this.powerHistory[this.powerHistory.length - 1];
-        // One entry per 5 minutes: the 576-entry cap is 48 h at that spacing.
         if (!lastEntry || (now - lastEntry.time) > 5 * 60 * 1000) {
           this.powerHistory.push({ time: now, power: safeHomePower, grid: smoothedGridPower });
           if (this.powerHistory.length > 576) this.powerHistory.shift();
@@ -403,7 +365,7 @@ class GridDevice extends GenericDevice {
           const deltaKwh = (safePower * dt) / 3600000000;
           this.meterPowerHome = (this.meterPowerHome || 0) + deltaKwh;
           await this.setCapability('meter_power_hidden.home', Number(this.meterPowerHome.toFixed(4))).catch(this.error);
-          this.markStoreDirty('meterPowerHome'); // stored with the bookkeeping (flushDirtyStore())
+          this.markStoreDirty('meterPowerHome');
         }
       }
       this.lastHomePower = safeHomePower;
@@ -413,8 +375,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // super's 'dynamic' fallback reads this.currentGridPower, which is never set; use the live
-  // measure_source instead when it would be reached.
   getActiveTariff(reading, tariff, exportTariff) {
     const tariffType = this.getSettings()?.tariff_type || 'dynamic';
     if (tariffType !== 'dynamic') return super.getActiveTariff(reading, tariff, exportTariff);
@@ -437,7 +397,6 @@ class GridDevice extends GenericDevice {
     await this.addPhaseListeners();
   }
 
-  // A phase counts once it read other than 0: a 1-phase meter can report 0 on L2 and L3.
   async addPhaseListeners() {
     this.phaseW = null;
     const src = this.sourceDevice;
@@ -459,15 +418,11 @@ class GridDevice extends GenericDevice {
   }
 
   async addSourceCapGroup() {
-    // Diagnostic (forum #4048, HomeWizard P1): which energy field holds the imported/exported keys.
     this.log(`${this.sourceDevice.name} energy data:`, JSON.stringify({
       energyObj: this.sourceDevice.energyObj, energy: this.sourceDevice.energy,
     }));
     await super.addSourceCapGroup();
 
-    // A repair can re-map the meter capabilities of the same source device (e.g. P1 net ->
-    // consumed/returned): the stored anchors then diff another register. Devices from before the
-    // setup view have no stored group; autoSourceCapGroup() reproduces theirs.
     const capKey = (group) => ['p1', 'p2', 'n1', 'n2'].map((k) => (group && group[k]) || '').join('|');
     const groupKey = capKey(this.sourceCapGroup);
     let boundKey = await this.getStoreValue('directionalSourceCaps');
@@ -481,35 +436,23 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // --- Settlement scheme ('directionalNettingScheme': continuousNet / perDirection / fixedBlock)
-  // It drives meter_money_this_*. Registers are updated before super.handleUpdateMeter(), so
-  // getMoneyDeltaOverride() sees this tick's values. Background: zzz_export_import_netting_research_and_plan.md.
-
-  // Here and not in updateGroupMeter(): handleUpdateMeter() runs serialized, one reading at a
-  // time, while p1/n1 updates can reach updateGroupMeter() concurrently.
   async handleUpdateMeter(reading) {
     if (typeof this.directionalLastWatt === 'number') {
-      // case 3: pseudo registers from the last signed watt value
       await this.integrateDirectionalFromSignedPower(this.directionalLastWatt).catch((err) => this.error(err));
     } else {
-      // case 1: real p1/n1 registers
       await this.updateDirectionalRegisters(this.lastGroupMeter.p1, this.lastGroupMeter.n1).catch((err) => this.error(err));
     }
 
-    // Resolved once per tick; getMoneyDeltaOverride() uses this cached result (a second call
-    // would see the advanced snapshot and under-count).
     this._directionalTickDelta = await this.resolveDirectionalDelta().catch((err) => {
       this.error(err);
       return null;
     });
 
-    // Needs import only, so it also works without export data (the common capacity-tariff case).
     if (typeof this.directionalMeter?.importValue === 'number') {
       await this.updatePeakLoad(reading).catch((err) => this.error(err));
       await this.updatePeakProjection(reading).catch((err) => this.error(err));
     }
 
-    // Split money only with export data (not case 2); the meters also without (import and home).
     const splitActive = typeof this.directionalMeter?.exportValue === 'number';
     const periods = this.getPeriods(reading);
     if (this.directionalMeter) await this.updateSplitMeters(periods).catch((err) => this.error(err));
@@ -519,19 +462,15 @@ class GridDevice extends GenericDevice {
     this._directionalTickDelta = null;
     if (periods.newDay) await GridDayLog.logYesterday(this).catch((err) => this.error(err));
 
-    // Throttled store flush (see flushDirtyStore()), forced on a period boundary.
     const boundary = periods.newHour || periods.newDay || periods.newMonth || periods.newYear;
     await this.flushDirtyStore({ force: boundary }).catch((err) => this.error(err));
   }
 
-  // Case 1 and case 3 never both apply to one device, so caching the watt value is safe.
   async updateMeterFromMeasure(val) {
     if (typeof val === 'number') this.directionalLastWatt = val;
     return super.updateMeterFromMeasure(val);
   }
 
-  // Case 3 (no cumulative register): pseudo import/export registers integrated from the sign of
-  // measure_power (+ import, - export).
   async integrateDirectionalFromSignedPower(value) {
     const nowTm = Date.now();
     if (!this.directionalPseudoState) {
@@ -549,9 +488,6 @@ class GridDevice extends GenericDevice {
     await this.updateDirectionalRegisters(this.directionalPseudoState.importTotal, this.directionalPseudoState.exportTotal);
   }
 
-  // --- Throttled persistence of the per-reading bookkeeping (at most once per STORE_FLUSH_MS), all
-  // in one store value: every setStoreValue() sends the whole store (SDK), so one write per flush.
-  // One write also keeps accumulators and the anchors they advance from consistent over a crash.
   static BOOKKEEPING_KEY = 'bookkeeping';
 
   static BOOKKEEPING_KEYS = [
@@ -562,10 +498,7 @@ class GridDevice extends GenericDevice {
     'meterPowerHome',
   ];
 
-  // The bookkeeping as stored: { key: value } for BOOKKEEPING_KEYS. Earlier versions stored a value
-  // per key: those move into the one value here (stored first, then the old keys removed).
   async restoreBookkeeping() {
-    // A device restart: what is in memory is newer than the store.
     if (this.bookkeepingRestored) await this.flushDirtyStore({ force: true });
     const keys = GridDevice.BOOKKEEPING_KEYS;
     const stored = this.getStoreValue(GridDevice.BOOKKEEPING_KEY);
@@ -576,7 +509,6 @@ class GridDevice extends GenericDevice {
     });
     const legacy = keys.filter((key) => this.getStoreKeys().includes(key));
     if (legacy.length > 0) {
-      // The old keys only go once the one value is stored.
       const saved = stored || await this.setStoreValue(GridDevice.BOOKKEEPING_KEY, book).then(() => true, (err) => {
         this.error(err);
         return false;
@@ -590,15 +522,12 @@ class GridDevice extends GenericDevice {
     return book;
   }
 
-  // Each key is held on an instance property of the same name.
   markStoreDirty(key) {
     if (!this.dirtyStore) this.dirtyStore = new Set();
     this.dirtyStore.add(key);
   }
 
-  // force: skip the throttle (period boundary, shutdown).
   async flushDirtyStore({ force = false } = {}) {
-    // A flush writes every key: never before they are restored.
     if (!this.bookkeepingRestored || !this.dirtyStore || this.dirtyStore.size === 0) return;
     const nowTm = Date.now();
     if (!force && this.lastStoreFlushTm && (nowTm - this.lastStoreFlushTm) <= GenericDevice.STORE_FLUSH_MS) return;
@@ -616,14 +545,9 @@ class GridDevice extends GenericDevice {
     return super.flushStore();
   }
 
-  // See generic_sum_device.js#reanchorExtraBaselines(). Drops every anchor on the source's raw
-  // import/export registers so each re-bootstraps on the next tick. directionalMeter is cleared
-  // too, or an old exportValue keeps splitActive on for an import-only new meter.
-  // Kept: directionalPseudoState (only its deltas matter), period totals and peaks.
   async reanchorExtraBaselines() {
     this.directionalMeter = { importValue: null, exportValue: null };
     this.lastDirectionalSnapshot = null;
-    // The home counter does not depend on the meter: its period starts stay.
     SPLIT_PERIODS.forEach((period) => {
       const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
       if (this[key]) this[key] = { ...this[key], importValue: null, exportValue: null };
@@ -631,13 +555,10 @@ class GridDevice extends GenericDevice {
     });
     this.lastPeakLoadReading = null;
     this._directionalTickDelta = null;
-    // Through the flush, forced, so no earlier dirty mark can restore a pre-reanchor value.
     ['directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading'].forEach((key) => this.markStoreDirty(key));
     await this.flushDirtyStore({ force: true });
   }
 
-  // Case 1: real registers, case 3: pseudo registers. Case 2 (import only) never gets an
-  // exportValue, so getMoneyDeltaOverride() keeps the base calculation.
   async updateDirectionalRegisters(importValue, exportValue) {
     if (!this.directionalMeter) this.directionalMeter = { importValue: null, exportValue: null };
     if (typeof importValue === 'number') this.directionalMeter.importValue = importValue;
@@ -645,7 +566,6 @@ class GridDevice extends GenericDevice {
     this.markStoreDirty('directionalMeter');
   }
 
-  // 'fixedBlock' only. 'auto' follows this device's price interval.
   getDirectionalBlockMinutes() {
     const setting = this.getSettings().directionalBlockMinutes;
     if (!setting || setting === 'auto') return this.priceInterval || 60;
@@ -653,25 +573,20 @@ class GridDevice extends GenericDevice {
     return [15, 30, 45, 60].includes(n) ? n : (this.priceInterval || 60);
   }
 
-  // Capacity-tariff averaging window; independent of the block size above.
   getPeakLoadIntervalMinutes() {
     const setting = this.getSettings().peakLoadIntervalMinutes;
     const n = Number(setting);
     return [15, 30, 60].includes(n) ? n : 15;
   }
 
-  // Own setting, not GridConnection.limitW() (which resolves across all grid devices).
   getConnectionLimitW() {
     return GridConnection.limitFromSettings(this.getSettings());
   }
 
-  // Plausibility ceiling for the home load: see GridConnection's PLAUSIBILITY_FACTOR.
   getHomePowerCeilingW() {
     return this.getConnectionLimitW() * GridConnection.PLAUSIBILITY_FACTOR;
   }
 
-  // Puts the averaging window in the peak capability titles. Built from the manifest title, so
-  // repeated calls do not stack the prefix.
   async updatePeakLoadCapabilityTitles() {
     const intervalMinutes = this.getPeakLoadIntervalMinutes();
     const minUnit = { ru: 'мин', ar: 'د' };
@@ -691,8 +606,6 @@ class GridDevice extends GenericDevice {
     await DeviceMigrator.syncCapabilityOptions(this, wanted);
   }
 
-  // Raw import/export delta since the last tick, advancing lastDirectionalSnapshot. Call once per
-  // tick only (see handleUpdateMeter()). null: nothing to report.
   async resolveDirectionalDelta() {
     const { importValue, exportValue } = this.directionalMeter || {};
     if (typeof importValue !== 'number' || typeof exportValue !== 'number') return null;
@@ -720,8 +633,6 @@ class GridDevice extends GenericDevice {
     };
   }
 
-  // Hook for generic_sum_device.js#updateMoney(): null = base net calculation ('continuousNet'),
-  // a number = this tick's deltaMoney.
   async getMoneyDeltaOverride() {
     const scheme = this.getSettings().directionalNettingScheme || 'perDirection';
     if (scheme === 'continuousNet') return null;
@@ -736,7 +647,6 @@ class GridDevice extends GenericDevice {
     if (scheme === 'fixedBlock') {
       return this.computeFixedBlockDeltaMoney(deltaImport, deltaExport, now);
     }
-    // 'perDirection': price each direction separately, never net.
     const priceInterval = this.priceInterval || 60;
     const { tariff: effImportTariff, exportTariff: effExportTariff } = MeterHelpers.getPeriodTariff(
       this.tariffHistory,
@@ -749,11 +659,6 @@ class GridDevice extends GenericDevice {
     return (deltaImport * effImportTariff) - (deltaExport * effExportTariff);
   }
 
-  // Cumulative kWh counters of the Energy widget: import/export (null without that data), home,
-  // the batteries' charged/discharged (with the battery ids they sum), and per EV
-  // ev_<id>_charged/ev_<id>_discharged (discharging only with V2X).
-  // Real p1/n1 registers: import and export at the starts of this and last day, month and year from
-  // the source's Insights (growth, resets skipped). At pairing and on a new contract start.
   async restoreHistoryExtra(api, starts, cache = new Map(), periods = Object.keys(starts)) {
     const group = this.sourceCapGroup || {};
     if (typeof this.directionalLastWatt === 'number' || !group.p1) return;
@@ -772,7 +677,6 @@ class GridDevice extends GenericDevice {
       const exp = await at('n1', startMs);
       const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
       const old = this[key] || {};
-      // The home start follows from the balance again (updateSplitMeters()).
       this[key] = { importValue: imp, exportValue: typeof exp === 'number' ? exp : old.exportValue, homeFromBalance: true };
       this.markStoreDirty(key);
       const impPrev = await at('p1', prevMs);
@@ -786,7 +690,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // The year so far as contract year: import and export too.
   async keepYearAsContract() {
     await super.keepYearAsContract();
     if (!this.lastDirectionalReadingYear) return;
@@ -799,7 +702,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // A new contract start: import and export too, from the source's Insights.
   async rebaseContractExtra(api, starts) {
     this.lastDirectionalReadingContract = null;
     this.markStoreDirty('lastDirectionalReadingContract');
@@ -807,8 +709,6 @@ class GridDevice extends GenericDevice {
     if (api) await this.restoreHistoryExtra(api, starts, new Map(), ['contract']);
   }
 
-  // A net meter: the year's import and export money each scaled with its own kWh; unknown (0)
-  // without their contract start. Import only: like any meter.
   contractEnergyMoney(yearEnergy) {
     const year = this.lastDirectionalReadingYear;
     const contract = this.lastDirectionalReadingContract;
@@ -824,7 +724,6 @@ class GridDevice extends GenericDevice {
     return yearEnergy + next - (imported - money.exported);
   }
 
-  // With split money: rebased per direction in onPeriodsRebased(), after import and export moved.
   async rebaseMoney(old, opts) {
     if (!opts && typeof this.directionalMeter?.exportValue === 'number' && this.splitMoney) {
       this.moneyRebase = old;
@@ -833,7 +732,6 @@ class GridDevice extends GenericDevice {
     await super.rebaseMoney(old, opts);
   }
 
-  // With split money: rebased per direction in onPeriodsRebased(), after the last kWh are restored.
   async rebaseLastMoney(oldKwh, newKwh, opts) {
     if (!opts && typeof this.directionalMeter?.exportValue === 'number' && this.splitMoney) {
       this.lastMoneyRebase = true;
@@ -842,7 +740,6 @@ class GridDevice extends GenericDevice {
     await super.rebaseLastMoney(oldKwh, newKwh, opts);
   }
 
-  // A move to calendar periods: import, export and home follow the net meter.
   async onPeriodsRebased() {
     const old = this.moneyRebase;
     const lastMoney = this.lastMoneyRebase;
@@ -857,7 +754,6 @@ class GridDevice extends GenericDevice {
     try {
       api = this.homey.app.api;
     } catch {
-      // not ready
     }
     if (api) {
       const starts = HistoryRestore.periodStarts(TimeHelpers.toLocalDate(new Date(), this.timeZone), this.startDay, this.startMonth, this.timeZone);
@@ -867,7 +763,6 @@ class GridDevice extends GenericDevice {
     if (lastMoney) await this.rebaseSplitLastMoney(lastBefore).catch(this.error);
   }
 
-  // The last month and year: import and export money scaled with their restored kWh, the total with them.
   async rebaseSplitLastMoney(before) {
     const fixed = this.fullPeriodFixedMoney();
     const ratio = (period, sub) => {
@@ -892,8 +787,6 @@ class GridDevice extends GenericDevice {
     await super.rebaseLastMoney(null, null, { energyDelta });
   }
 
-  // Import and export money scaled with their kWh since the new starts (same average price); the
-  // total money moves with them.
   async rebaseSplitMoney(old, before) {
     const { importValue: nowImp, exportValue: nowExp } = this.directionalMeter;
     const energyDelta = {};
@@ -915,10 +808,7 @@ class GridDevice extends GenericDevice {
     await super.rebaseMoney(old, { energyDelta });
   }
 
-  // Import, export and home kWh per hour, day, month and year: each counter minus its value at the
-  // period start (lastDirectionalReading*). The hour ones only for the widget (hidden).
   async updateSplitMeters(periods) {
-    // Without export data p1 can be a net meter: then only the home.
     const split = typeof this.directionalMeter.exportValue === 'number';
     const now = { importValue: split ? this.directionalMeter.importValue : null, exportValue: this.directionalMeter.exportValue, homeValue: this.meterPowerHome };
     const list = this.contractStart ? SPLIT_PERIODS : SPLIT_PERIODS.filter((p) => p !== 'contract');
@@ -927,9 +817,6 @@ class GridDevice extends GenericDevice {
       if (!this[key]) this[key] = { ...now };
       const base = this[key];
       const isNew = periods[`new${period[0].toUpperCase()}${period.slice(1)}`];
-      // No home start (an older device, a restore): the home follows from the balance till the period
-      // ends. At a rollover the period meters may be reset already: the start of the tick before stays.
-      // The contract year has no home.
       if (period !== 'contract') {
         if (typeof base.homeValue !== 'number') base.homeFromBalance = true;
         if (base.homeFromBalance && (!isNew || typeof base.homeValue !== 'number')) base.homeValue = this.homeValueAtStart(period);
@@ -948,8 +835,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // The home counter at the start of a period that has none: from the energy balance of the period
-  // meters of this app's devices so far (also the batteries' once restored).
   homeValueAtStart(period) {
     const cap = (d, c) => (d.hasCapability(c) && typeof d.getCapabilityValue(c) === 'number' ? d.getCapabilityValue(c) : 0);
     const sum = (driverId, c) => {
@@ -964,8 +849,6 @@ class GridDevice extends GenericDevice {
     return (this.meterPowerHome || 0) - Math.max(0, home);
   }
 
-  // Split money, always priced per direction whatever the scheme, as a bill itemizes it. Only
-  // under 'perDirection' does net equal imported - exported. Not reset on a scheme switch.
   async updateSplitMoney(periods) {
     if (!this.splitMoney) {
       this.splitMoney = {
@@ -1020,7 +903,6 @@ class GridDevice extends GenericDevice {
       money.year = { imported: 0, exported: 0 };
     }
 
-    // Fixed markups as in generic_sum_device.js#updateMoney(), on the import side only.
     let markup = 0;
     if (periods.newHour) markup += (this.getSettings().markup_hour || 0);
     if (periods.newDay) markup += (this.getSettings().markup_day || 0);
@@ -1047,8 +929,6 @@ class GridDevice extends GenericDevice {
     this.markStoreDirty('splitMoney');
   }
 
-  // Capacity-tariff peak: the highest 15-minute AVERAGE import (e.g. Fluvius), not an
-  // instantaneous max. Own anchor, as it must work without export data.
   async updatePeakLoad(reading) {
     const { importValue, exportValue } = this.directionalMeter;
 
@@ -1087,8 +967,6 @@ class GridDevice extends GenericDevice {
       const importAvgW = Math.round((this.peakLoad.importKwhInSlot / slotHours) * 1000);
       await this.checkPeakMax('measure_watt_peak', this.peakLoad.day, this.peakLoad.month, this.peakLoad.year, importAvgW, reading);
       await this.recordPeakWindow(this.peakLoad.slotStart, importAvgW);
-      // Called for every closed slot of a device with export data, even at 0 W: checkPeakMax() holds
-      // the period rollover. Case 2 never gets here.
       if (hasExport) {
         const exportAvgW = Math.round((this.peakLoad.exportKwhInSlot / slotHours) * 1000);
         await this.checkPeakMax(
@@ -1111,7 +989,6 @@ class GridDevice extends GenericDevice {
     this.markStoreDirty('peakLoad');
   }
 
-  // Month import peak so far, or null. Right after a month boundary it can still be last month's.
   getMonthPeakW(reading) {
     const month = this.peakLoad && this.peakLoad.month;
     if (!month || typeof month.max !== 'number') return null;
@@ -1119,7 +996,6 @@ class GridDevice extends GenericDevice {
     return month.max;
   }
 
-  // The running window was summed for the old length: drop it, or its average is off up to 4x.
   resetPeakWindow() {
     if (!this.peakLoad) return;
     this.peakLoad.slotStart = null;
@@ -1128,8 +1004,6 @@ class GridDevice extends GenericDevice {
     this.markStoreDirty('peakLoad');
   }
 
-  // Preset chosen: write its settings. A tariff setting changed by hand: the preset is 'custom'.
-  // After the restart that follows onSettings(): Homey refuses setSettings while it is pending.
   async applyPeakSettingsChange() {
     const pending = this.peakSettingsPending;
     this.peakSettingsPending = null;
@@ -1145,8 +1019,6 @@ class GridDevice extends GenericDevice {
     this.log(`Capacity tariff: ${JSON.stringify({ ...this.peakConfig, months: this.peakConfig.months && [...this.peakConfig.months] })}`);
   }
 
-  // First start with this version: start from this month's peak, when windows are unweighted.
-  // History that no longer fits the settings starts empty (the month peak may be another window).
   async seedPeakHistory() {
     const cfg = this.peakConfig;
     const local = TimeHelpers.toLocalDate(new Date(), this.timeZone);
@@ -1154,11 +1026,9 @@ class GridDevice extends GenericDevice {
     const h = this.peakHistory;
     if (!h || h.month !== monthKey || h.sig !== PeakTariff.signature(cfg)) {
       const { month, day } = this.peakLoad || {};
-      // The month peak is of the current window length (the first part of the signature).
       const sameWindow = !h || String(h.sig).split('|')[0] === String(cfg.windowMin);
       const seedable = sameWindow && month && typeof month.max === 'number' && !PeakTariff.hasWeighting(cfg)
         && `${month.year}-${String(month.month + 1).padStart(2, '0')}` === monthKey;
-      // Today's own key when the month peak is today's, so the day is not counted twice.
       const today = seedable && day && day.max === month.max && day.day === local.getDate() && day.month === local.getMonth();
       this.peakHistory = seedable
         ? PeakTariff.recordWindow(null, cfg, { monthKey, dayKey: today ? PeakTariff.dayKeyOf(local) : 'seed', weightedW: month.max })
@@ -1181,13 +1051,9 @@ class GridDevice extends GenericDevice {
     await this.setCapability('measure_watt_peak.billed', PeakTariff.billedW(this.peakHistory, cfg, monthKey)).catch(this.error);
   }
 
-  // Capacity tariff for the window holding atMs. limitW: the window average (W, unweighted) above
-  // which this month's bill rises; Infinity: free (weight 0, above the last step); null: no level
-  // yet. See PeakTariff.threshold().
   getPeakState(atMs = Date.now()) {
     const cfg = this.peakConfig;
     const fillW = cfg.selection === 'max' ? 0 : this.getExpectedDailyPeakW();
-    // Called per meter reading for the same window: reused while nothing it depends on changed.
     const m = this.peakStateMemo;
     if (m && m.atMs === atMs && m.history === this.peakHistory && m.cfg === cfg && m.fillW === fillW) return m.state;
     const local = TimeHelpers.toLocalDate(new Date(atMs), this.timeZone || this.homey.clock.getTimezone());
@@ -1205,27 +1071,22 @@ class GridDevice extends GenericDevice {
     return state;
   }
 
-  // The main fuse less the margin (W), for import and export. null: unknown.
   getFuseLimitW() {
     const limitW = this.getConnectionLimitW();
     return limitW > 0 ? FuseGuard.withMargin(limitW, this.getSettings().fuseMarginPct) : null;
   }
 
-  // The main fuse of one phase less the margin (W).
   getPhaseFuseLimitW() {
     const s = this.getSettings();
     return FuseGuard.withMargin(GridConnection.phaseLimitFromSettings(s) || GridConnection.DEFAULT_LIMIT_W / 3, s.fuseMarginPct);
   }
 
-  // Power per phase now (W, + import). null: a 1-phase connection, or no recent phase readings.
   getPhasePowerW(now = Date.now()) {
     if (Number(this.getSettings().connectionPhases) === 1 || !this.phaseW || !this.phaseSeen.every(Boolean)) return null;
     if (this.phaseW.some((w) => typeof w !== 'number') || this.isGridPowerStale(now)) return null;
     return this.phaseW;
   }
 
-  // The connection setting against what the meter shows: a device warning while they differ, the
-  // timeline when it starts, then at most once a day (SetupNotice). Kept in store phaseSetupNotified.
   checkPhaseSetup(now) {
     if (!this.phaseW || !this.phaseSeen) return;
     const one = Number(this.getSettings().connectionPhases) === 1;
@@ -1234,7 +1095,7 @@ class GridDevice extends GenericDevice {
     let kind = null;
     if (one && three) kind = 'phase_setup_three';
     else if (!one && onlyL1) kind = 'phase_setup_one';
-    else if (!(one ? onlyL1 : three)) return; // not clear yet
+    else if (!(one ? onlyL1 : three)) return;
     const key = `phase|${this.getName()}`;
     if (kind) SetupNotice.notify(this.homey, key, kind, this.homey.__(kind, { name: this.getName() }), now).catch(this.error);
     else SetupNotice.clear(this.homey, key);
@@ -1261,7 +1122,6 @@ class GridDevice extends GenericDevice {
     this.refreshGridWarnings();
   }
 
-  // A Grid Monitor added or deleted: the others check their warning (several Grid Monitors) again.
   refreshGridWarnings() {
     this.homey.setTimeout(() => {
       this.driver.getDevices().forEach((d) => {
@@ -1270,7 +1130,6 @@ class GridDevice extends GenericDevice {
     }, 1000);
   }
 
-  // Setup conflicts of the connection first, then the price setup (base class).
   deviceWarning() {
     const kind = this.phaseSetup();
     return GridConnection.multipleWarning(this.homey)
@@ -1278,12 +1137,10 @@ class GridDevice extends GenericDevice {
       || super.deviceWarning();
   }
 
-  // Learned phases count, unless a phase overload lasted (checkFuseOverload()).
   trustsLearnedPhases(now = Date.now()) {
     return !(now < (this.phaseDistrustUntil || 0));
   }
 
-  // The phase readings of the last PHASE_HISTORY_MS, for PhaseLearning.
   recordPhasePower(now) {
     const phaseW = this.getPhasePowerW(now);
     if (!phaseW) return;
@@ -1292,16 +1149,12 @@ class GridDevice extends GenericDevice {
     while (this.phaseHistory.length && now - this.phaseHistory[0].tm > PHASE_HISTORY_MS) this.phaseHistory.shift();
   }
 
-  // Mean power per phase (W) of the readings from fromMs to toMs. null: none.
   getPhaseMeanW(fromMs, toMs) {
     const list = (this.phaseHistory || []).filter((e) => e.tm >= fromMs && e.tm <= toMs);
     if (!list.length) return null;
     return [0, 1, 2].map((i) => list.reduce((a, e) => a + e.w[i], 0) / list.length);
   }
 
-  // Extra import (W) possible now under the phase fuses for a device on spec (FuseGuard.phaseRoomW).
-  // withYield: the grid charging of the protected batteries on known phases counts (they give way).
-  // null: no phase readings.
   getPhaseRoomW(spec, now = Date.now(), { withYield = false } = {}) {
     let phaseW = this.getPhasePowerW(now);
     if (!phaseW) return null;
@@ -1314,14 +1167,12 @@ class GridDevice extends GenericDevice {
     }));
   }
 
-  // Extra export (W) possible now under the phase fuses for a device on spec. null: no phase readings.
   getPhaseExportRoomW(spec, now = Date.now()) {
     const phaseW = this.getPhasePowerW(now);
     if (!phaseW) return null;
     return Math.round(FuseGuard.phaseRoomW({ phaseW: phaseW.map((w) => -w), limitW: this.getPhaseFuseLimitW(), spec }));
   }
 
-  // getYieldingBatteryW() per phase (W), of the batteries with a known phase.
   getPhaseYieldW(now = Date.now()) {
     const y = [0, 0, 0];
     const trust = this.trustsLearnedPhases(now);
@@ -1334,13 +1185,11 @@ class GridDevice extends GenericDevice {
           });
         }
       } catch {
-        // skip: a battery still starting
       }
     });
     return y;
   }
 
-  // Instant import limit (W): the contracted power when set, else the main fuse. null: unknown.
   getHardLimitW() {
     const contracted = this.peakConfig.hardLimitW;
     const fuse = this.getFuseLimitW();
@@ -1348,15 +1197,12 @@ class GridDevice extends GenericDevice {
     return fuse;
   }
 
-  // Extra export (W) possible now under the main fuse. null: no limit.
   getExportHeadroomW() {
     const fuse = this.getFuseLimitW();
     if (!fuse) return null;
     return Math.round(fuse - FuseGuard.CONTROL_RESERVE_W - Math.max(0, -(this.getCapabilityValue('measure_watt_grid') || 0)));
   }
 
-  // Extra import (W) the EV chargers are about to take (reserveImport()): less what each already
-  // takes more than when reserved, 0 when expired. [{ charger, w }].
   importReservations(now = Date.now()) {
     if (!this.importReserves) return [];
     const out = [];
@@ -1374,7 +1220,6 @@ class GridDevice extends GenericDevice {
     return this.importReservations(now).reduce((a, r) => a + r.w, 0);
   }
 
-  // reservedImportW() per phase (W): on the phases of each charger.
   reservedPhaseW(now = Date.now()) {
     const out = [0, 0, 0];
     const trust = this.trustsLearnedPhases(now);
@@ -1388,7 +1233,6 @@ class GridDevice extends GenericDevice {
     return out;
   }
 
-  // An EV charger released or raised: the batteries make room for w before the car takes it.
   reserveImport(charger, w, now = Date.now()) {
     if (!(w > 0)) return;
     if (!this.importReserves) this.importReserves = new Map();
@@ -1401,8 +1245,6 @@ class GridDevice extends GenericDevice {
     });
   }
 
-  // Grid charging of the protected batteries: they give way to an EV charger under the limit.
-  // [{ d, w }].
   yieldingBatteries(now = Date.now()) {
     let bats = [];
     try {
@@ -1423,18 +1265,13 @@ class GridDevice extends GenericDevice {
     return this.yieldingBatteries().reduce((a, b) => a + b.w, 0);
   }
 
-  // No recent reading from a realtime power source (FuseGuard.isStale()). A trend-only source
-  // (2-minute average) is never stale here: it cannot protect the fuse in time anyway.
   isGridPowerStale(now = Date.now()) {
     const ci = this.capabilityInstances || {};
     if (!ci.measurePowerRealtime && !ci.measurePower) return false;
-    if (!this.gridPowerTm && !this.gridStaleRefTm) this.gridStaleRefTm = now; // no reading since start: from the first check
+    if (!this.gridPowerTm && !this.gridStaleRefTm) this.gridStaleRefTm = now;
     return FuseGuard.isStale({ tm: this.gridPowerTm || this.gridStaleRefTm, now, intervalMs: this.gridIntervalMs });
   }
 
-  // Import above the hard limit, or on a phase above its fuse, for FuseGuard.SHED_AFTER_MS: cut or
-  // switch off one charging EV charger. Export above the fuse that long: notified only (the
-  // batteries are all there is).
   checkFuseOverload(now) {
     const gridW = this.getCapabilityValue('measure_watt_grid') || 0;
     const importW = Math.max(0, gridW);
@@ -1478,13 +1315,11 @@ class GridDevice extends GenericDevice {
     try {
       chargers = this.homey.drivers.getDriver('evCharger').getDevices().filter((d) => typeof d.fuseShed === 'function');
     } catch {
-      // no EV chargers
     }
     const overload = {
       importW, limitW, overW, phaseOverW, label: over.label, distrust: !this.trustsLearnedPhases(now),
     };
     let done = null;
-    // Measured charging first, then switched on without a charging reading.
     [false, true].some((uncertain) => chargers.some((d) => {
       try {
         done = d.fuseShed(now, overload, uncertain);
@@ -1506,8 +1341,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // The largest overload: the total (overW) or a phase (phaseOverW), with its log label and
-  // notification tokens. w > 0: over.
   fuseOverWhere({
     overW, phaseOverW, totalW, limitW, phaseW, phaseLimitW, kind = 'import',
   }) {
@@ -1528,7 +1361,6 @@ class GridDevice extends GenericDevice {
     };
   }
 
-  // Timeline notification of a fuse protection, per kind at most once per FuseGuard.NOTIFY_MS.
   notifyFuse(key, tokens, now) {
     if (!this.fuseNotifyTm) this.fuseNotifyTm = {};
     if (this.fuseNotifyTm[key] && now - this.fuseNotifyTm[key] < FuseGuard.NOTIFY_MS) return;
@@ -1537,9 +1369,6 @@ class GridDevice extends GenericDevice {
     this.homey.notifications.createNotification({ excerpt: this.homey.__(key, t) }).catch(this.error);
   }
 
-  // Extra import (W) possible now for a battery controller: the capacity-tariff headroom of the
-  // running window (tariff, only with a tariff to shave for) and the hard limit (hard: contract or
-  // main fuse). null: no limit.
   getImportHeadroomW({ tariff = true, hard = true } = {}) {
     const importW = Math.max(0, this.getCapabilityValue('measure_watt_grid') || 0);
     const limits = [];
@@ -1550,8 +1379,6 @@ class GridDevice extends GenericDevice {
     return limits.length ? Math.round(Math.min(...limits)) : null;
   }
 
-  // Median over the rest of this month of the expected daily maximum (weighted window average,
-  // grid forecast without battery). Fills the top N early in the month. Cached for an hour.
   getExpectedDailyPeakW() {
     const nowMs = Date.now();
     if (this.expectedDailyPeak && nowMs - this.expectedDailyPeak.tm < 60 * 60 * 1000) return this.expectedDailyPeak.w;
@@ -1580,8 +1407,6 @@ class GridDevice extends GenericDevice {
     return TimeHelpers.getLocalMidnightUTC(new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)), tz).getTime();
   }
 
-  // Per capacity-tariff window of a 15-min net forecast from startMs (a window start):
-  // fn({ t, avgW (import), weight, local }).
   eachForecastWindow(net, startMs, tz, fn) {
     const cfg = this.peakConfig;
     const perWindow = cfg.windowMin / 15;
@@ -1595,20 +1420,12 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // Average import (W) still allowed over the rest of the running window to keep it at limitW.
   windowAllowanceW(limitW, nowMs) {
     const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
     const remainingH = Math.max(1 / 60, (this.peakLoad.slotStart + slotMs - nowMs) / 3600000);
     return (((limitW * slotMs) / 3600000) - (this.peakLoad.importKwhInSlot * 1000)) / remainingH;
   }
 
-  /**
-   * Import limits per 15-minute slot, for a battery or EV planner.
-   *
-   * @returns {{active: boolean, windowMin: number, hardLimitW: number, exportLimitW: number|null, slots: Array<{limitW: number|null,
-   *   penaltyPerKw: number|null, stepJump: number|null}>}} active: a capacity tariff to shave for;
-   *   limitW applies to the average over the slot's window (see getPeakState()).
-   */
   getPeakLimitSeries(startMs, endMs) {
     const cfg = this.peakConfig;
     const tz = this.timeZone || this.homey.clock.getTimezone();
@@ -1623,7 +1440,6 @@ class GridDevice extends GenericDevice {
       if (ws !== windowStart) {
         windowStart = ws;
         state = this.getPeakState(ws);
-        // The running window: what its import so far leaves for the rest of it.
         limitW = ws === running && Number.isFinite(state.limitW)
           ? Math.max(0, Math.round(this.windowAllowanceW(state.limitW, nowMs))) : state.limitW;
       }
@@ -1634,10 +1450,6 @@ class GridDevice extends GenericDevice {
     };
   }
 
-  // Projection for the running peak slot, assuming the current import holds:
-  //   projected = (energy so far + current import x remaining time) / slot length
-  //   headroom  = extra power possible now without the slot average exceeding the billed peak
-  // Fires peak_projected_exceeded once per slot.
   async updatePeakProjection(reading) {
     if (!this.peakLoad || this.peakLoad.slotStart === null) return;
     const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
@@ -1660,7 +1472,6 @@ class GridDevice extends GenericDevice {
     this.peakProjection = {
       slotStart: this.peakLoad.slotStart, projectedW, monthPeakW, headroomW, tariffHeadroomW,
     };
-    // At most one write per 10 s (fast P1 meters).
     if (newSlot || !this.peakProjectionWriteTm || Math.abs(nowMs - this.peakProjectionWriteTm) >= 10000) {
       this.peakProjectionWriteTm = nowMs;
       await this.setCapability('measure_watt_peak.projected', projectedW).catch(this.error);
@@ -1674,8 +1485,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // Expected peak-slot import from the net forecast that counts most for the capacity tariff
-  // (highest weighted average), up to the end of tomorrow or of this month, whichever comes first.
   getExpectedPeak() {
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const { windowMin } = this.peakConfig;
@@ -1695,7 +1504,6 @@ class GridDevice extends GenericDevice {
       : { expectedPeakW: null, expectedPeakTime: null, expectedPeakTm: null };
   }
 
-  // monthPeakW: the level the current window is held against (getPeakState().limitW).
   getPeakForecast() {
     const p = this.peakProjection || {};
     const now = this.getPeakState();
@@ -1705,7 +1513,6 @@ class GridDevice extends GenericDevice {
     const atPeak = expectedPeakTm !== null ? this.getPeakState(expectedPeakTm) : null;
     return {
       monthPeakW,
-      // As measure_watt_peak.billed: measured values only (now.billedW includes the fill).
       billedW: PeakTariff.billedW(this.peakHistory, this.peakConfig,
         PeakTariff.monthKeyOf(TimeHelpers.toLocalDate(new Date(), this.timeZone || this.homey.clock.getTimezone()))),
       projectedSlotW: p.projectedW !== undefined ? p.projectedW : null,
@@ -1716,7 +1523,6 @@ class GridDevice extends GenericDevice {
     };
   }
 
-  // Rolls over each crossed period, then updates its max with a closed slot's average.
   async checkPeakMax(prefix, day, month, year, avgW, reading) {
     let changed = false;
     if (day.day !== null && (day.day !== reading.day || day.month !== reading.month)) {
@@ -1749,8 +1555,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // 'fixedBlock': net within a fixed time block, priced at the tariff of the block's start once
-  // it closes. Returns 0 until then. The open block is stored (directionalBlockState).
   async computeFixedBlockDeltaMoney(deltaImport, deltaExport, now) {
     const blockMinutes = this.getDirectionalBlockMinutes();
     const currentBlockStart = MeterHelpers.startOfBlock(now, blockMinutes, this.timeZone);
@@ -1781,8 +1585,6 @@ class GridDevice extends GenericDevice {
   }
 
   async startForecastLoop() {
-    // Idempotent: clears the pending timer, and the epoch makes an invocation already running
-    // (retrainLoadModel() can take long) stand down instead of rescheduling itself.
     if (this.forecastTimeout) this.homey.clearTimeout(this.forecastTimeout);
     this.forecastEpoch = (this.forecastEpoch || 0) + 1;
     const epoch = this.forecastEpoch;
@@ -1790,7 +1592,6 @@ class GridDevice extends GenericDevice {
     const loop = async () => {
       if (this.isDestroyed || epoch !== this.forecastEpoch) return;
       try {
-        // Not at startup: the startup retrain is in initLearningTimeout.
         if (!firstRun) {
           const now = new Date();
           const localNow = TimeHelpers.toLocalDate(now, this.timeZone);
@@ -1820,7 +1621,6 @@ class GridDevice extends GenericDevice {
     await loop();
   }
 
-  // Idempotent, as startForecastLoop().
   async startLearningLoop() {
     if (this.learningTimeout) this.homey.clearTimeout(this.learningTimeout);
     this.learningEpoch = (this.learningEpoch || 0) + 1;
@@ -1892,12 +1692,8 @@ class GridDevice extends GenericDevice {
       if (bucketResult.finishedBucket.log) this.log(bucketResult.finishedBucket.log);
       await this.recordForecastError(bucketResult.finishedBucket).catch(this.error);
 
-      // A slot with a planned extra load is not learned.
       const { startTime, durationMs } = bucketResult.finishedBucket;
       if (LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs) > 0) return updated;
-      // Program appliances are forecast separately. A slot not measured in full is not learned;
-      // an appliance that is not running (initReady false) is not measured: learned as home load,
-      // else one broken source stops all learning.
       let appliancesW = 0;
       for (const dev of this.getApplianceDevices().filter((d) => d.initReady)) {
         const w = dev.getAvgPower(startTime, startTime + durationMs);
@@ -1922,15 +1718,12 @@ class GridDevice extends GenericDevice {
     return updated;
   }
 
-  // Before the slot's learning update, which would pull the prediction toward the actual.
-  // Slots shorter than 10 minutes (after a restart) are not scored.
   async recordForecastError(finishedBucket) {
     if (!finishedBucket || finishedBucket.durationMs < 10 * 60 * 1000) return;
     const { dayOfWeek, slotIndex } = LoadForecastStrategy.getLocalTimeDetails(finishedBucket.startTime, this.timeZone);
     const learned = this.weeklyProfile && this.weeklyProfile[dayOfWeek] ? this.weeklyProfile[dayOfWeek][slotIndex] : null;
     if (!learned) return;
     const { startTime, durationMs } = finishedBucket;
-    // The forecast as recorded when the slot started, else rebuilt.
     const slotStart = TimeHelpers.startOfLocalBlock(startTime, 15, this.timeZone);
     const recorded = this.netForecastHistory.find((e) => e.time === slotStart && typeof e.load === 'number');
     this.forecastErrors = LoadForecastStrategy.recordForecastError(this.forecastErrors, {
@@ -1944,17 +1737,11 @@ class GridDevice extends GenericDevice {
     if (hourClosed) await this.updateForecastAccuracyStatus();
   }
 
-  // Forecast grid exchange (W, + import / - export) per 15-minute slot:
-  //   netNoBattery = home load - solar forecast + planned EV charging
-  //   netPlanned   = netNoBattery + planned battery power (+ charge / - discharge)
-  // A battery planner must plan against netNoBattery, not its own plan. Solar from PbtH solar
-  // devices only, battery from PbtH battery plans. EV only while the car is connected.
   getNetForecast(startMs, endMs) {
     const load = this.getHomeLoadSeries(startMs, endMs);
     const sumSeries = (driverId, getSeries) => this.sumDriverSeries(driverId, load.length, getSeries);
     const solar = sumSeries('solar', (dev) => (dev.getForecastSeries ? dev.getForecastSeries(startMs, endMs) : null));
     const battery = sumSeries('battery', (dev) => (dev.getPlannedPowerSeries ? dev.getPlannedPowerSeries(startMs, endMs) : null));
-    // Away/not plugged in is in the EV plan itself; a car that takes no power is not.
     const ev = sumSeries('evCharger', (dev) => (dev.getPlannedPowerSeries && !(dev.presence && dev.presence.noResponse)
       ? dev.getPlannedPowerSeries(startMs, endMs) : null));
     const netNoBattery = load.map((l, i) => Math.round(l - solar[i] + ev[i]));
@@ -1964,8 +1751,6 @@ class GridDevice extends GenericDevice {
     };
   }
 
-  // Flow: an extra load (W) on a day from time (HH:MM) for durationMin; not learned. 0 W removes
-  // the one with that start.
   async addPlannedLoad(day, time, durationMin, power) {
     const startOfToday = TimeHelpers.getLocalMidnightUTC(new Date(), this.timeZone);
     const dayStart = day === 'tomorrow'
@@ -2003,7 +1788,6 @@ class GridDevice extends GenericDevice {
     return total;
   }
 
-  // Power summarizers set as program appliance with enough learned to forecast.
   getApplianceDevices() {
     try {
       return this.homey.drivers.getDriver('power').getDevices()
@@ -2018,7 +1802,6 @@ class GridDevice extends GenericDevice {
     return this.sumDriverSeries('power', length, (dev) => (dev.isApplianceReady && dev.isApplianceReady() ? dev.getForecastSeries(startMs, endMs) : null));
   }
 
-  // Home load forecast (W) per slot: learned load without appliances + planned loads + appliances.
   getHomeLoadSeries(startMs, endMs) {
     const appliances = this.getApplianceSeries(startMs, endMs);
     return LoadForecastStrategy.getLoadSeries(this.weeklyProfile, startMs, endMs, this.timeZone, this.plannedLoads)
@@ -2035,7 +1818,6 @@ class GridDevice extends GenericDevice {
     return this.forecastAccuracyCache.summary;
   }
 
-  // Needs a day of scored slots before the numbers mean much.
   async updateForecastAccuracyStatus() {
     const acc = this.getForecastAccuracy();
     const days = (acc.samples || 0) / 96;
@@ -2047,8 +1829,6 @@ class GridDevice extends GenericDevice {
     await this.setSettings({ forecast_accuracy: text });
   }
 
-  // Called by batteries/EV chargers on a plan change and by appliances on a start or end.
-  // Debounced: several devices re-plan together on new prices.
   onChargePlanUpdated() {
     if (this.isDestroyed) return;
     if (this.planUpdateTimeout) this.homey.clearTimeout(this.planUpdateTimeout);
@@ -2061,7 +1841,6 @@ class GridDevice extends GenericDevice {
 
   async updateForecastDisplay(updated = false, plansChanged = false) {
     const now = new Date();
-    // Today and tomorrow (50 h covers a 25 h DST day).
     const slotMs = 15 * 60 * 1000;
     const dayStartMs = TimeHelpers.getLocalMidnightUTC(now, this.timeZone).getTime();
     const appliances = this.getApplianceSeries(dayStartMs, dayStartMs + 50 * 60 * 60 * 1000);
@@ -2092,7 +1871,7 @@ class GridDevice extends GenericDevice {
     const lastNet = this.netForecastHistory[this.netForecastHistory.length - 1];
     if (!lastNet || lastNet.time !== slotStartMs) {
       this.netForecastHistory.push({ time: slotStartMs, net: netNext[0], load: next.load[0] });
-      if (this.netForecastHistory.length > 200) this.netForecastHistory.shift(); // > 2 days incl. a 25 h DST day
+      if (this.netForecastHistory.length > 200) this.netForecastHistory.shift();
       this.fileStore.set('netForecastHistory', this.netForecastHistory);
     }
     await this.setCapabilityValue('measure_watt_forecast.net_h0', netNext[0]).catch(this.error);
@@ -2103,7 +1882,6 @@ class GridDevice extends GenericDevice {
     const { timeZone } = this;
     const getLocalMidnightUTC = (d) => TimeHelpers.getLocalMidnightUTC(d, timeZone);
 
-    // Real local midnights (DST days have 23 or 25 hours).
     const startOfToday = getLocalMidnightUTC(now);
     const startOfTomorrow = getLocalMidnightUTC(new Date(startOfToday.getTime() + 26 * 60 * 60 * 1000));
     const endOfToday = startOfTomorrow;
@@ -2111,12 +1889,8 @@ class GridDevice extends GenericDevice {
     const startOfYesterday = getLocalMidnightUTC(new Date(startOfToday.getTime() - 60 * 60 * 1000));
     const endOfYesterday = startOfToday;
 
-    // The charts are not time-critical: after a slot boundary's burst (LoadSpread).
-    // Calls merged into one deferred run: what any of them changed is drawn.
     const flags = { updated, plansChanged, quarter: now.getMinutes() % 15 === 0 };
     await LoadSpread.run(this, 'forecastCharts', async ({ updated: modelUpdated, plansChanged: plansMoved, quarter }) => {
-      // Grid exchange charts. Today/Tomorrow refresh every 15 minutes, as the battery/EV plans
-      // change independently of the load model. Past slots show the recorded forecast.
       const recordedNet = new Map(this.netForecastHistory.map((e) => [e.time, e.net]));
       const gridOpts = (startMs, endMs) => ({
         forecast: this.getNetForecast(startMs, endMs).netPlanned.map((v, i) => {
@@ -2180,8 +1954,6 @@ class GridDevice extends GenericDevice {
       } catch { }
       if (!api) throw new Error('Homey API not ready');
 
-      // Train from the physical source devices' Insights, never from this device's own derived
-      // measure_watt_home log (short-lived output of this forecaster).
       const powerEntries = await this.reconstructHomePowerHistory(api, null, null, null, true).catch((err) => {
         this.error('History reconstruction failed:', err);
         return [];
@@ -2197,9 +1969,6 @@ class GridDevice extends GenericDevice {
         await this.updateForecastDisplay();
         return;
       }
-
-      // Not merged into this.powerHistory: these are ~hourly, the charts need 5-minute samples
-      // (populatePowerHistory()).
 
       const trainingProfile = fromScratch ? LoadForecastStrategy.initializeProfile() : this.weeklyProfile;
 
@@ -2236,11 +2005,9 @@ class GridDevice extends GenericDevice {
       const nowMs = now.getTime();
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-      // Ignore entries written during this startup, so one boot-time entry does not count as recent.
       const preStartupHistory = this.powerHistory.filter((e) => e.time < (this.startupTime || 0));
       const hasData = preStartupHistory.length > 24 && preStartupHistory[0].time < (nowMs - 40 * 60 * 60 * 1000);
       const hasRecent = preStartupHistory.length > 0 && preStartupHistory[preStartupHistory.length - 1].time > (nowMs - 6 * 60 * 60 * 1000);
-      // History from before grid values were recorded needs one backfill for the Grid charts.
       const hasGrid = preStartupHistory.some((e) => typeof e.grid === 'number');
 
       if (hasData && hasRecent && hasGrid) {
@@ -2258,7 +2025,6 @@ class GridDevice extends GenericDevice {
         return;
       }
 
-      // From the physical source devices, as in retrainLoadModel().
       const powerEntries = await this.reconstructHomePowerHistory(api, null, null, 'yesterday').catch((err) => {
         this.error('History reconstruction failed:', err);
         return [];
@@ -2266,7 +2032,6 @@ class GridDevice extends GenericDevice {
 
       if (powerEntries.length > 0) {
         const ceilingW = this.getHomePowerCeilingW();
-        // Round to 5 minutes against duplicates from mixed resolutions.
         const roundTo5Min = (t) => Math.round(t / (5 * 60 * 1000)) * (5 * 60 * 1000);
         const historyMapped = powerEntries
           .map((e) => {
@@ -2297,7 +2062,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // withoutAppliances: the home load to learn, without program appliances.
   async reconstructHomePowerHistory(api, customStart = null, customEnd = null, customResolution = null, withoutAppliances = false) {
     const endDate = customEnd || new Date();
     const startDate = customStart || (() => {
@@ -2305,8 +2069,6 @@ class GridDevice extends GenericDevice {
       d.setDate(d.getDate() - 14);
       return d;
     })();
-    // Hourly history: 'last14Days' when it is hourly, else 'last7Days' (InsightsHistory). Chosen on
-    // the first log read, then the same for all, so every component covers the same days.
     let resolution = customResolution;
     const fetchEntries = async (logId) => {
       if (resolution) {
@@ -2343,8 +2105,6 @@ class GridDevice extends GenericDevice {
 
       if (matchingLogsMap.size === 0) return null;
 
-      // With a grand total meter (':meter_power'), drop its sub-totals (.t1, .imported) against double
-      // counting; phase (.l1-.l3) and tariff (.t1/.t2) meters alone are summed.
       let finalLogs = Array.from(matchingLogsMap.values());
       const hasBaseMeterPower = finalLogs.some((item) => (item.log.id || item.log.uri || '').endsWith(':meter_power'));
 
@@ -2360,8 +2120,6 @@ class GridDevice extends GenericDevice {
         for (let i = 0; i < finalLogs.length; i++) {
           const { log, isCumulative } = finalLogs[i];
 
-          // Insights resolution 'yesterday' always returns the previous calendar day and ignores
-          // start/end (confirmed live): fetchYesterdayAndToday() adds 'today'.
           const logData = resolution === 'yesterday'
             ? await fetchYesterdayAndToday(api, log.id)
             : await fetchEntries(log.id);
@@ -2379,7 +2137,6 @@ class GridDevice extends GenericDevice {
         }
 
         if (allEntries.length > 0) {
-          // Sum per timestamp (e.g. tariff 1 + tariff 2)
           const timeMap = new Map();
           allEntries.forEach((e) => {
             const currentVal = timeMap.get(e.t) || 0;
@@ -2399,8 +2156,6 @@ class GridDevice extends GenericDevice {
       return [];
     }
 
-    // 1. Grid: real-time power first, else cumulative import/export. Homey logs measure_power under
-    // ':energy_power'; a ':measure_power' log can exist but is empty (skill section 3).
     let gridEntries = [];
     const measurePowerEntries = await getLogEntriesForDevice(sourceDevice.id, [
       ':energy_power',
@@ -2440,10 +2195,6 @@ class GridDevice extends GenericDevice {
       return [];
     }
 
-    // Per component: instantaneous power before meter_power, so W and kWh-derived W are not mixed.
-    // Resolved to the physical device via its 'homey_device_id' setting: resolving PowerHour devices
-    // via data.id gives back the PowerHour device itself (confirmed 2026-08-10).
-    // Per device, so several devices of one type are summed, not averaged.
     const solarEntriesList = [];
     const solarDriver = this.homey.drivers.getDriver('solar');
     if (solarDriver) {
@@ -2497,12 +2248,10 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // Combination per bucket is in HomePowerReconstruction.js (shared with offline analysis).
     let gridImportEntries = [];
     let gridExportEntries = [];
     if (gridEntries.length > 0) {
       gridImportEntries = gridEntries;
-      // Power never negative but export entries exist: add them to the export.
       const hasNegative = gridEntries.some((e) => (e.y !== undefined ? e.y : e.v) < -1);
       if (!hasNegative && measurePowerExportEntries && measurePowerExportEntries.length > 0) {
         gridExportEntries = measurePowerExportEntries;
@@ -2539,7 +2288,6 @@ class GridDevice extends GenericDevice {
 
   stopPolling() {
     super.stopPolling();
-    // Bump the epochs, so invocations already running do not reschedule (see startForecastLoop()).
     this.forecastEpoch = (this.forecastEpoch || 0) + 1;
     this.learningEpoch = (this.learningEpoch || 0) + 1;
     if (this.forecastTimeout) {

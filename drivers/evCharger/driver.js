@@ -14,7 +14,6 @@ const EvHistory = require('../../lib/helpers/EvHistory');
 const PairSetup = require('../../lib/helpers/PairSetup');
 const Budget = require('../../lib/Budget');
 
-// The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'device', ids: [], roles: true },
   { id: 'charger', ids: ['chargerControl', 'chargePower', 'variableChargePower', 'minChargeMinutes', 'chargerPhase', 'chargerBalancing'] },
@@ -29,12 +28,10 @@ const STEPS = [
     repairOnly: true,
   },
 ];
-// Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
   driverId: 'evCharger',
   deviceCapabilities: [
-    // Live power and the car first: what the device tile and the device page lead with.
     'measure_watt_avg', 'ev_car_state', 'measure_ev_soc', 'ev_next_departure', 'ev_next_charge', 'ev_resume',
     'ev_charge_mode', 'ev_today_time', 'ev_today', 'ev_tomorrow_time', 'ev_tomorrow',
     'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
@@ -43,16 +40,11 @@ const driverSpecifics = {
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
-    // No meter_power: Homey Energy would count the charger twice. Its total is meter_power_hidden.
     'meter_tariff',
-    // Needed by generic_bat_device.js: without it updateMeterFromMeasure() has no baseline and kWh
-    // and money never accumulate.
     'meter_power_hidden', 'meter_kwh_charging', 'meter_kwh_discharging',
     'button.retrain',
-    // Not plugged in while the next departure needs charge (solar's alarm_power: last, own title).
     'alarm_generic',
   ],
-  // Chart image order, see lib/helpers/ChartImages.js.
   chartImages: [
     {
       id: 'todayChargeChart', prop: 'todayChargeImage', chartProp: 'chartTodayCharge', titleKey: 'today',
@@ -66,13 +58,10 @@ const driverSpecifics = {
     {
       id: 'yesterdayChargeChart', prop: 'yesterdayChargeImage', chartProp: 'chartYesterdayCharge', titleKey: 'yesterday',
     },
-    // Added later, so last: an image's position is fixed when first registered.
     {
       id: 'evWeeklyChart', prop: 'evWeeklyImage', chartProp: 'chartEvWeekly', titleKey: 'ev_weekly',
     },
   ],
-  // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page; chargerControl
-  // on when pairing.
   setup: {
     settings: STEPS.flatMap((st) => st.ids),
     steps: STEPS,
@@ -87,7 +76,6 @@ class CarChargeDriver extends GenericDriver {
     await super.onInit().catch(this.error);
   }
 
-  // The grid power: the devices measure the solar surplus from it (_sampleSurplus()).
   async onEnergyReport(report) {
     const gridW = await EnergyPollingHelper.gridPowerW(report);
     if (!Number.isFinite(gridW)) return;
@@ -96,12 +84,7 @@ class CarChargeDriver extends GenericDriver {
     });
   }
 
-  /**
-   * Check if a Homey device is a suitable EV charger (wallbox / smart plug used as charger).
-   * Returns { found, useMeasureSource } or { found: false }.
-   */
   checkDeviceCompatibility(homeyDevice) {
-    // Exclude PBTH's own devices (by driverId, not the editable name).
     if ((homeyDevice.driverId || '').includes('com.gruijter.powerhour')) {
       return { found: false };
     }
@@ -113,7 +96,6 @@ class CarChargeDriver extends GenericDriver {
     if (homeyDevice.class === 'evcharger' || homeyDevice.virtualClass === 'evcharger') {
       isCharger = true;
     } else if (energyData && energyData.isEVCharger === true) {
-      // Homey's "This device is an EV charger" energy setting.
       isCharger = true;
     }
 
@@ -129,34 +111,24 @@ class CarChargeDriver extends GenericDriver {
     return { found: false };
   }
 
-  /**
-   * Check if a Homey device is a suitable EV car (provides SoC or connection state).
-   * Returns { found: true } or { found: false }.
-   */
   checkCarCompatibility(homeyDevice) {
-    // Exclude PBTH's own devices (by driverId, not the editable name).
     if ((homeyDevice.driverId || '').includes('com.gruijter.powerhour')) {
       return { found: false };
     }
 
     const caps = homeyDevice.capabilities || [];
-    // virtualClass: the user's device type override in Homey.
     const carClasses = ['car', 'vehicle'];
     if (carClasses.includes(homeyDevice.class) || carClasses.includes(homeyDevice.virtualClass)) {
       return { found: true };
     }
-    // Homey's "electric car" energy setting, also on a generic class (eu.nissanconnect: sensor).
     const energyData = homeyDevice.energyObj || homeyDevice.energy;
     if (energyData && energyData.electricCar === true) return { found: true };
-    // Generic class (e.g. 'sensor'): a charge state together with a SoC (measure_battery alone is
-    // too common). 'ev_charging_state' is the car-class twin of 'evcharger_charging_state'.
     const hasChargeState = caps.includes('evcharger_charging_state') || caps.includes('ev_charging_state') || caps.includes('evcharger_charging');
     const hasSoc = caps.includes('measure_battery');
     if (hasChargeState && hasSoc) return { found: true };
     return { found: false };
   }
 
-  // Two EV devices conflict only with the same charger and the same car.
   sourceKey(settings) {
     return settings.homey_device_id ? `${settings.homey_device_id}|${settings.ev_device_id || 'none'}` : null;
   }
@@ -176,7 +148,7 @@ class CarChargeDriver extends GenericDriver {
     let api;
     try {
       api = this.homey.app.api;
-    } catch { /* ignore */ }
+    } catch { }
     if (!api) throw new Error(this.homey.__('error_homey_api_not_ready'));
     const allDevices = await api.devices.getDevices({ $timeout: 15000 }).catch((err) => this.error(err));
     return allDevices || {};
@@ -212,7 +184,6 @@ class CarChargeDriver extends GenericDriver {
         const compat = this.checkCarCompatibility(homeyDevice);
         if (!compat.found) return;
 
-        // A car or vehicle by its class first, then those found by their capabilities.
         const energyData = homeyDevice.energyObj || homeyDevice.energy;
         const isCar = ['car', 'vehicle'].some((c) => c === homeyDevice.class || c === homeyDevice.virtualClass)
           || !!(energyData && energyData.electricCar === true);
@@ -225,14 +196,10 @@ class CarChargeDriver extends GenericDriver {
     }
   }
 
-  // The paired device is named after the charger; the list also shows the car.
   sourceName(dev) {
     return dev.settings.homey_device_name;
   }
 
-  /**
-   * One entry per charger, plus one per charger+car combination: both picked in one list.
-   */
   async onPairListDevices() {
     const randomId = crypto.randomBytes(3).toString('hex');
     const [chargers, cars] = await Promise.all([this._listChargerDevices(), this._listCarDevices()]);
@@ -262,35 +229,26 @@ class CarChargeDriver extends GenericDriver {
     return devices;
   }
 
-  // The capability list for these settings: paired with it, and kept on it by the device's
-  // migration (correctCapabilities), so a new device does not migrate right away.
   capabilitiesFor(settings = {}) {
     let caps = [...this.ds.deviceCapabilities];
-    // Budget targets only with a budget, discharging only with V2X.
     if (!Budget.isActive(settings.distribution, settings.budget)) caps = caps.filter((cap) => !cap.includes('meter_target'));
     if (!settings.v2x) caps = caps.filter((cap) => cap !== 'meter_kwh_discharging');
-    // V2X: charged and discharged per period for the widget (hidden).
     if (settings.v2x) ['hour', 'day', 'month', 'year'].forEach((p) => caps.push(`meter_kwh_this_${p}.charged`, `meter_kwh_this_${p}.discharged`));
-    // V2X: the day that ended, for the widget's day log (generic_bat_device.updateCounterPeriods()).
     if (settings.v2x) caps.push('meter_kwh_last_day.charged', 'meter_kwh_last_day.discharged');
     return caps;
   }
 
-  // The car link comes with the listed charger too.
   sourceSettingIds() {
     return [...super.sourceSettingIds(), 'ev_device_id', 'ev_device_name'];
   }
 
-  // Minimum SoC <= reserve SoC <= daily maximum SoC.
   async setupValidate(settings) {
     const soc = (id) => Number(settings[id]);
     if (soc('floorSoc') > soc('reserveSoc') || soc('reserveSoc') > soc('maxSoc')) throw Error(this.homey.__('error_setup_soc_order'));
   }
 
-  // Setup view: the charge power measured by the charger.
   async setupInfo(setting, def, dev, current) {
     if (setting.id !== 'chargePower') return undefined;
-    // Measured by the repaired device, when the charger stays the same.
     const sameCharger = current.device && dev.settings.homey_device_id === current.device.getSettings().homey_device_id;
     const measured = (sameCharger && current.device.getStoreValue('detectedMaxPower'))
       || await this._measuredChargePower(dev.settings.homey_device_id);
@@ -299,8 +257,6 @@ class CarChargeDriver extends GenericDriver {
       : this.homey.__('repair.setup_power_unmeasured', { power: EvHistory.DEFAULT_CHARGE_POWER_W });
   }
 
-  // Setup view: per role the fitting capabilities of the charger and, with a car, of the car.
-  // Charger roles are keyed charger_<role>.
   async setupRoles(dev, storedRoles) {
     const stored = storedRoles || {};
     const chargerId = dev.settings.homey_device_id;
@@ -330,13 +286,11 @@ class CarChargeDriver extends GenericDriver {
       .filter(([key]) => key.startsWith(prefix)).map(([key, id]) => [key.slice(prefix.length), id]));
     const carId = dev && dev.settings.ev_device_id;
     const stores = [{ key: 'evChargerCaps', value: { chargerId, caps: part('charger_') } }];
-    // No car rows (the car could not be read): the choice made before is kept.
     const carCaps = part('car_');
     if (carId && carId !== 'none' && Object.keys(carCaps).length) stores.push({ key: 'evCarCaps', value: { carId, caps: carCaps } });
     return stores;
   }
 
-  // Charge power (W) from the charger's Insights power history, or null.
   async _measuredChargePower(chargerId) {
     const { api } = this.homey.app;
     if (!api || !chargerId) return null;

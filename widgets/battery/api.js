@@ -22,7 +22,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const { getBattery } = require('../../lib/helpers/WidgetData');
 
 module.exports = {
-  // day: yesterday, today, tomorrow, next (hours), weeks or year; ids: the chosen battery.
   async getBattery({ homey, query }) {
     const ids = query && query.ids ? String(query.ids).split(',').filter(Boolean) : [];
     return getBattery(homey, query && query.day, ids);

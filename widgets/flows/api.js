@@ -24,15 +24,9 @@ const {
 } = require('../../lib/helpers/WidgetData');
 
 module.exports = {
-  // period: now (W) or hour/day/month/year (kWh); ids: the chosen devices, comma separated; zones=1:
-  // with the zone of each user; homey=1: with Homey Energy's usage per zone.
   async getFlows({ homey, query }) {
     const ids = query && query.ids ? String(query.ids).split(',').filter(Boolean) : [];
     const flows = getFlows(homey, query && query.period, ids);
-    // With zones: per user the zone of its source device, else that of the Power Summarizer itself.
-    // homey=1: also Homey Energy's devices as users (all, or the chosen ones) with Homey Energy's values,
-    // and its usage per zone (zoneTotals by zone name). Not this app's devices nor their sources: those
-    // are the PbtH users already (counted once).
     if (query && query.zones === '1') {
       const homeyOn = query.homey === '1';
       const zones = await deviceZones(homey, flows.users.flatMap((u) => [u.sourceId, u.id].filter(Boolean)));
@@ -46,7 +40,6 @@ module.exports = {
         const own = ownDeviceIds(homey);
         const sources = sourceDeviceIds(homey, new Set(flows.users.map((u) => u.id)));
         const isExt = (id) => !own.has(id) && !sources.has(id);
-        // Zones to read: all (nothing chosen), else those of the users and of the chosen Homey devices.
         let zoneIds;
         if (ids.length) {
           const chosenExt = await deviceZones(homey, ids.filter(isExt));
@@ -67,8 +60,6 @@ module.exports = {
               zoneOrder: z ? z.order : null,
             });
           });
-          // Live: a Power Summarizer with Homey's value of its source, as in the zone total (its own
-          // average lags behind).
           if (query.period === 'now') {
             flows.users.forEach((u) => {
               if (u.sourceId && homeyData.devices[u.sourceId]) u.value = homeyData.devices[u.sourceId].value;

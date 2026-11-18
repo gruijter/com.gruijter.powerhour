@@ -19,19 +19,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-/**
- * Homey App API — inter-app communication endpoints.
- *
- * Other Homey apps can consume these endpoints via:
- *   const phApi = this.homey.api.getApiApp('com.gruijter.powerhour');
- *   const data  = await phApi.get('/prices');
- *
- * They can also subscribe to realtime push events:
- *   phApi.on('realtime', ({ name, data }) => { ... });
- * The event name emitted on every slot change and on new price fetch is:
- *   'prices-updated'
- */
-
 module.exports = {
   async getPrices({ homey }) {
     return homey.app.getPricesPayload();

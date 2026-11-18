@@ -19,8 +19,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-// Providers are lazy loaded below to save memory
-
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_price_driver');
 const PriceSetup = require('../../lib/helpers/PriceSetup');
 const PriceDrivers = require('../../lib/helpers/PriceDrivers');
@@ -61,7 +59,6 @@ const POWER_CAPABILITIES = [
   'meter_rank_price_h0_next_8h',
 ];
 
-// Gas has one price per day, water a fixed tariff: no export, no cheapest or most expensive times.
 const GAS_CAPABILITIES = [
   'measure_monetary.import',
   'measure_monetary.next',

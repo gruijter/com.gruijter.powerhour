@@ -63,7 +63,6 @@ class GasDevice extends GenericDevice {
   }
 
   calculateMeasureTrend(deltaMeter, deltaTm) {
-    // Gas/Water (m3 -> liter/min)
     return Math.round((deltaMeter / deltaTm) * 600000000) / 10;
   }
 

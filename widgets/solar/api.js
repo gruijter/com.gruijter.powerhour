@@ -22,7 +22,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const { getSolar } = require('../../lib/helpers/WidgetData');
 
 module.exports = {
-  // day: yesterday, today, tomorrow or distribution; ids: the chosen solar devices, comma separated.
   async getSolar({ homey, query }) {
     const ids = query && query.ids ? String(query.ids).split(',').filter(Boolean) : [];
     return getSolar(homey, query && query.day, ids);

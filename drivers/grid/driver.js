@@ -27,9 +27,7 @@ const PeakTariff = require('../../lib/strategies/PeakTariff');
 const PEAK_IDS = ['peakPreset', 'peakLoadIntervalMinutes', 'peakSelection', 'peakCount', 'peakDistinctDays', 'peakHours',
   'peakWeekdaysOnly', 'peakMonths', 'peakWeightOutside', 'peakMinimumW', 'peakPrice', 'peakSteps', 'peakHardLimitW'];
 const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
-// Dependencies are lazy loaded in methods to save memory
 
-// The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source'], roles: true },
   { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', ...MARKUP_IDS, 'start_date'] },
@@ -42,8 +40,6 @@ const STEPS = [
 const driverSpecifics = {
   driverId: 'grid',
   deviceCapabilities: [
-    // Active tariff + live power (meter_power_hidden.* are internal accounting anchors only -
-    // uiComponent: null, no visible tile, no Insights, no flow cards - see drivers/grid/device.js)
     'meter_tariff',
     'measure_watt_grid', 'meter_power_hidden.grid',
     'measure_watt_home', 'meter_power_hidden.home',
@@ -73,11 +69,9 @@ const driverSpecifics = {
     'measure_watt_min.day', 'measure_watt_max.day',
     'measure_watt_min.month', 'measure_watt_max.month',
     'measure_watt_min.year', 'measure_watt_max.year',
-    // Peak average load (day, month, year - independently auto-resetting, fixed-slot average)
     'measure_watt_peak.day', 'measure_watt_peak_export.day',
     'measure_watt_peak.month', 'measure_watt_peak_export.month',
     'measure_watt_peak.year', 'measure_watt_peak_export.year',
-    // Live projection for the running peak slot (see updatePeakProjection())
     'measure_watt_peak.projected', 'measure_watt_peak.headroom', 'measure_watt_peak.billed',
     'measure_watt_forecast.h0', 'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2',
@@ -85,22 +79,19 @@ const driverSpecifics = {
     'meter_kwh_forecast.tomorrow', 'measure_watt_forecast.tomorrow_peak',
     'measure_watt_forecast.net_h0', 'measure_watt_forecast.net_h1',
     'button.retrain_load',
-    // Home per period (balance of the meters), the hour ones only for the widget (hidden).
     'meter_kwh_last_day.home', 'meter_kwh_this_day.home', 'meter_kwh_last_month.home', 'meter_kwh_this_month.home',
     'meter_kwh_last_year.home', 'meter_kwh_this_year.home',
     'meter_kwh_this_hour.imported', 'meter_kwh_this_hour.exported', 'meter_kwh_this_hour.home'],
-  // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page.
   setup: {
     settings: STEPS.flatMap((st) => st.ids),
     steps: STEPS,
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' },
       {
-        key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
+        key: 'watt', kind: 'w', label: 'power', watt: true,
       }],
-    match: { energy: (energy) => energy.cumulative === true }, // a smart meter
+    match: { energy: (energy) => energy.cumulative === true },
     requirePrice: true,
   },
-  // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [
     {
       id: 'netToday', prop: 'netTodayImage', chartProp: 'chartNetToday', titleKey: 'grid_today',
@@ -124,17 +115,15 @@ class GridDriver extends GenericDriver {
     await super.onInit().catch(this.error);
   }
 
-  // Homey Energy's live report: the solar power without a Solar Monitor (device, calculateHomePower()).
   async onEnergyReport(report) {
     this.lastEnergyReport = report;
   }
 
-  // Only without a Solar Monitor.
   needsEnergyReport() {
     try {
       return !(this.homey.drivers.getDriver('solar').getDevices().length > 0);
     } catch {
-      return true; // driver not ready
+      return true;
     }
   }
 
@@ -149,13 +138,11 @@ class GridDriver extends GenericDriver {
       if (hasMeasurePower) return { found: true, useMeasureSource: true };
     }
 
-    // Not a smart meter by its energy settings: listed to map its capabilities in the setup view.
     if (SourceCaps.hasKind(homeyDevice, 'kwh')) return { found: true, useMeasureSource: false, needsMapping: true };
     if (hasMeasurePower) return { found: true, useMeasureSource: true, needsMapping: true };
     return { found: false };
   }
 
-  // Import and export meter from the energy object of a smart meter.
   autoSourceCapGroup(sourceDevice) {
     const energyData = sourceDevice.energyObj || sourceDevice.energy;
     if (!energyData || energyData.cumulative !== true) return null;
@@ -171,7 +158,6 @@ class GridDriver extends GenericDriver {
     return group.p1 || group.n1 ? group : null;
   }
 
-  // Capacity tariff preset: Norway proposed there when pairing; a custom one without price is none.
   setupValue(id, value, dev, current) {
     if (id !== 'peakPreset') return value;
     if (!current.device) {
@@ -184,7 +170,6 @@ class GridDriver extends GenericDriver {
     return value;
   }
 
-  // The view hides what a preset sets: its values here, also for a new device (no onSettings).
   setupParsed(settings) {
     const preset = settings.peakPreset;
     if (preset === 'none') Object.assign(settings, { peakPrice: 0, peakSteps: '' });

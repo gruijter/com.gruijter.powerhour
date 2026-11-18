@@ -23,7 +23,6 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 
-// The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['homey_device_daily_reset'], roles: true },
   { id: 'price', ids: ['tariff_update_group', 'tariff', 'currency', ...MARKUP_IDS, 'start_date'] },
@@ -33,7 +32,7 @@ const STEPS = [
 
 const driverSpecifics = {
   driverId: 'water',
-  fallbackMeter: 'meter_water', // a source device's primary meter, when nothing else is detected
+  fallbackMeter: 'meter_water',
   originDeviceCapabilities: ['meter_water'],
   deviceCapabilities: ['meter_m3_last_hour', 'meter_m3_this_hour', 'meter_m3_last_day', 'meter_m3_this_day',
     'meter_m3_last_month', 'meter_m3_this_month', 'meter_m3_last_year', 'meter_m3_this_year',

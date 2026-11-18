@@ -22,7 +22,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const { getEv } = require('../../lib/helpers/WidgetData');
 
 module.exports = {
-  // day: yesterday, today, tomorrow, next (hours), weeks or year; ids: the chosen EV charger.
   async getEv({ homey, query }) {
     const ids = query && query.ids ? String(query.ids).split(',').filter(Boolean) : [];
     return getEv(homey, query && query.day, ids);

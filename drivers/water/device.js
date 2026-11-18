@@ -46,7 +46,6 @@ class WaterDevice extends GenericDevice {
     await super.onInit().catch(this.error);
   }
 
-  // m3 -> liter/min, as gas: the base class converts kWh -> W.
   calculateMeasureTrend(deltaMeter, deltaTm) {
     return Math.round((deltaMeter / deltaTm) * 600000000) / 10;
   }

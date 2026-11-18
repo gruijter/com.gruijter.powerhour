@@ -23,9 +23,7 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
 const ContractYear = require('../../lib/helpers/ContractYear');
 const SolarHistory = require('../../lib/helpers/SolarHistory');
-// Dependencies are lazy loaded in methods to save memory
 
-// The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source', 'homey_device_daily_reset'], roles: true },
   { id: 'panels', ids: ['peakPower'] },
@@ -36,7 +34,7 @@ const STEPS = [
 
 const driverSpecifics = {
   driverId: 'solar',
-  fallbackMeter: 'meter_power', // a source device's primary meter, when nothing else is detected
+  fallbackMeter: 'meter_power',
   requiredClass: 'solarpanel',
   deviceCapabilities: ['measure_power', 'measure_watt_forecast.h0',
     'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
@@ -57,24 +55,19 @@ const driverSpecifics = {
     'measure_solar_use.this_hour', 'measure_solar_use.this_day',
     'measure_solar_use.this_month', 'measure_solar_use.this_year',
     'meter_tariff', 'meter_power',
-    // Max (day, month, year - independently auto-resetting). No min: solar's production floor
-    // is trivially ~0 at night, deliberately not tracked (see grid's driver.js for the
-    // symmetric min+max version used by drivers where min is meaningful).
     'measure_watt_max.day', 'measure_watt_max.month', 'measure_watt_max.year',
     'button.retrain', 'button.export_diagnostics', 'alarm_power'],
   energyCaps: { measure_power: 'measure_watt_solar', meter_power: 'meter_power_hidden' },
-  // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
     settings: STEPS.flatMap((st) => st.ids),
     steps: STEPS,
     roles: [{ key: 'p1', kind: 'kwh', label: 'production' },
       {
-        key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
+        key: 'watt', kind: 'w', label: 'power', watt: true,
       }],
     match: { classes: ['solarpanel'], energy: (energy) => !!energy.meterPowerExportedCapability },
     requirePrice: true,
   },
-  // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [
     {
       id: 'solarToday', prop: 'solarTodayImage', chartProp: 'chartSolarToday', titleKey: 'today',
@@ -98,9 +91,6 @@ class SolarDriver extends GenericDriver {
     await super.onInit().catch(this.error);
   }
 
-  // The day logs rebuilt from Insights once, for all solar devices together (SolarHistory): at least
-  // 5 minutes after the start and 7 minutes into a quarter, away from the start and slot-change peaks.
-  // retry: an hour later (an Insights read failed), at most 3 times per start.
   scheduleHistory(retry = false) {
     if (this.historyTimer) return;
     if (retry) {
@@ -121,7 +111,6 @@ class SolarDriver extends GenericDriver {
     try {
       api = this.homey.app.api;
     } catch {
-      // not ready
     }
     if (!api) {
       this.scheduleHistory();
@@ -132,8 +121,6 @@ class SolarDriver extends GenericDriver {
     if (result && result.retry) this.scheduleHistory(true);
   }
 
-  // The grid power, and per device the part of its production used at home (export shared by
-  // production).
   async onEnergyReport(report) {
     const gridW = await EnergyPollingHelper.gridPowerW(report);
     if (!Number.isFinite(gridW)) return;
