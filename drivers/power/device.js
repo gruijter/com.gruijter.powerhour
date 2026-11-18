@@ -895,7 +895,7 @@ class PowerDevice extends GenericDevice {
         };
       }
       this[chartProp] = await getChargeChart({ scheme: JSON.stringify(scheme) }, startMs, count, maxW, 0, 15, [], currency,
-        translations, isToday, this.timeZone, true, false, false);
+        translations, isToday, this.timeZone, true, false, false, false, 'appliance');
       await image.update().catch(this.error);
     };
 

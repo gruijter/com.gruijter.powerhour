@@ -1605,6 +1605,41 @@
             "ar": "عدد الخانات العشرية للأسعار.",
             "ko": "가격에 표시되는 소수 자릿수."
           }
+        },
+        {
+          "id": "view_priceLevelHours",
+          "type": "label",
+          "label": {
+            "en": "Lowest and highest hours per day",
+            "nl": "Laagste en hoogste uren per dag",
+            "de": "Niedrigste und höchste Stunden pro Tag",
+            "fr": "Heures les plus basses et les plus hautes par jour",
+            "it": "Ore più basse e più alte al giorno",
+            "sv": "Lägsta och högsta timmar per dag",
+            "no": "Laveste og høyeste timer per dag",
+            "es": "Horas más bajas y más altas por día",
+            "da": "Laveste og højeste timer pr. dag",
+            "pl": "Najniższe i najwyższe godziny dziennie",
+            "ru": "Самые низкие и высокие часы в день",
+            "ar": "الساعات الأدنى والأعلى يوميًا",
+            "ko": "하루 최저 및 최고 시간"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Colours this many hours with the lowest and highest price in graphs and widgets.",
+            "nl": "Kleurt zoveel uren met de laagste en hoogste prijs in grafieken en widgets.",
+            "de": "Färbt so viele Stunden mit dem niedrigsten und höchsten Preis in Grafiken und Widgets.",
+            "fr": "Colore ce nombre d’heures au prix le plus bas et le plus haut dans les graphiques et widgets.",
+            "it": "Colora questo numero di ore con il prezzo più basso e più alto in grafici e widget.",
+            "sv": "Färgar så många timmar med lägst och högst pris i diagram och widgets.",
+            "no": "Farger så mange timer med lavest og høyest pris i grafer og widgets.",
+            "es": "Colorea este número de horas con el precio más bajo y más alto en gráficos y widgets.",
+            "da": "Farver så mange timer med laveste og højeste pris i grafer og widgets.",
+            "pl": "Koloruje tyle godzin z najniższą i najwyższą ceną na wykresach i w widżetach.",
+            "ru": "Выделяет цветом столько часов с самой низкой и высокой ценой на графиках и в виджетах.",
+            "ar": "يلوّن هذا العدد من الساعات ذات أدنى وأعلى سعر في الرسوم البيانية والأدوات.",
+            "ko": "그래프와 위젯에서 가격이 가장 낮은 시간과 가장 높은 시간을 이만큼 색으로 표시합니다."
+          }
         }
       ]
     }

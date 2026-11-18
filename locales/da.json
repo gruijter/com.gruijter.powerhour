@@ -392,9 +392,10 @@
     "average": "Gennemsnit",
     "lowest": "Lavest",
     "highest": "Højest",
-    "cheap": "billig",
+    "free": "0 eller lavere",
+    "cheap": "laveste",
     "mid": "normal",
-    "dear": "dyr",
+    "dear": "højeste",
     "no_price": "Tilføj først en Energipris-enhed.",
     "not_yet": "Priserne kendes endnu ikke.",
     "enable_forecast": "Slå prognose til"

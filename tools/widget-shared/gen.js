@@ -19,6 +19,8 @@ const SOURCES = {
   appliance: 'drivers/power/assets/icon.svg',
   climate: 'tools/widget-shared/climate.svg', // no climate driver: drawn for the widgets
 };
+const { COLORS, PALE, color } = require('../../lib/charts/Palette');
+
 const WIDGETS = ['energy', 'plan', 'flows', 'solar', 'price'];
 const DIAGRAM = ['energy']; // also gets flow.js and flow.css
 const PERIOD_TABS = ['energy', 'flows']; // also get periodcache.js
@@ -81,7 +83,12 @@ WIDGETS.forEach((w) => {
   ['colors.css', ...(DIAGRAM.includes(w) ? ['flow.js', 'flow.css'] : []), ...(PERIOD_TABS.includes(w) ? ['periodcache.js'] : [])].forEach((f) => {
     const note = f.endsWith('.css') ? '/* Copy of tools/widget-shared/' : '// Copy of tools/widget-shared/';
     const end = f.endsWith('.css') ? ' - edit there, run gen.js. */' : ' - edit there, run gen.js.';
-    fs.writeFileSync(path.join(dir, f), `${note}${f}${end}\n${fs.readFileSync(path.join(__dirname, f), 'utf8')}`);
+    let src = fs.readFileSync(path.join(__dirname, f), 'utf8');
+    if (f === 'colors.css') {
+      const vars = Object.keys(COLORS).map((name) => `  --c-${name}: ${color(name)};`);
+      src = src.replace('  /* PALETTE */', [...vars, `  --pale: ${PALE};`].join('\n'));
+    }
+    fs.writeFileSync(path.join(dir, f), `${note}${f}${end}\n${src}`);
   });
 });
 // eslint-disable-next-line no-console

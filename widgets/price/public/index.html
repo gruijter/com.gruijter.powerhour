@@ -52,7 +52,7 @@
     var AXIS = 14;
     var PALE = 0.4; // expected prices
     var SHARE = 0.5; // one scale for both days, unless a day would fill less than this share of it
-    var LEVELS = ['--c-cheap', '--c-normal', '--c-dear'];
+    var LEVELS = ['free', 'cheap', 'normal', 'dear'];
 
     function el(tag, attrs, parent, text) {
       var e = document.createElementNS(NS, tag);
@@ -201,17 +201,6 @@
         return f * mag;
       }
 
-      // Price levels around the mean: cheap / normal / dear (as widgets/plan). The band is at least
-      // 10% of the mean, so a flat day stays normal (a share, not a money amount: any currency).
-      function priceLevels(s, vals) {
-        var ps = vals.filter(function (v) { return typeof v === 'number'; });
-        var band = Math.max((Math.max.apply(null, ps) - Math.min.apply(null, ps)) / 6, 0.1 * Math.abs(s.avg));
-        return function (v) {
-          if (v < s.avg - band) return LEVELS[0];
-          return v > s.avg + band ? LEVELS[2] : LEVELS[1];
-        };
-      }
-
       // The price range of today and tomorrow together, from the latest answer (prices arrive later).
       function scaleOfDays() {
         var latest = null;
@@ -280,13 +269,12 @@
           el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, hm[0]);
         }
 
-        var level = priceLevels(s, d.import);
         var used = {};
         var gap = sw > 6 ? sw * 0.15 : sw * 0.1;
         var y0 = y(0);
         d.import.forEach(function (v, k) {
           if (typeof v !== 'number') return;
-          var lv = level(v);
+          var lv = '--c-' + (d.level[k] || 'normal');
           used[lv] = true;
           var yv = y(v);
           el('rect', {
@@ -316,10 +304,9 @@
         }
 
         var items = [];
-        if (used[LEVELS[0]]) items.push([t('cheap'), LEVELS[0]]);
-        if (used[LEVELS[1]]) items.push([t('mid'), LEVELS[1]]);
-        if (used[LEVELS[2]]) items.push([t('dear'), LEVELS[2]]);
-        if (s.expected) items.push([t('expected'), LEVELS[1], PALE]);
+        var names = { free: 'free', cheap: 'cheap', normal: 'mid', dear: 'dear' };
+        LEVELS.forEach(function (lv) { if (used['--c-' + lv]) items.push([t(names[lv]), '--c-' + lv]); });
+        if (s.expected) items.push([t('expected'), '--c-normal', PALE]);
         if (d.export) items.push([t('export'), 'line']);
         drawLegend(items);
         chart = {

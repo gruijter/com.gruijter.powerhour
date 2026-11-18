@@ -4,21 +4,7 @@
   --muted: var(--homey-text-color-light, #8e8e93);
   --line: var(--homey-line-color, rgba(128, 128, 128, 0.25));
   --node-bg: var(--homey-background-color, #ffffff);
-  --c-grid: #7a86a0;
-  --c-solar: #f2a900;
-  --c-battery: #2eb872;
-  --c-ev: #8e6cef;
-  --c-home: #3d8bfd;
-  --c-gas: #e8590c;
-  --c-water: #0ea5e9;
-  --c-climate: #e64980;
-  --c-appliance: #14b8a6;
-  --c-zone: #34c77b;
-  --c-export: #22b8cf;
-  --c-price: #8e8e93;
-  --c-cheap: #4c6ef5;
-  --c-normal: rgba(142, 142, 147, 0.45);
-  --c-dear: #e5484d;
+  /* PALETTE */
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -28,4 +14,10 @@
 }
 html, body { margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-#empty { display: none; padding: 24px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+/* Without data the widget keeps its height: the empty chart keeps its place, the message lies over it. */
+.chartbox { position: relative; }
+.hide { visibility: hidden; }
+#empty {
+  position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 0 16px; text-align: center; color: var(--muted); font-size: 14px;
+}

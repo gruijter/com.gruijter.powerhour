@@ -392,9 +392,10 @@
     "average": "Gemiddeld",
     "lowest": "Laagste",
     "highest": "Hoogste",
-    "cheap": "goedkoop",
+    "free": "0 of lager",
+    "cheap": "laagste",
     "mid": "normaal",
-    "dear": "duur",
+    "dear": "hoogste",
     "no_price": "Voeg eerst een Energieprijs-apparaat toe.",
     "not_yet": "Prijzen nog niet bekend.",
     "enable_forecast": "Voorspelling aanzetten"

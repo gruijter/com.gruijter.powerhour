@@ -392,9 +392,10 @@
     "average": "Media",
     "lowest": "Mínimo",
     "highest": "Máximo",
-    "cheap": "barato",
+    "free": "0 o menos",
+    "cheap": "más bajos",
     "mid": "normal",
-    "dear": "caro",
+    "dear": "más altos",
     "no_price": "Añade primero un dispositivo Precio de la energía.",
     "not_yet": "Precios aún no conocidos.",
     "enable_forecast": "Activar previsión"

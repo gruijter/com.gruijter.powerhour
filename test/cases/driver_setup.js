@@ -352,8 +352,9 @@ const manifestIds = (driverId) => {
     PriceSetup.registerPair(driver, s);
     const data = await s.handlers.setup_get();
     assert.deepStrictEqual(data.advanced, ['priceProvider', 'entsoeApiKey', 'forecastEnable', 'variableMarkupAbsPrice',
-      'export_variableMarkupAbsPrice', 'formula', 'export_formula', 'decimals']);
+      'export_variableMarkupAbsPrice', 'formula', 'export_formula', 'decimals', 'priceLevelHours']);
     assert.strictEqual(data.defs.decimals.value, 4);
+    assert.strictEqual(data.defs.priceLevelHours.value, 4);
     assert.strictEqual(data.defs.priceProvider.value, 'AUTO');
     assert.ok(data.defs.fixedMarkup.hint.startsWith('Per kWh'));
     assert.ok(data.defs.exchangeRate && data.defs.export_show_chart_line);

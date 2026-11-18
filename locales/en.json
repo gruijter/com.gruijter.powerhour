@@ -392,9 +392,10 @@
     "average": "Average",
     "lowest": "Lowest",
     "highest": "Highest",
-    "cheap": "cheap",
+    "free": "0 or less",
+    "cheap": "lowest",
     "mid": "normal",
-    "dear": "expensive",
+    "dear": "highest",
     "no_price": "Add an Energy Price device first.",
     "not_yet": "Prices not known yet.",
     "enable_forecast": "Turn on forecast"

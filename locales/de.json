@@ -392,9 +392,10 @@
     "average": "Durchschnitt",
     "lowest": "Tiefster",
     "highest": "Höchster",
-    "cheap": "günstig",
+    "free": "0 oder weniger",
+    "cheap": "niedrigste",
     "mid": "normal",
-    "dear": "teuer",
+    "dear": "höchste",
     "no_price": "Füge zuerst ein Energiepreis-Gerät hinzu.",
     "not_yet": "Preise noch nicht bekannt.",
     "enable_forecast": "Prognose einschalten"

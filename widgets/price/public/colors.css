@@ -5,21 +5,25 @@
   --muted: var(--homey-text-color-light, #8e8e93);
   --line: var(--homey-line-color, rgba(128, 128, 128, 0.25));
   --node-bg: var(--homey-background-color, #ffffff);
-  --c-grid: #7a86a0;
-  --c-solar: #f2a900;
-  --c-battery: #2eb872;
-  --c-ev: #8e6cef;
-  --c-home: #3d8bfd;
-  --c-gas: #e8590c;
-  --c-water: #0ea5e9;
-  --c-climate: #e64980;
-  --c-appliance: #14b8a6;
-  --c-zone: #34c77b;
-  --c-export: #22b8cf;
-  --c-price: #8e8e93;
-  --c-cheap: #4c6ef5;
+  --c-grid: rgb(122, 134, 160);
+  --c-solar: rgb(242, 169, 0);
+  --c-battery: rgb(46, 184, 114);
+  --c-ev: rgb(142, 108, 239);
+  --c-home: rgb(61, 139, 253);
+  --c-gas: rgb(232, 89, 12);
+  --c-water: rgb(14, 165, 233);
+  --c-climate: rgb(230, 73, 128);
+  --c-appliance: rgb(20, 184, 166);
+  --c-zone: rgb(52, 199, 123);
+  --c-export: rgb(34, 184, 207);
+  --c-price: rgb(142, 142, 147);
+  --c-free: rgb(43, 63, 168);
+  --c-cheap: rgb(76, 110, 245);
   --c-normal: rgba(142, 142, 147, 0.45);
-  --c-dear: #e5484d;
+  --c-dear: rgb(229, 72, 77);
+  --c-hold: rgb(122, 134, 160);
+  --c-idle: rgba(142, 142, 147, 0.45);
+  --pale: 0.4;
 }
 @media (prefers-color-scheme: dark) {
   :root {

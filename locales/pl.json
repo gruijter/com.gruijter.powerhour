@@ -392,9 +392,10 @@
     "average": "Średnia",
     "lowest": "Najniższa",
     "highest": "Najwyższa",
-    "cheap": "tanio",
+    "free": "0 lub mniej",
+    "cheap": "najniższe",
     "mid": "normalnie",
-    "dear": "drogo",
+    "dear": "najwyższe",
     "no_price": "Najpierw dodaj urządzenie Cena energii.",
     "not_yet": "Ceny jeszcze nieznane.",
     "enable_forecast": "Włącz prognozę"

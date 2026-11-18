@@ -392,9 +392,10 @@
     "average": "평균",
     "lowest": "최저",
     "highest": "최고",
-    "cheap": "저렴",
+    "free": "0 이하",
+    "cheap": "최저",
     "mid": "보통",
-    "dear": "비쌈",
+    "dear": "최고",
     "no_price": "먼저 에너지 가격 기기를 추가하세요.",
     "not_yet": "아직 가격을 알 수 없습니다.",
     "enable_forecast": "예측 켜기"

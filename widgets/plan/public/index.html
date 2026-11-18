@@ -64,25 +64,11 @@
       }
       function pct(v) { return typeof v === 'number' ? v + '%' : '-'; }
 
-      // Price levels around the mean: cheap / normal / dear. The band is at least 10% of the mean, so a
-      // flat day stays normal (a share, not a money amount: any currency).
-      function priceLevels(prices) {
-        var ps = prices.filter(function (v) { return typeof v === 'number'; });
-        var min = Math.min.apply(null, ps);
-        var max = Math.max.apply(null, ps);
-        var mean = ps.reduce(function (a, b) { return a + b; }, 0) / (ps.length || 1);
-        var band = Math.max((max - min) / 6, 0.1 * Math.abs(mean));
-        return function (v) {
-          if (v < mean - band) return '--c-cheap';
-          return v > mean + band ? '--c-dear' : '--c-normal';
-        };
-      }
-
       function lanes(d) {
         var list = [];
         if (d.price) {
           list.push({
-            icon: 'price', color: '--c-price', kind: 'price', values: d.price, forecast: d.priceForecast || [],
+            icon: 'price', color: '--c-price', kind: 'price', values: d.price, forecast: d.priceForecast || [], levels: d.priceLevel || [],
             value: function (i) { return typeof d.price[i] === 'number' ? money.format(d.price[i]) : '-'; },
             sub: function () { return d.currency || ''; },
           });
@@ -187,18 +173,17 @@
         var vals = lane.values.map(function (v) { return typeof v === 'number' ? v : 0; });
         if (lane.kind === 'price') {
           // One step area per price level and known/expected: no seams between slots.
-          var level = priceLevels(lane.values);
           var ps = lane.values.filter(function (v) { return typeof v === 'number'; });
           var base = Math.min(0, Math.min.apply(null, ps));
           var range = Math.max.apply(null, ps) - base || 1;
-          ['--c-cheap', '--c-normal', '--c-dear'].forEach(function (lv) {
+          ['free', 'cheap', 'normal', 'dear'].forEach(function (lv) {
             [false, true].forEach(function (expected) {
               var part = lane.values.map(function (v, i) {
-                return typeof v === 'number' && level(v) === lv && !!lane.forecast[i] === expected ? v - base : 0;
+                return typeof v === 'number' && (lane.levels[i] || 'normal') === lv && !!lane.forecast[i] === expected ? v - base : 0;
               });
               if (part.some(function (v) { return v > 0; })) {
                 el('path', {
-                  d: stepPath(part, sw, bottom, bottom - top, range), fill: 'var(' + lv + ')', opacity: expected ? PALE : 1,
+                  d: stepPath(part, sw, bottom, bottom - top, range), fill: 'var(--c-' + lv + ')', opacity: expected ? PALE : 1,
                 }, g);
               }
             });
