@@ -51,6 +51,7 @@ const battery = ({
       __: (key) => key,
       drivers: { getDriver: () => ({ getDevices: () => (d.grid ? [{ getImportHeadroomW: () => null }] : []) }) },
     },
+    getSettings: () => ({ tariff_update_group: 0 }),
     getBatteryMode: () => d.mode,
     isControlConfigured: () => controlled,
     setWarning: async (text) => {

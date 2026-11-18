@@ -26,6 +26,7 @@ const PriceFormula = require('../../lib/PriceFormula');
 const PriceCalculator = require('../../lib/PriceCalculator');
 const PriceSetup = require('../../lib/helpers/PriceSetup');
 const DapTakeover = require('../../lib/helpers/DapTakeover');
+const PriceDrivers = require('../../lib/helpers/PriceDrivers');
 const MigrationNotice = require('../../lib/helpers/MigrationNotice');
 const FileStore = require('../../lib/helpers/FileStore');
 
@@ -50,6 +51,38 @@ class PriceDevice extends GenericDevice {
     await this.syncFormulaLabels().catch((err) => this.error(err));
     await DapTakeover.applyMonthAvg(this).catch((err) => this.error(err));
     await super.onInit();
+    await this.updateGroupWarning().catch((err) => this.error(err));
+  }
+
+  onAdded() {
+    super.onAdded();
+    PriceDrivers.updateConflictWarnings(this.homey).catch((err) => this.error(err));
+  }
+
+  onDeleted() {
+    super.onDeleted();
+    PriceDrivers.updateConflictWarnings(this.homey).catch((err) => this.error(err));
+  }
+
+  emitGroupLeft(oldSettings, newSettings) {
+    super.emitGroupLeft(oldSettings, newSettings);
+    PriceDrivers.updateConflictWarnings(this.homey).catch((err) => this.error(err));
+  }
+
+  // Another price device sends to the same tariff group. Replaces a flow warning (MigrationNotice).
+  async updateGroupWarning() {
+    const warning = PriceDrivers.groupConflict(this.homey, this.commodity || PriceDrivers.commodityOf('price', this.getSettings()),
+      this.getSettings().tariff_update_group);
+    if (warning === this.groupWarningShown) return;
+    const shown = this.groupWarningShown;
+    this.groupWarningShown = warning;
+    if (warning) {
+      await this.setWarning(warning);
+      return;
+    }
+    if (shown === undefined && this.getStoreValue(MigrationNotice.FLOW_WARNING_KEY)) return;
+    await this.unsetWarning();
+    await this.unsetStoreValue(MigrationNotice.FLOW_WARNING_KEY);
   }
 
   createFlows() {

@@ -91,6 +91,18 @@ const test = async (name, fn) => {
     assert.strictEqual(await vote(g, 'a', 60, 3000), 60);
   });
 
+  await test('groupConflict: warning text per group and commodity', async () => {
+    const PriceDrivers = require('../../lib/helpers/PriceDrivers');
+    const named = (id, group, commodity = 'power') => ({
+      ...device(id, group), getName: () => id, getSettings: () => ({ tariff_update_group: group, commodity }),
+    });
+    const homey = homeyWith([named('a', 1), named('b', 1), named('c', 2), named('g', 2, 'gas')]);
+    assert.strictEqual(PriceDrivers.groupConflict(homey, 'power', 1), 'tariff_group_conflict {"group":"1","sources":"a, b"}');
+    assert.strictEqual(PriceDrivers.groupConflict(homey, 'power', 2), null);
+    assert.strictEqual(PriceDrivers.groupConflict(homey, 'gas', 2), null);
+    assert.strictEqual(PriceDrivers.groupConflict(homey, 'power', 0), null);
+  });
+
   if (failed) process.exitCode = 1;
 })().catch((err) => {
   console.log(err);
