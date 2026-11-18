@@ -57,6 +57,11 @@ class PriceDevice extends GenericDevice {
     }, 60000 + Math.random() * 60000);
   }
 
+  // The price profile (PriceDeviceProfile) with the known prices, before the group plans with them.
+  beforeBroadcast() {
+    return PriceDeviceProfile.learnKnown(this);
+  }
+
   // Another price device or a flow sends to the same tariff group (PriceDrivers.priceWarning()).
   async updateGroupWarning() {
     const commodity = this.commodity || PriceDrivers.commodityOf('price', this.getSettings());
