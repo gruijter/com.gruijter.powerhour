@@ -23,6 +23,7 @@
   --c-dear: rgb(229, 72, 77);
   --c-hold: rgb(122, 134, 160);
   --c-idle: rgba(142, 142, 147, 0.45);
+  --c-average: rgb(176, 137, 104);
   --pale: 0.4;
 }
 @media (prefers-color-scheme: dark) {

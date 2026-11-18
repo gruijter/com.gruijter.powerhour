@@ -11,12 +11,9 @@
       color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
     }
     .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
-    .head { display: flex; justify-content: space-between; gap: 8px; margin: 0 8px; font-size: 12px; }
-    .head b { color: var(--text); font-weight: 600; white-space: nowrap; }
-    .head span { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .stats { display: flex; margin: 2px 8px 2px; }
-    .stat { flex: 1; min-width: 0; }
-    .stat b { display: block; color: var(--text); font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .stat { flex: 1; min-width: 0; padding-right: 4px; }
+    .stat b { display: block; color: var(--text); font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .stat span { display: block; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
     .tick { fill: var(--muted); font-size: 9px; }
@@ -24,18 +21,19 @@
     .zero { stroke: var(--muted); stroke-width: 1; opacity: 0.6; }
     .now { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
     .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
-    .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0 8px 4px; color: var(--muted); font-size: 11px; }
+    .legend { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 4px 12px; margin: 0 8px 4px; min-height: 30px; color: var(--muted); font-size: 11px; }
     .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; vertical-align: -1px; }
     #empty button {
       border: 0; border-radius: 8px; padding: 7px 14px; background: var(--node-bg); color: var(--text);
       font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
     }
     .legend i.line { height: 0; border-top: 2px solid var(--c-export); background: none; border-radius: 0; vertical-align: 3px; }
+    .legend i.avg { height: 0; border-top: 2px dotted var(--c-average); background: none; border-radius: 0; vertical-align: 3px; }
+    .avg { stroke: var(--c-average); stroke-width: 1.5; stroke-dasharray: 0.1 3; stroke-linecap: round; }
   </style>
 </head>
 <body>
   <div class="tabs" id="tabs"></div>
-  <div class="head"><b id="title"></b><span id="note"></span></div>
   <div class="stats" id="stats"></div>
   <div class="chartbox">
     <svg id="chart" viewBox="0 0 320 170"></svg>
@@ -44,7 +42,7 @@
   <div class="legend" id="legend"></div>
   <script>
     var started = false;
-    var TABS = ['today', 'tomorrow'];
+    var TABS = ['today', 'tomorrow', 'next'];
     var NS = 'http://www.w3.org/2000/svg';
     var W = 320; // 480 for the widescreen shape (setting shape)
     var X0 = 38;
@@ -72,13 +70,10 @@
       var svg = document.getElementById('chart');
       var stats = document.getElementById('stats');
       var tabs = document.getElementById('tabs');
-      var titleEl = document.getElementById('title');
-      var noteEl = document.getElementById('note');
       var legend = document.getElementById('legend');
       var empty = document.getElementById('empty');
       var emptyText = document.getElementById('emptyText');
       var forecastBtn = document.getElementById('forecastBtn');
-      var head = document.querySelector('.head');
       forecastBtn.textContent = t('enable_forecast');
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
       var key = 'pbth-price-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
@@ -121,9 +116,7 @@
       }
       markTabs();
 
-      function setHead(title, note, cells) {
-        titleEl.textContent = title;
-        noteEl.textContent = note || '';
+      function setHead(cells) {
         while (stats.firstChild) stats.removeChild(stats.firstChild);
         cells.forEach(function (c) {
           var d = document.createElement('div');
@@ -155,26 +148,28 @@
 
       function slotTime(i) { return timeFmt.format(data.startMs + i * data.slotMs); }
 
+      // The figures on the same places on every tab: now (when in view), the day average, lowest and
+      // highest; a selected slot: its price, the day average, its export price.
       function drawHead() {
         var d = data;
         var s = chart.summary;
+        var none = ['\u00a0', '\u00a0'];
+        var avg = [money(s.avg), t('average')];
         if (sel === null) {
-          var first = d.day === 'today' && chart.nowIdx >= 0
-            ? [money(d.import[chart.nowIdx]), t('now')]
-            : [money(s.avg), t('average')];
-          var note = d.day === 'today' ? t('average') + ' ' + money(s.avg) : '';
-          if (s.expected) note = t('expected') + (note ? ' · ' + note : '');
-          setHead(t(d.day), note, [
-            first,
+          setHead([
+            chart.nowIdx >= 0 ? [money(d.import[chart.nowIdx]), t('now')] : none,
+            avg,
             [money(d.import[s.lo]), t('lowest') + ' ' + slotTime(s.lo)],
             [money(d.import[s.hi]), t('highest') + ' ' + slotTime(s.hi)],
           ]);
           return;
         }
-        var cells = [[money(d.import[sel]), t('price')]];
-        if (d.export) cells.push([money(d.export[sel]), cap(t('export'))]);
-        cells.push([money(s.avg), t('average')]);
-        setHead(slotTime(sel) + '–' + slotTime(sel + 1), d.forecast[sel] ? t('expected') : '', cells);
+        setHead([
+          [money(d.import[sel]), slotTime(sel) + '–' + slotTime(sel + 1) + (d.forecast[sel] ? ' ' + t('expected').toLowerCase() : '')],
+          avg,
+          d.export ? [money(d.export[sel]), cap(t('export'))] : none,
+          none,
+        ]);
       }
 
       function drawLegend(items) {
@@ -182,7 +177,7 @@
         items.forEach(function (it) {
           var s = document.createElement('span');
           var i = document.createElement('i');
-          if (it[1] === 'line') i.className = 'line';
+          if (it[1] === 'line' || it[1] === 'avg') i.className = it[1];
           else {
             i.style.background = 'var(' + it[1] + ')';
             if (it[2]) i.style.opacity = it[2];
@@ -221,13 +216,13 @@
         var missing = !d || !d.price;
         var known = !missing && d.import.some(function (v) { return typeof v === 'number'; });
         svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
-        [head, stats, legend].forEach(function (e) { e.classList.toggle('hide', !known); });
+        [stats, legend].forEach(function (e) { e.classList.toggle('hide', !known); });
         empty.style.display = known ? 'none' : 'flex';
         chart = null;
         if (!known) {
-          // Same height as with prices: placeholders keep the head, stats and legend lines.
+          // Same height as with prices: placeholders keep the stats and legend lines.
           while (svg.firstChild) svg.removeChild(svg.firstChild);
-          setHead('\u00a0', '', [['\u00a0', '\u00a0']]);
+          setHead([['\u00a0', '\u00a0']]);
           drawLegend([['\u00a0', '--c-normal']]);
           if (missing) emptyText.textContent = d && d.price === false ? '…' : t('no_price');
           else emptyText.textContent = t('not_yet');
@@ -242,10 +237,12 @@
         var s = summary(d);
         var n = d.import.length;
         var sw = (X1 - X0) / n;
-        var vals = d.import.concat(d.export || []).filter(function (v) { return typeof v === 'number'; });
+        var avg = settings.average === true && typeof d.average === 'number' ? d.average : null;
+        var vals = d.import.concat(d.export || [], avg === null ? [] : [avg]).filter(function (v) { return typeof v === 'number'; });
         var lo = Math.min(0, Math.min.apply(null, vals));
         var hi = Math.max(0, Math.max.apply(null, vals));
         var both = scaleOfDays();
+        if (both && avg !== null) both = { lo: Math.min(both.lo, avg), hi: Math.max(both.hi, avg) };
         if (both && both.lo <= lo && both.hi >= hi && hi - lo >= SHARE * (both.hi - both.lo)) {
           lo = both.lo;
           hi = both.hi;
@@ -263,10 +260,12 @@
           el('text', { x: X0 - 4, y: gy + 3, 'text-anchor': 'end', class: 'tick' }, svg, axisFmt.format(Math.abs(g) < step / 2 ? 0 : g));
         }
         var hourFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: d.timeZone });
+        var dayFmt = new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: d.timeZone });
         for (var i = 0; i < n; i += 1) {
           var hm = hourFmt.format(d.startMs + i * d.slotMs).split(':');
           if (hm[1] !== '00' || Number(hm[0]) % 3 !== 0) continue;
-          el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, hm[0]);
+          var label = d.day === 'next' && hm[0] === '00' && i > 0 ? dayFmt.format(d.startMs + i * d.slotMs) : hm[0];
+          el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, label);
         }
 
         var used = {};
@@ -296,7 +295,8 @@
           });
           if (path) el('path', { d: path, fill: 'none', stroke: 'var(--c-export)', 'stroke-width': 1.5 }, svg);
         }
-        var nowIdx = d.day === 'today' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
+        if (avg !== null) el('line', { x1: X0, x2: X1, y1: y(avg), y2: y(avg), class: 'avg' }, svg);
+        var nowIdx = d.day !== 'tomorrow' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
         if (nowIdx < 0 || nowIdx >= n) nowIdx = -1;
         if (nowIdx >= 0) {
           var nx = X0 + (nowIdx + 0.5) * sw;
@@ -304,10 +304,11 @@
         }
 
         var items = [];
-        var names = { free: 'free', cheap: 'cheap', normal: 'mid', dear: 'dear' };
-        LEVELS.forEach(function (lv) { if (used['--c-' + lv]) items.push([t(names[lv]), '--c-' + lv]); });
+        var names = { free: 'free', cheap: 'cheap', dear: 'dear' };
+        LEVELS.forEach(function (lv) { if (names[lv] && used['--c-' + lv]) items.push([t(names[lv]), '--c-' + lv]); });
         if (s.expected) items.push([t('expected'), '--c-normal', PALE]);
         if (d.export) items.push([t('export'), 'line']);
+        if (avg !== null) items.push([t('average_4w') + ' ' + money(avg), 'avg']);
         drawLegend(items);
         chart = {
           n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx, summary: s,
@@ -423,13 +424,13 @@
           });
       }
 
-      // Today per slot (the now line and price); tomorrow per quarter until all its prices are known
-      // (they arrive once a day), then hourly.
+      // Today and next hours per slot (the now line and price); tomorrow per quarter until all its
+      // prices are known (they arrive once a day), then hourly.
       function stale() {
         var c = cache[tab];
         if (!c || c.day !== new Date().toDateString() || !c.data || !c.data.price) return true;
         var quarter = function (ms) { return Math.floor((ms - 30000) / 900000); };
-        if (tab === 'today') return quarter(Date.now()) !== quarter(c.ms);
+        if (tab !== 'tomorrow') return quarter(Date.now()) !== quarter(c.ms);
         var complete = c.data.import.every(function (v, i) { return typeof v === 'number' && !c.data.forecast[i]; });
         return complete ? Date.now() - c.ms > 3600000 : quarter(Date.now()) !== quarter(c.ms);
       }

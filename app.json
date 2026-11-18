@@ -35789,6 +35789,26 @@
               }
             }
           ]
+        },
+        {
+          "id": "average",
+          "type": "checkbox",
+          "title": {
+            "en": "Show 4-week average",
+            "nl": "Gemiddelde 4 weken tonen",
+            "de": "Durchschnitt 4 Wochen anzeigen",
+            "fr": "Afficher la moyenne 4 semaines",
+            "it": "Mostra media 4 settimane",
+            "sv": "Visa snitt 4 veckor",
+            "no": "Vis snitt 4 uker",
+            "es": "Mostrar media 4 semanas",
+            "da": "Vis gennemsnit 4 uger",
+            "pl": "Pokaż średnią 4 tygodni",
+            "ru": "Показать среднее за 4 недели",
+            "ar": "عرض متوسط 4 أسابيع",
+            "ko": "4주 평균 표시"
+          },
+          "value": false
         }
       ],
       "devices": {

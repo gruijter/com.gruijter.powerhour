@@ -28,6 +28,7 @@ const PriceSetup = require('../../lib/helpers/PriceSetup');
 const DapTakeover = require('../../lib/helpers/DapTakeover');
 const PriceDrivers = require('../../lib/helpers/PriceDrivers');
 const FileStore = require('../../lib/helpers/FileStore');
+const PriceDeviceProfile = require('../../lib/helpers/PriceDeviceProfile');
 
 const FORMULA_KEYS = ['formula', 'export_formula'];
 // Changing these needs new market prices (repair).
@@ -49,6 +50,11 @@ class PriceDevice extends GenericDevice {
     await DapTakeover.applyMonthAvg(this).catch((err) => this.error(err));
     await super.onInit();
     await this.updateGroupWarning().catch((err) => this.error(err));
+    await PriceDeviceProfile.load(this).catch((err) => this.error(err));
+    // After the start burst: the history read is not urgent.
+    this.homey.setTimeout(() => {
+      if (!this.isDestroyed) PriceDeviceProfile.learn(this).catch((err) => this.error(err));
+    }, 60000 + Math.random() * 60000);
   }
 
   // Another price device or a flow sends to the same tariff group (PriceDrivers.priceWarning()).
@@ -65,6 +71,7 @@ class PriceDevice extends GenericDevice {
   async onHourlyEvent() {
     await super.onHourlyEvent();
     await this.updateGroupWarning().catch((err) => this.error(err));
+    await PriceDeviceProfile.learn(this).catch((err) => this.error(err));
   }
 
   createFlows() {
@@ -232,6 +239,9 @@ class PriceDevice extends GenericDevice {
     if (marketChanged) {
       await this.resetPrices();
       this.migrated = false;
+    }
+    if (['commodity', 'tariffType', 'biddingZone'].some((id) => settings[id] !== undefined && settings[id] !== old[id])) {
+      await PriceDeviceProfile.reset(this);
     }
     this.restartDevice(1000)
       .then(() => this.emitGroupLeft(old, this.getSettings()))
