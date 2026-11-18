@@ -355,6 +355,7 @@
     "repair_note": "Wijzig de instellingen hieronder via Repareren."
   },
   "widget": {
+    "lang": "nl",
     "grid": "Net",
     "home": "Huis",
     "solar": "Zon",
@@ -398,6 +399,10 @@
     "cheap": "laagste",
     "dear": "hoogste",
     "no_price": "Voeg eerst een Energieprijs-apparaat toe.",
+    "next_action": "Volgende actie",
+    "export_price": "Exportprijs",
+    "no_battery": "Voeg eerst een Slimme batterij toe.",
+    "efficiency": "rendement",
     "not_yet": "Prijzen nog niet bekend.",
     "enable_forecast": "Voorspelling aanzetten"
   },

@@ -355,6 +355,7 @@
     "repair_note": "Ändra inställningarna nedan via Reparera."
   },
   "widget": {
+    "lang": "sv",
     "grid": "Nät",
     "home": "Hus",
     "solar": "Sol",
@@ -398,6 +399,10 @@
     "cheap": "lägsta",
     "dear": "högsta",
     "no_price": "Lägg först till en Energipris-enhet.",
+    "next_action": "Nästa åtgärd",
+    "export_price": "Exportpris",
+    "no_battery": "Lägg först till ett Smart batteri.",
+    "efficiency": "verkningsgrad",
     "not_yet": "Priserna är inte kända än.",
     "enable_forecast": "Slå på prognos"
   },

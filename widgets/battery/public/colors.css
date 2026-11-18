@@ -1,0 +1,43 @@
+/* Copy of tools/widget-shared/colors.css - edit there, run gen.js. */
+/* The colours of all widgets: one node or lane has the same colour everywhere. */
+:root {
+  --text: var(--homey-text-color, #1c1c1e);
+  --muted: var(--homey-text-color-light, #8e8e93);
+  --line: var(--homey-line-color, rgba(128, 128, 128, 0.25));
+  --node-bg: var(--homey-background-color, #ffffff);
+  --c-grid: rgb(122, 134, 160);
+  --c-solar: rgb(242, 169, 0);
+  --c-battery: rgb(46, 184, 114);
+  --c-ev: rgb(142, 108, 239);
+  --c-home: rgb(61, 139, 253);
+  --c-gas: rgb(232, 89, 12);
+  --c-water: rgb(14, 165, 233);
+  --c-climate: rgb(230, 73, 128);
+  --c-appliance: rgb(20, 184, 166);
+  --c-zone: rgb(52, 199, 123);
+  --c-export: rgb(34, 184, 207);
+  --c-price: rgb(142, 142, 147);
+  --c-free: rgb(43, 63, 168);
+  --c-cheap: rgb(76, 110, 245);
+  --c-normal: rgba(142, 142, 147, 0.45);
+  --c-dear: rgb(229, 72, 77);
+  --c-hold: rgb(122, 134, 160);
+  --c-idle: rgba(142, 142, 147, 0.45);
+  --c-average: rgb(176, 137, 104);
+  --pale: 0.4;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: var(--homey-text-color, #f2f2f7);
+    --node-bg: var(--homey-background-color, #1c1c1e);
+  }
+}
+html, body { margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+/* Without data the widget keeps its height: the empty chart keeps its place, the message lies over it. */
+.chartbox { position: relative; }
+.hide { visibility: hidden; }
+#empty {
+  position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 0 16px; text-align: center; color: var(--muted); font-size: 14px;
+}

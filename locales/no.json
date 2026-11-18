@@ -355,6 +355,7 @@
     "repair_note": "Endre innstillingene nedenfor via Reparer."
   },
   "widget": {
+    "lang": "no",
     "grid": "Nett",
     "home": "Hus",
     "solar": "Sol",
@@ -398,6 +399,10 @@
     "cheap": "laveste",
     "dear": "høyeste",
     "no_price": "Legg først til en Energipris-enhet.",
+    "next_action": "Neste handling",
+    "export_price": "Eksportpris",
+    "no_battery": "Legg først til et Smart batteri.",
+    "efficiency": "virkningsgrad",
     "not_yet": "Prisene er ikke kjent ennå.",
     "enable_forecast": "Slå på prognose"
   },

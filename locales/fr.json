@@ -355,6 +355,7 @@
     "repair_note": "Modifiez les réglages ci-dessous via Réparer."
   },
   "widget": {
+    "lang": "fr",
     "grid": "Réseau",
     "home": "Maison",
     "solar": "Solaire",
@@ -398,6 +399,10 @@
     "cheap": "plus bas",
     "dear": "plus hauts",
     "no_price": "Ajoutez d'abord un appareil Prix de l'énergie.",
+    "next_action": "Action suivante",
+    "export_price": "Prix d'export",
+    "no_battery": "Ajoutez d'abord une Batterie intelligente.",
+    "efficiency": "rendement",
     "not_yet": "Prix pas encore connus.",
     "enable_forecast": "Activer les prévisions"
   },

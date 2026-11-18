@@ -150,8 +150,33 @@ const pricePreview = (t) => {
 </svg>`;
 };
 
+// widgets/battery: price bars in the colour of the planned action (charge, discharge, rest) and the SoC line.
+const BATTERY = '#2EB872';
+const EXPORT = '#22B8CF';
+const batteryPreview = (t) => {
+  const x0 = 100;
+  const x1 = 960;
+  const base = 900;
+  const p = [52, 46, 40, 36, 38, 50, 72, 88, 70, 48, 30, 18, 14, 20, 34, 56, 84, 100, 94, 78, 64, 58, 54, 50];
+  const soc = [40, 40, 55, 70, 85, 85, 80, 60, 45, 45, 50, 65, 80, 92, 92, 90, 70, 45, 25, 20, 20, 20, 22, 25];
+  const w = (x1 - x0) / p.length;
+  const color = (v, i) => {
+    if (soc[i + 1] > soc[i] + 2) return BATTERY;
+    return soc[i + 1] < soc[i] - 2 ? EXPORT : t.shape;
+  };
+  const bars = p.map((v, i) => `<rect x="${(x0 + i * w + w * 0.12).toFixed(1)}" y="${base - v * 5.6}" width="${(w * 0.76).toFixed(1)}" height="${v * 5.6}" rx="6" fill="${color(v, i)}"/>`).join('');
+  const line = soc.map((v, i) => `${(x0 + (i + 0.5) * w).toFixed(1)},${(base - v * 5.6).toFixed(1)}`).join(' ');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  ${pill(40, 40, 944, 60, t.track)}${pill(186, 46, 150, 48, t.card)}
+  ${[0, 1, 2, 3].map((i) => `${pill(64 + i * 230, 160, 160, 34, t.shape)}${pill(64 + i * 230, 210, 110, 22, t.track)}`).join('')}
+  ${[0, 1, 2].map((i) => `<rect x="${x0}" y="${base - i * 200}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
+  ${bars}
+  <polyline points="${line}" fill="none" stroke="${BATTERY}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>`;
+};
+
 const WIDGETS = {
-  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview, price: pricePreview,
+  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview, price: pricePreview, battery: batteryPreview,
 };
 
 for (const [widget, render] of Object.entries(WIDGETS)) {

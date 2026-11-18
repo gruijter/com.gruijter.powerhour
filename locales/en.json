@@ -355,6 +355,7 @@
     "repair_note": "Change the settings below via Repair."
   },
   "widget": {
+    "lang": "en-GB",
     "grid": "Grid",
     "home": "Home",
     "solar": "Solar",
@@ -398,6 +399,10 @@
     "cheap": "lowest",
     "dear": "highest",
     "no_price": "Add an Energy Price device first.",
+    "next_action": "Next action",
+    "export_price": "Export price",
+    "no_battery": "Add a Smart Battery first.",
+    "efficiency": "efficiency",
     "not_yet": "Prices not known yet.",
     "enable_forecast": "Turn on forecast"
   },

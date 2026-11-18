@@ -21,7 +21,7 @@ const SOURCES = {
 };
 const { COLORS, PALE, color } = require('../../lib/charts/Palette');
 
-const WIDGETS = ['energy', 'plan', 'flows', 'solar', 'price'];
+const WIDGETS = ['energy', 'plan', 'flows', 'solar', 'price', 'battery'];
 const DIAGRAM = ['energy']; // also gets flow.js and flow.css
 const PERIOD_TABS = ['energy', 'flows']; // also get periodcache.js
 

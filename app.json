@@ -35308,6 +35308,98 @@
     }
   ],
   "widgets": {
+    "battery": {
+      "name": {
+        "en": "Battery",
+        "nl": "Batterij",
+        "de": "Batterie",
+        "fr": "Batterie",
+        "it": "Batteria",
+        "sv": "Batteri",
+        "no": "Batteri",
+        "es": "Batería",
+        "da": "Batteri",
+        "pl": "Bateria",
+        "ru": "Батарея",
+        "ar": "البطارية",
+        "ko": "배터리"
+      },
+      "height": 300,
+      "settings": [
+        {
+          "id": "shape",
+          "type": "dropdown",
+          "title": {
+            "en": "Shape",
+            "nl": "Vorm",
+            "de": "Form",
+            "fr": "Format",
+            "it": "Formato",
+            "sv": "Format",
+            "no": "Format",
+            "es": "Formato",
+            "da": "Format",
+            "pl": "Format",
+            "ru": "Формат",
+            "ar": "الشكل",
+            "ko": "모양"
+          },
+          "value": "wide",
+          "values": [
+            {
+              "id": "normal",
+              "title": {
+                "en": "Normal",
+                "nl": "Normaal",
+                "de": "Normal",
+                "fr": "Normal",
+                "it": "Normale",
+                "sv": "Normal",
+                "no": "Normal",
+                "es": "Normal",
+                "da": "Normal",
+                "pl": "Normalny",
+                "ru": "Обычный",
+                "ar": "عادي",
+                "ko": "기본"
+              }
+            },
+            {
+              "id": "wide",
+              "title": {
+                "en": "Widescreen",
+                "nl": "Breedbeeld",
+                "de": "Breitbild",
+                "fr": "Panoramique",
+                "it": "Panoramico",
+                "sv": "Bredbild",
+                "no": "Bredformat",
+                "es": "Panorámico",
+                "da": "Bredformat",
+                "pl": "Panoramiczny",
+                "ru": "Широкий",
+                "ar": "عريض",
+                "ko": "와이드"
+              }
+            }
+          ]
+        }
+      ],
+      "devices": {
+        "type": "app",
+        "singular": true,
+        "filter": {
+          "capabilities": "battery_mode"
+        }
+      },
+      "api": {
+        "getBattery": {
+          "method": "GET",
+          "path": "/"
+        }
+      },
+      "id": "battery"
+    },
     "energy": {
       "name": {
         "en": "Energy",

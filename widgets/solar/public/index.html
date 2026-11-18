@@ -60,7 +60,9 @@
     function onHomeyReady(Homey) {
       if (started) return;
       started = true;
-      var lang = (typeof Homey.getLanguage === 'function' && Homey.getLanguage()) || navigator.language || 'en';
+      // The Homey's language (the texts are in it too), not the phone's: dates and numbers.
+      var homeyLang = Homey.__('widget.lang');
+      var lang = homeyLang && homeyLang.indexOf('.') < 0 ? homeyLang : (navigator.language || 'en');
       if (lang === 'ar') document.documentElement.dir = 'rtl';
       var fmt = [0, 1, 2].map(function (n) { return new Intl.NumberFormat(lang, { minimumFractionDigits: n, maximumFractionDigits: n }); });
       var t = function (k) { return Homey.__('widget.' + k); };

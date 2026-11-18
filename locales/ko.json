@@ -355,6 +355,7 @@
     "repair_note": "아래 설정은 수리에서 변경하세요."
   },
   "widget": {
+    "lang": "ko",
     "grid": "계통",
     "home": "가정",
     "solar": "태양광",
@@ -398,6 +399,10 @@
     "cheap": "최저",
     "dear": "최고",
     "no_price": "먼저 에너지 가격 기기를 추가하세요.",
+    "next_action": "다음 동작",
+    "export_price": "송전 가격",
+    "no_battery": "먼저 스마트 배터리를 추가하세요.",
+    "efficiency": "효율",
     "not_yet": "아직 가격을 알 수 없습니다.",
     "enable_forecast": "예측 켜기"
   },

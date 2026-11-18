@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="colors.css">
+  <style>
+    .tabs { display: flex; gap: 2px; margin: 0 8px 6px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .tabs button {
+      flex: 1 1 auto; border: 0; border-radius: 7px; padding: 5px 1px; background: transparent; white-space: nowrap;
+      color: var(--muted); font: inherit; font-size: 11px; cursor: pointer;
+    }
+    .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
+    .stats { display: flex; margin: 2px 8px 2px; }
+    .stat { flex: 1 1 0; min-width: 0; padding-right: 4px; }
+    /* Short values first (SoC, power); the last one holds a time and an action. */
+    .stat:nth-child(1), .stat:nth-child(2) { flex-grow: 0.8; }
+    .stat:nth-child(4) { flex-grow: 1.5; }
+    .stat b { display: block; color: var(--text); font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stat span { display: block; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+    .tick { fill: var(--muted); font-size: 9px; }
+    .grid { stroke: var(--line); stroke-width: 1; }
+    .zero { stroke: var(--muted); stroke-width: 1; opacity: 0.6; }
+    .now { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+    .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
+    .legend { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 4px 12px; margin: 0 8px 4px; min-height: 30px; color: var(--muted); font-size: 11px; }
+    .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; vertical-align: -1px; }
+    .legend i.line { height: 0; border-top: 2px solid; background: none; border-radius: 0; vertical-align: 3px; }
+    .legend i.dash { height: 0; border-top: 2px dashed; background: none; border-radius: 0; vertical-align: 3px; }
+  </style>
+</head>
+<body>
+  <div class="tabs" id="tabs"></div>
+  <div class="stats" id="stats"></div>
+  <div class="chartbox">
+    <svg id="chart" viewBox="0 0 320 170"></svg>
+    <div id="empty"></div>
+  </div>
+  <div class="legend" id="legend"></div>
+  <script>
+    var started = false;
+    var TABS = ['yesterday', 'today', 'tomorrow', 'next', 'weeks', 'year'];
+    var NS = 'http://www.w3.org/2000/svg';
+    var W = 320; // 480 for the widescreen shape (setting shape)
+    var X0 = 34;
+    var TOP = 6;
+    var AXIS = 14;
+    var PALE = 0.4; // expected / estimated
+    var SHARE = 0.5; // one price scale for the days, unless a day would fill less than this share of it
+    // The palette colour of a plan action (ChargeChart actionColor()).
+    var ACTION_COLOR = {
+      charge: '--c-battery', chargeEv: '--c-battery', discharge: '--c-export', dischargeEv: '--c-export',
+      xom: '--c-home', hold: '--c-hold', idle: '--c-idle',
+    };
+    var ACTIONS = ['xom', 'hold', 'charge', 'discharge'];
+
+    function el(tag, attrs, parent, text) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text !== undefined) e.textContent = text;
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function onHomeyReady(Homey) {
+      if (started) return;
+      started = true;
+      // The Homey's language (the texts are in it too), not the phone's: dates and numbers.
+      var homeyLang = Homey.__('widget.lang');
+      var lang = homeyLang && homeyLang.indexOf('.') < 0 ? homeyLang : (navigator.language || 'en');
+      if (lang === 'ar') document.documentElement.dir = 'rtl';
+      var t = function (k) { return Homey.__('widget.' + k); };
+      var actionName = function (k) { return Homey.__('chart_legend.' + String(k).replace('Ev', '')); };
+      var cap = function (s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; };
+      var svg = document.getElementById('chart');
+      var stats = document.getElementById('stats');
+      var tabs = document.getElementById('tabs');
+      var legend = document.getElementById('legend');
+      var empty = document.getElementById('empty');
+      var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
+      var key = 'pbth-battery-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var tab = 'today';
+      try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      if (TABS.indexOf(tab) < 0) tab = 'today';
+      var data = null;
+      var sel = null; // selected slot or bar; null: the whole period
+      var chart = null;
+      var ready = false;
+      var lastHeight = 0;
+      var timeFmt = null;
+      var kwhFmt = new Intl.NumberFormat(lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      var none = [' ', ' '];
+
+      function money(v, decimals) {
+        if (typeof v !== 'number') return '–';
+        var f = new Intl.NumberFormat(lang, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        return (v < 0 ? '−' : '') + (data.currency || '') + ' ' + f.format(Math.abs(v));
+      }
+      function kwh(v) { return typeof v === 'number' ? kwhFmt.format(v) + ' kWh' : '–'; }
+      function power(w) {
+        if (typeof w !== 'number') return '–';
+        var a = Math.abs(w);
+        var s = a < 1000 ? Math.round(a) + ' W' : kwhFmt.format(a / 1000) + ' kW';
+        return (w > 0 ? '+' : w < 0 ? '−' : '') + s;
+      }
+      function pct(v) { return typeof v === 'number' ? Math.round(v) + '%' : '–'; }
+      function isBars(d) { return d && (d.day === 'weeks' || d.day === 'year'); }
+
+      TABS.forEach(function (id) {
+        var b = document.createElement('button');
+        b.textContent = t(id);
+        b.dataset.id = id;
+        b.addEventListener('click', function () {
+          if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+          tab = id;
+          sel = null;
+          try { localStorage.setItem(key, id); } catch (e) { /* not kept */ }
+          markTabs();
+          if (stale()) refresh();
+          else {
+            data = cache[tab].data;
+            draw();
+          }
+        });
+        tabs.appendChild(b);
+      });
+      // Six tabs: in a long language the text gets smaller until they fit (at least 9 px).
+      function fitTabs() {
+        var size = 11;
+        tabs.style.fontSize = '';
+        Array.prototype.forEach.call(tabs.children, function (b) { b.style.fontSize = ''; });
+        while (tabs.scrollWidth > tabs.clientWidth && size > 9) {
+          size -= 0.5;
+          Array.prototype.forEach.call(tabs.children, function (b) { b.style.fontSize = size + 'px'; });
+        }
+      }
+      fitTabs();
+      window.addEventListener('resize', fitTabs);
+      function markTabs() {
+        Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.id === tab); });
+      }
+      markTabs();
+
+      function setStats(cells) {
+        while (stats.firstChild) stats.removeChild(stats.firstChild);
+        cells.forEach(function (c) {
+          var d = document.createElement('div');
+          d.className = 'stat';
+          var b = document.createElement('b');
+          b.textContent = c[0];
+          var s = document.createElement('span');
+          s.textContent = c[1];
+          d.appendChild(b);
+          d.appendChild(s);
+          stats.appendChild(d);
+        });
+        // A long value (a time and an action in a long language) gets smaller until it fits (12 px).
+        Array.prototype.forEach.call(stats.querySelectorAll('b'), function (b) {
+          var size = 15;
+          while (b.scrollWidth > b.clientWidth && size > 12) {
+            size -= 0.5;
+            b.style.fontSize = size + 'px';
+          }
+        });
+      }
+
+      function drawLegend(items) {
+        while (legend.firstChild) legend.removeChild(legend.firstChild);
+        items.forEach(function (it) {
+          var s = document.createElement('span');
+          var i = document.createElement('i');
+          if (it[2] === 'line' || it[2] === 'dash') {
+            i.className = it[2];
+            i.style.borderTopColor = 'var(' + it[1] + ')';
+          } else {
+            i.style.background = 'var(' + it[1] + ')';
+            if (typeof it[2] === 'number') i.style.opacity = it[2];
+          }
+          s.appendChild(i);
+          s.appendChild(document.createTextNode(cap(it[0])));
+          legend.appendChild(s);
+        });
+      }
+
+      // A round step (1, 2 or 5 x 10^k) for 2-4 grid lines over range.
+      function niceStep(range) {
+        var raw = range / 4;
+        var mag = Math.pow(10, Math.floor(Math.log10(raw)));
+        var f = [1, 2, 5, 10].find(function (m) { return m * mag >= raw; });
+        return f * mag;
+      }
+
+      function slotTime(i) { return timeFmt.format(data.startMs + i * data.slotMs); }
+
+      // The figures on the same places on every tab. Days: SoC and power now (when in view), the
+      // day's money, the next action; a slot: its SoC, power, price and action. Weeks and year: money,
+      // charged, discharged, efficiency; a bar: the same for it.
+      function drawStats() {
+        var d = data;
+        if (isBars(d)) {
+          var b = sel === null ? d.total : d.bars[sel];
+          var label = sel === null ? t('yield') : barLabel(sel);
+          if (!b) {
+            setStats([[money(null, d.decimals), label], none, none, none]);
+            return;
+          }
+          setStats([
+            [money(b.money, d.decimals), label],
+            [kwh(b.charged), actionName('charge')],
+            [kwh(b.discharged), actionName('discharge')],
+            // Per day or month no efficiency: energy charged earlier can be discharged in it.
+            sel === null && b.charged > 0 ? [pct((100 * b.discharged) / b.charged), cap(t('efficiency'))] : none,
+          ]);
+          return;
+        }
+        if (sel === null) {
+          var nowIn = chart.nowIdx >= 0;
+          // The next action with its start: '07:45 Discharge'; the day in the label when not today.
+          var next = none;
+          if (nowIn && d.nextAction) {
+            var label = t('next_action');
+            var dayKey = function (ms) { return new Date(ms).toLocaleDateString('en-CA', { timeZone: d.timeZone }); };
+            if (dayKey(d.nextAction.ms) !== dayKey(Date.now())) {
+              label += ' (' + new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: d.timeZone }).format(d.nextAction.ms) + ')';
+            }
+            next = [timeFmt.format(d.nextAction.ms) + ' ' + actionName(d.nextAction.key), label];
+          }
+          setStats([
+            nowIn ? [pct(d.socNow), t('now')] : none,
+            nowIn ? [power(d.powerNow), t('power')] : none,
+            typeof d.money === 'number' ? [money(d.money, d.decimals), t('yield')] : none,
+            next,
+          ]);
+          return;
+        }
+        var soc = typeof d.soc[sel] === 'number' ? d.soc[sel] : d.socPlan[sel];
+        var act = d.action[sel];
+        setStats([
+          [pct(soc), slotTime(sel) + '–' + slotTime(sel + 1)],
+          [power(d.power[sel]), t('power')],
+          [money(d.price[sel], d.priceDecimals), t('price') + (d.forecast[sel] ? ' · ' + t('expected').toLowerCase() : '')],
+          act === 'idle' ? none : [actionName(act), ' '],
+        ]);
+      }
+
+      var dateFmt = null;
+      function barLabel(i) {
+        var b = data.bars[i];
+        if (data.day === 'year') return new Intl.DateTimeFormat(lang, { month: 'long', timeZone: 'UTC' }).format(Date.UTC(2026, i, 15));
+        return b && b.date ? dateFmt.format(new Date(b.date + 'T12:00:00Z')) : '';
+      }
+
+      // The price range of the days together (WidgetData.getBattery range).
+      function scaleOfDays(d) {
+        var r = d.range || {};
+        var list = ['yesterday', 'today', 'tomorrow'].map(function (k) { return r[k]; }).filter(Boolean);
+        if (!list.length) return null;
+        return {
+          lo: Math.min.apply(null, list.map(function (x) { return x.lo; })),
+          hi: Math.max.apply(null, list.map(function (x) { return x.hi; })),
+        };
+      }
+
+      function drawDay(d, X1, CH, bottom) {
+        var n = d.price.length;
+        var sw = (X1 - X0) / n;
+        var vals = d.price.concat(d.exportPrice).filter(function (v) { return typeof v === 'number'; });
+        var lo = Math.min(0, Math.min.apply(null, vals.length ? vals : [0]));
+        var hi = Math.max(0, Math.max.apply(null, vals.length ? vals : [0]));
+        var both = scaleOfDays(d);
+        if (both && both.lo <= lo && both.hi >= hi && hi - lo >= SHARE * (both.hi - both.lo)) {
+          lo = both.lo;
+          hi = both.hi;
+        }
+        var step = niceStep((hi - lo) || 1);
+        lo = Math.floor(lo / step) * step;
+        hi = Math.max(Math.ceil(hi / step) * step, lo + step);
+        var y = function (v) { return TOP + ((hi - v) / (hi - lo)) * CH; };
+        var ys = function (s) { return TOP + ((100 - s) / 100) * CH; };
+        var dec = step < 0.01 ? 3 : step < 0.1 ? 2 : step < 1 ? 1 : 0;
+        var axisFmt = new Intl.NumberFormat(lang, { minimumFractionDigits: dec, maximumFractionDigits: dec });
+        for (var g = lo; g <= hi + step / 2; g += step) {
+          el('line', { x1: X0, x2: X1, y1: y(g), y2: y(g), class: Math.abs(g) < step / 2 ? 'zero' : 'grid' }, svg);
+          el('text', { x: X0 - 4, y: y(g) + 3, 'text-anchor': 'end', class: 'tick' }, svg, axisFmt.format(Math.abs(g) < step / 2 ? 0 : g));
+        }
+        [0, 50, 100].forEach(function (s) {
+          el('text', { x: X1 + 4, y: ys(s) + 3, 'text-anchor': 'start', class: 'tick' }, svg, s + '%');
+        });
+        var hourFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: d.timeZone });
+        var dayFmt = new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: d.timeZone });
+        for (var i = 0; i < n; i += 1) {
+          var hm = hourFmt.format(d.startMs + i * d.slotMs).split(':');
+          if (hm[1] !== '00' || Number(hm[0]) % 3 !== 0) continue;
+          var label = d.day === 'next' && hm[0] === '00' && i > 0 ? dayFmt.format(d.startMs + i * d.slotMs) : hm[0];
+          el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, label);
+        }
+
+        var used = {};
+        var gap = sw > 6 ? sw * 0.15 : sw * 0.1;
+        var y0 = y(0);
+        d.price.forEach(function (v, k) {
+          if (typeof v !== 'number') return;
+          var act = d.action[k] || 'idle';
+          used[act.replace('Ev', '')] = true;
+          el('rect', {
+            x: X0 + k * sw + gap / 2,
+            y: Math.min(y(v), y0),
+            width: Math.max(0.5, sw - gap),
+            height: Math.max(0.5, Math.abs(y0 - y(v))),
+            fill: 'var(' + (ACTION_COLOR[act] || '--c-idle') + ')',
+            opacity: d.alpha[k],
+          }, svg);
+        });
+
+        // The export price with an edge of the background: visible on discharge (export) bars.
+        var path = '';
+        d.exportPrice.forEach(function (v, k) {
+          if (typeof v !== 'number') return;
+          var start = k === 0 || typeof d.exportPrice[k - 1] !== 'number';
+          path += (start ? 'M' : 'L') + (X0 + k * sw).toFixed(1) + ' ' + y(v).toFixed(1) + 'L' + (X0 + (k + 1) * sw).toFixed(1) + ' ' + y(v).toFixed(1);
+        });
+        if (path) {
+          el('path', { d: path, fill: 'none', stroke: 'var(--node-bg)', 'stroke-width': 3.5 }, svg);
+          el('path', { d: path, fill: 'none', stroke: 'var(--c-export)', 'stroke-width': 1.5 }, svg);
+        }
+
+        // SoC: measured solid, planned dashed (from the last measured point on).
+        var socLine = function (list, dash, from) {
+          var pts = [];
+          if (from) pts.push(from);
+          list.forEach(function (s, k) { if (typeof s === 'number') pts.push((X0 + (k + 0.5) * sw).toFixed(1) + ',' + ys(s).toFixed(1)); });
+          if (pts.length > 1) {
+            el('polyline', {
+              points: pts.join(' '), fill: 'none', stroke: 'var(--c-battery)', 'stroke-width': dash ? 1.5 : 2, 'stroke-dasharray': dash ? '4 3' : 'none', 'stroke-linejoin': 'round',
+            }, svg);
+          }
+          return pts.length ? pts[pts.length - 1] : null;
+        };
+        var lastReal = socLine(d.soc, false, null);
+        socLine(d.socPlan, true, lastReal);
+
+        var nowIdx = d.day === 'today' || d.day === 'next' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
+        if (nowIdx < 0 || nowIdx >= n) nowIdx = -1;
+        if (nowIdx >= 0) {
+          var nx = X0 + (nowIdx + 0.5) * sw;
+          el('line', { x1: nx, x2: nx, y1: TOP, y2: bottom, class: 'now' }, svg);
+        }
+
+        var items = [];
+        ACTIONS.forEach(function (a) { if (used[a]) items.push([actionName(a), ACTION_COLOR[a]]); });
+        if (d.forecast.some(Boolean)) items.push([t('expected'), '--c-idle', PALE]);
+        if (path) items.push([t('export_price'), '--c-export', 'line']);
+        if (d.soc.concat(d.socPlan).some(function (s) { return typeof s === 'number'; })) items.push(['SoC', '--c-battery', 'line']);
+        drawLegend(items);
+        chart = {
+          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx, ok: function (k) { return typeof d.price[k] === 'number'; },
+        };
+      }
+
+      // Weeks and year: kWh charged up, discharged down (as the power band of widgets/plan).
+      function drawBars(d, X1, CH, bottom) {
+        var list = d.bars;
+        var n = list.length;
+        var sw = (X1 - X0) / n;
+        var top = Math.max.apply(null, list.map(function (b) { return b ? Math.max(b.charged || 0, b.discharged || 0) : 0; })) || 1;
+        var step = niceStep(top);
+        var max = Math.max(Math.ceil(top / step) * step, step);
+        var mid = TOP + CH / 2;
+        var y = function (v) { return mid - (v / max) * (CH / 2); };
+        [-max, 0, max].forEach(function (g) {
+          el('line', { x1: X0, x2: X1, y1: y(g), y2: y(g), class: g === 0 ? 'zero' : 'grid' }, svg);
+          el('text', { x: X0 - 4, y: y(g) + 3, 'text-anchor': 'end', class: 'tick' }, svg, kwhFmt.format(Math.abs(g)).replace(/[.,]0$/, ''));
+        });
+        var monthFmt = new Intl.DateTimeFormat(lang, { month: 'narrow', timeZone: 'UTC' });
+        var labelFmt = new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'numeric', timeZone: 'UTC' });
+        var hasEst = false;
+        list.forEach(function (b, i) {
+          var label = d.day === 'year' ? monthFmt.format(Date.UTC(2026, i, 15))
+            : ((n - 1 - i) % 7 === 0 && b && b.date ? labelFmt.format(new Date(b.date + 'T12:00:00Z')) : '');
+          var anchor = i === n - 1 && d.day === 'weeks' ? 'end' : 'middle';
+          if (label) el('text', { x: anchor === 'end' ? X0 + (i + 1) * sw : X0 + (i + 0.5) * sw, y: bottom + 11, 'text-anchor': anchor, class: 'tick' }, svg, label);
+          if (!b || typeof b.charged !== 'number') return;
+          if (b.est) hasEst = true;
+          var x = X0 + i * sw + sw * 0.15;
+          var bw = sw * 0.7;
+          var op = b.est ? PALE : 1;
+          if (b.charged > 0) el('rect', { x: x, y: y(b.charged), width: bw, height: mid - y(b.charged), fill: 'var(--c-battery)', opacity: op }, svg);
+          if (b.discharged > 0) el('rect', { x: x, y: mid, width: bw, height: y(-b.discharged) - mid, fill: 'var(--c-export)', opacity: op }, svg);
+        });
+        var items = [[actionName('charge'), '--c-battery'], [actionName('discharge'), '--c-export']];
+        if (hasEst) items.push([t('estimated'), '--c-battery', PALE]);
+        drawLegend(items);
+        chart = {
+          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: -1, ok: function (k) { return !!list[k] && typeof list[k].charged === 'number'; },
+        };
+      }
+
+      function draw() {
+        var d = data;
+        W = settings.shape !== 'normal' ? 480 : 320;
+        var CH = settings.shape !== 'normal' ? 110 : 140;
+        var bars = isBars(d);
+        var X1 = bars ? W - 4 : W - 26;
+        var missing = !d || !d.battery;
+        var known = !missing && (bars ? d.bars.some(function (b) { return b && typeof b.charged === 'number'; }) : !!d.price);
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        svg.classList.toggle('hide', !known);
+        [stats, legend].forEach(function (e) { e.classList.toggle('hide', !known); });
+        empty.style.display = known ? 'none' : 'flex';
+        chart = null;
+        if (!known) {
+          // Same height as with data: placeholders keep the stats and legend lines.
+          setStats([none]);
+          drawLegend([[' ', '--c-idle']]);
+          if (missing) empty.textContent = d && d.battery === false ? '…' : t('no_battery');
+          else empty.textContent = bars && d.building ? t('building') : '…';
+          fit();
+          return;
+        }
+        timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
+        dateFmt = new Intl.DateTimeFormat(lang, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+        if (bars) drawBars(d, X1, CH, TOP + CH);
+        else drawDay(d, X1, CH, TOP + CH);
+        if (sel !== null && (sel < 0 || sel >= chart.n || !chart.ok(sel))) sel = null;
+        drawSelection();
+        fit();
+      }
+
+      function drawSelection() {
+        if (!chart) return;
+        var g = chart.sel;
+        while (g.firstChild) g.removeChild(g.firstChild);
+        drawStats();
+        if (sel === null) return;
+        var cx = X0 + (sel + 0.5) * chart.sw;
+        el('line', { x1: cx, x2: cx, y1: TOP, y2: chart.bottom, class: 'cursor' }, g);
+      }
+
+      function fit() {
+        fitTabs();
+        var bottom = 0;
+        Array.prototype.forEach.call(document.body.children, function (e) {
+          var r = e.getBoundingClientRect();
+          if (r.height) bottom = Math.max(bottom, r.bottom + window.scrollY);
+        });
+        var hgt = Math.ceil(bottom) + 2;
+        if (!ready) {
+          ready = true;
+          lastHeight = hgt;
+          Homey.ready({ height: hgt });
+          return;
+        }
+        if (hgt === lastHeight || typeof Homey.setHeight !== 'function') return;
+        lastHeight = hgt;
+        Homey.setHeight(hgt).catch(function () {});
+      }
+
+      function slotAt(clientX) {
+        var r = svg.getBoundingClientRect();
+        var x = ((clientX - r.left) / r.width) * W;
+        return Math.max(0, Math.min(chart.n - 1, Math.floor((x - X0) / chart.sw)));
+      }
+      // A tap in the chart selects that slot or bar; a tap anywhere else shows the whole period again.
+      function inChart(evt) {
+        var r = svg.getBoundingClientRect();
+        var k = r.width / W;
+        var x = (evt.clientX - r.left) / k;
+        var yy = (evt.clientY - r.top) / k;
+        return x >= X0 && x <= X0 + chart.n * chart.sw && yy >= TOP && yy <= chart.bottom;
+      }
+      function select(k) {
+        sel = chart.ok(k) ? k : null;
+        drawSelection();
+      }
+      var dragging = false;
+      document.addEventListener('pointerdown', function (evt) {
+        if (!chart || evt.target.closest('#tabs')) return;
+        if (evt.target.closest('#chart') && inChart(evt)) {
+          dragging = true;
+          try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
+          select(slotAt(evt.clientX));
+        } else {
+          if (sel === null) return;
+          sel = null;
+          drawSelection();
+        }
+        if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+      });
+      svg.addEventListener('pointermove', function (evt) {
+        if (!dragging || !chart) return;
+        select(slotAt(evt.clientX));
+      });
+      ['pointerup', 'pointercancel'].forEach(function (type) {
+        svg.addEventListener(type, function () { dragging = false; });
+      });
+
+      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; if (data) draw(); });
+
+      var cache = {};
+      var pending = {};
+      function refresh() {
+        if ((document.hidden && ready) || pending[tab]) return;
+        var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
+        var asked = tab;
+        pending[asked] = true;
+        Homey.api('GET', '/?day=' + asked + '&ids=' + encodeURIComponent(ids.join(',')), {})
+          .then(function (d) {
+            cache[asked] = { data: d, ms: Date.now(), day: new Date().toDateString() };
+            if (asked !== tab) return;
+            data = d;
+            draw();
+            // Battery still starting, its charts not drawn yet, or its history being built.
+            if (d && (d.battery === false || (d.battery && !d.price && !d.bars) || d.building)) setTimeout(refresh, 30000);
+          })
+          .catch(function (err) { console.error(err); })
+          .finally(function () {
+            pending[asked] = false;
+            if (!ready) fit();
+          });
+      }
+
+      // Days per quarter (the now line, the plan); weeks and year hourly.
+      function stale() {
+        var c = cache[tab];
+        if (!c || c.day !== new Date().toDateString() || !c.data || !c.data.battery) return true;
+        var quarter = function (ms) { return Math.floor((ms - 30000) / 900000); };
+        if (tab === 'weeks' || tab === 'year') return Date.now() - c.ms > 3600000;
+        return quarter(Date.now()) !== quarter(c.ms);
+      }
+      function tick() {
+        if (stale()) refresh();
+        setTimeout(tick, 900000 - ((Date.now() - 30000) % 900000));
+      }
+
+      refresh();
+      setTimeout(tick, 900000 - ((Date.now() - 30000) % 900000));
+      document.addEventListener('visibilitychange', function () { if (!document.hidden && stale()) refresh(); });
+    }
+
+    if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);
+  </script>
+</body>
+</html>

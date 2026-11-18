@@ -63,7 +63,9 @@
     function onHomeyReady(Homey) {
       if (started) return;
       started = true;
-      var lang = (typeof Homey.getLanguage === 'function' && Homey.getLanguage()) || navigator.language || 'en';
+      // The Homey's language (the texts are in it too), not the phone's: dates and numbers.
+      var homeyLang = Homey.__('widget.lang');
+      var lang = homeyLang && homeyLang.indexOf('.') < 0 ? homeyLang : (navigator.language || 'en');
       if (lang === 'ar') document.documentElement.dir = 'rtl';
       var t = function (k) { return Homey.__('widget.' + k); };
       var cap = function (s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; };
@@ -167,7 +169,7 @@
         setHead([
           [money(d.import[sel]), slotTime(sel) + '–' + slotTime(sel + 1) + (d.forecast[sel] ? ' ' + t('expected').toLowerCase() : '')],
           avg,
-          d.export ? [money(d.export[sel]), cap(t('export'))] : none,
+          d.export ? [money(d.export[sel]), t('export_price')] : none,
           none,
         ]);
       }
@@ -307,7 +309,7 @@
         var names = { free: 'free', cheap: 'cheap', dear: 'dear' };
         LEVELS.forEach(function (lv) { if (names[lv] && used['--c-' + lv]) items.push([t(names[lv]), '--c-' + lv]); });
         if (s.expected) items.push([t('expected'), '--c-normal', PALE]);
-        if (d.export) items.push([t('export'), 'line']);
+        if (d.export) items.push([t('export_price'), 'line']);
         if (avg !== null) items.push([t('average_4w') + ' ' + money(avg), 'avg']);
         drawLegend(items);
         chart = {

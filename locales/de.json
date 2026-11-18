@@ -355,6 +355,7 @@
     "repair_note": "Ändern Sie die Einstellungen unten über Reparieren."
   },
   "widget": {
+    "lang": "de",
     "grid": "Netz",
     "home": "Haus",
     "solar": "Solar",
@@ -398,6 +399,10 @@
     "cheap": "niedrigste",
     "dear": "höchste",
     "no_price": "Füge zuerst ein Energiepreis-Gerät hinzu.",
+    "next_action": "Nächste Aktion",
+    "export_price": "Exportpreis",
+    "no_battery": "Füge zuerst eine Intelligente Batterie hinzu.",
+    "efficiency": "Wirkungsgrad",
     "not_yet": "Preise noch nicht bekannt.",
     "enable_forecast": "Prognose einschalten"
   },
