@@ -14,10 +14,18 @@
     .tick.day { fill: var(--text); font-weight: 600; }
     .base { stroke: var(--line); stroke-width: 1; }
     .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
+    .now { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+    .tabs { display: flex; gap: 2px; margin: 0 8px 6px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .tabs button {
+      flex: 1; border: 0; border-radius: 7px; padding: 5px 0; background: transparent;
+      color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
+    }
+    .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
   </style>
   <script src="icons.js"></script>
 </head>
 <body>
+  <div class="tabs" id="tabs"></div>
   <div class="chartbox">
     <svg id="plan" viewBox="0 0 320 280"></svg>
     <div id="empty"></div>
@@ -54,7 +62,40 @@
       var svg = document.getElementById('plan');
       var empty = document.getElementById('empty');
       var data = null;
-      var selectedMs = null; // null: now
+      var selectedMs = null; // null: now (today, next hours), the start (tomorrow)
+      var TABS = ['today', 'tomorrow', 'next'];
+      var tabs = document.getElementById('tabs');
+      var tabKey = 'pbth-plan-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var tab = 'today';
+      try { tab = localStorage.getItem(tabKey) || 'today'; } catch (e) { /* no storage: default */ }
+      if (TABS.indexOf(tab) < 0) tab = 'today';
+      TABS.forEach(function (id) {
+        var b = document.createElement('button');
+        b.textContent = t(id);
+        b.dataset.id = id;
+        b.addEventListener('click', function () {
+          if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+          tab = id;
+          selectedMs = null;
+          try { localStorage.setItem(tabKey, id); } catch (e) { /* not kept */ }
+          markTabs();
+          refresh();
+        });
+        tabs.appendChild(b);
+      });
+      function markTabs() {
+        Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.id === tab); });
+      }
+      markTabs();
+      // The slot of now (today: after the measured part; next hours: the first), -1 when not in view.
+      function nowIdx(d) {
+        if (d.day === 'tomorrow') return -1;
+        return d.day === 'today' ? Math.min(d.past || 0, d.net.length - 1) : 0;
+      }
+      function defaultIdx(d) { return Math.max(0, nowIdx(d)); }
+      function currentIdx() {
+        return selectedMs === null ? defaultIdx(data) : Math.round((selectedMs - data.startMs) / data.slotMs);
+      }
       var lastHeight = 0;
       var ready = false;
 
@@ -194,6 +235,7 @@
         if (lane.kind === 'price') {
           // One step area per price level and known/expected: no seams between slots.
           var ps = lane.values.filter(function (v) { return typeof v === 'number'; });
+          if (!ps.length) return; // prices not known yet: the lane stays, empty
           var base = Math.min(0, Math.min.apply(null, ps));
           var range = Math.max.apply(null, ps) - base || 1;
           // One step area per level, known/expected and gradation (PriceLevels alpha).
@@ -300,6 +342,10 @@
           window.PBTH_PLACE_ICON(svg, lane.icon, 13, y0 + 20, 18, 'var(' + lane.color + ')');
           drawLane(el('g', {}, svg), lane, y0 + 5, y0 + LANE - 5, sw);
         });
+        if (d.day === 'today' && nowIdx(d) > 0) {
+          var nx = X0 + nowIdx(d) * sw;
+          el('line', { x1: nx, x2: nx, y1: TOP - 2, y2: axisY, class: 'now' }, svg);
+        }
         chart = {
           list: list, n: n, sw: sw, axisY: axisY, sel: el('g', {}, svg),
         };
@@ -311,14 +357,14 @@
       function drawSelection() {
         var d = data;
         if (!chart || !d || !d.grid) return;
-        var idx = selectedMs === null ? 0 : Math.round((selectedMs - d.startMs) / d.slotMs);
-        if (idx < 0 || idx >= chart.n) { idx = 0; selectedMs = null; }
+        var idx = currentIdx();
+        if (idx < 0 || idx >= chart.n) { idx = defaultIdx(d); selectedMs = null; }
         var selTm = d.startMs + idx * d.slotMs;
         var g = chart.sel;
         while (g.firstChild) g.removeChild(g.firstChild);
-        // The selected time; at now a hint that the chart can be tapped or dragged.
-        el('text', { x: 4, y: 15, class: 'time' }, g, (idx === 0 ? t('now') + ' · ' : dayFmt.format(selTm) + ' ') + timeFmt.format(selTm));
-        if (idx === 0) el('text', { x: W - 4, y: 15, 'text-anchor': 'end', class: 'hint' }, g, t('plan_hint'));
+        // The selected time; at the start (now) a hint that the chart can be tapped or dragged.
+        el('text', { x: 4, y: 15, class: 'time' }, g, (idx === nowIdx(d) ? t('now') + ' · ' : dayFmt.format(selTm) + ' ') + timeFmt.format(selTm));
+        if (selectedMs === null) el('text', { x: W - 4, y: 15, 'text-anchor': 'end', class: 'hint' }, g, t('plan_hint'));
         chart.list.forEach(function (lane, li) {
           var y0 = TOP + li * LANE;
           var sub = lane.sub ? lane.sub(idx) : '';
@@ -352,7 +398,7 @@
       function setIdx(i) {
         var n = data.net.length;
         var k = Math.max(0, Math.min(n - 1, i));
-        selectedMs = k === 0 ? null : data.startMs + k * data.slotMs;
+        selectedMs = k === defaultIdx(data) ? null : data.startMs + k * data.slotMs;
         // Right away: requestAnimationFrame lags in the app's widget view.
         drawSelection();
       }
@@ -372,7 +418,7 @@
       function tap(clientX) {
         if (!data || !data.grid) return;
         var n = data.net.length;
-        var idx = selectedMs === null ? 0 : Math.round((selectedMs - data.startMs) / data.slotMs);
+        var idx = currentIdx();
         var dx = chartX(clientX) - (X0 + (idx + 0.5) * ((X1 - X0) / n));
         if (Math.abs(dx) > NEAR) {
           select(clientX);
@@ -398,13 +444,18 @@
 
       function refresh() {
         if (document.hidden && ready) return;
-        Homey.api('GET', '/', {})
-          .then(function (d) { data = d; draw(); })
+        var asked = tab;
+        Homey.api('GET', '/?day=' + asked, {})
+          .then(function (d) {
+            if (asked !== tab) return;
+            data = d;
+            draw();
+          })
           .catch(function (err) { console.error(err); })
           .finally(function () { if (!ready) fit(); });
       }
 
-      // Per 15-minute slot (now is the left edge), 30 s after the slot change: the plans update first.
+      // Per 15-minute slot, 30 s after the slot change: the plans update first.
       var fetchedSlot = -1;
       function slotNow() { return Math.floor((Date.now() - 30000) / 900000); }
       function tick() {

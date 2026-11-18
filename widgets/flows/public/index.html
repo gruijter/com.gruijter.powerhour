@@ -88,9 +88,9 @@
       var empty = document.getElementById('empty');
       var tabs = document.getElementById('tabs');
       var key = 'pbth-flows-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
-      var period = 'now';
-      try { period = localStorage.getItem(key) || 'now'; } catch (e) { /* no storage: default */ }
-      if (PERIODS.indexOf(period) < 0) period = 'now';
+      var period = 'day';
+      try { period = localStorage.getItem(key) || 'day'; } catch (e) { /* no storage: default */ }
+      if (PERIODS.indexOf(period) < 0) period = 'day';
       var ready = false;
       var store = window.PbthPeriodCache();
       var t = function (k) { return Homey.__('widget.' + k); };
