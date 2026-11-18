@@ -150,6 +150,8 @@
     "price_info_fixed_export": "Vast tarief __tariff__, export __export__",
     "nav_previous": "Vorige",
     "nav_next": "Volgende",
+    "nav_close": "Sluiten",
+    "start_saved": "Opgeslagen.",
     "step_battery": "Je batterij",
     "step_price": "Energieprijs",
     "step_plan": "Laadplan",

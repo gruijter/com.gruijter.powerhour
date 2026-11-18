@@ -150,6 +150,8 @@
     "price_info_fixed_export": "Фиксированный тариф __tariff__, экспорт __export__",
     "nav_previous": "Назад",
     "nav_next": "Дальше",
+    "nav_close": "Закрыть",
+    "start_saved": "Сохранено.",
     "step_battery": "Ваша батарея",
     "step_price": "Цена энергии",
     "step_plan": "План зарядки",

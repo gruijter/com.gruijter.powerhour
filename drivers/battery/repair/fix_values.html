@@ -130,7 +130,7 @@
 				const values = {};
 				changed().forEach(({ f, value }) => { values[f.id] = value; });
 				await Homey.emit('fix_set', { kind: kind().id, values });
-				Homey.showView('done');
+				Homey.showView('repair_start');
 			} catch (error) {
 				button.classList.remove('is-loading');
 				Homey.alert(error.message || error, 'error');

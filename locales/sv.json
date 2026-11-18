@@ -150,6 +150,8 @@
     "price_info_fixed_export": "Fast tariff __tariff__, export __export__",
     "nav_previous": "Föregående",
     "nav_next": "Nästa",
+    "nav_close": "Stäng",
+    "start_saved": "Sparat.",
     "step_battery": "Ditt batteri",
     "step_price": "Energipris",
     "step_plan": "Laddplan",

@@ -150,6 +150,8 @@
     "price_info_fixed_export": "고정 요금 __tariff__, 송전 __export__",
     "nav_previous": "이전",
     "nav_next": "다음",
+    "nav_close": "닫기",
+    "start_saved": "저장했습니다.",
     "step_battery": "내 배터리",
     "step_price": "에너지 가격",
     "step_plan": "충전 계획",

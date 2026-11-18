@@ -150,6 +150,8 @@
     "price_info_fixed_export": "تعرفة ثابتة __tariff__, التصدير __export__",
     "nav_previous": "السابق",
     "nav_next": "التالي",
+    "nav_close": "إغلاق",
+    "start_saved": "تم الحفظ.",
     "step_battery": "بطاريتك",
     "step_price": "سعر الطاقة",
     "step_plan": "خطة الشحن",

@@ -150,6 +150,8 @@
     "price_info_fixed_export": "Fast tarif __tariff__, eksport __export__",
     "nav_previous": "Forrige",
     "nav_next": "Næste",
+    "nav_close": "Luk",
+    "start_saved": "Gemt.",
     "step_battery": "Dit batteri",
     "step_price": "Energipris",
     "step_plan": "Opladningsplan",

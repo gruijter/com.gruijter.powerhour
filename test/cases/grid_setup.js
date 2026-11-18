@@ -158,7 +158,7 @@ const values = (view, over = {}) => ({
 
   await test('repair start: settings straight to the setup view of the present source', async () => {
     const handlers = repairSession(fakeDriver(), { connectionAmps: 35 });
-    const choices = await handlers.start_get();
+    const { choices } = await handlers.start_get();
     assert.deepStrictEqual(choices.map((c) => c.id), ['source', 'step_price', 'step_connection', 'step_peak', 'step_advanced', 'step_year']);
     assert.strictEqual(choices.find((c) => c.id === 'step_year').view, 'budget');
     assert.strictEqual(await handlers.start_set('step_connection'), 'setup');

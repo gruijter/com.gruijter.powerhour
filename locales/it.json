@@ -150,6 +150,8 @@
     "price_info_fixed_export": "Tariffa fissa __tariff__, esportazione __export__",
     "nav_previous": "Precedente",
     "nav_next": "Successivo",
+    "nav_close": "Chiudi",
+    "start_saved": "Salvato.",
     "step_battery": "La tua batteria",
     "step_price": "Prezzo dell'energia",
     "step_plan": "Piano di carica",

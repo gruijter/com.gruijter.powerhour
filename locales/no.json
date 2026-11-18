@@ -150,6 +150,8 @@
     "price_info_fixed_export": "Fast tariff __tariff__, eksport __export__",
     "nav_previous": "Forrige",
     "nav_next": "Neste",
+    "nav_close": "Lukk",
+    "start_saved": "Lagret.",
     "step_battery": "Ditt batteri",
     "step_price": "Energipris",
     "step_plan": "Ladeplan",
