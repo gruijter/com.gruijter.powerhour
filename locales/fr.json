@@ -53,7 +53,7 @@
   "solar_chart_model_fit": "Ajustement du modèle (%)",
   "solar_export_diagnostics_popup": "Créez maintenant un rapport de diagnostic de l'application avec le message : orientation (ex. Sud/Est/Ouest).",
   "tariff_group_conflict": "Le groupe tarifaire __group__ reçoit des prix de plusieurs appareils : __sources__. Donnez à chaque appareil de prix son propre groupe tarifaire.",
-  "grid_connection_multiple_devices": "Plusieurs appareils Réseau trouvés (__devices__). __limit__ W est utilisé comme limite de raccordement pour les contrôles de plausibilité. Ne gardez qu'un seul appareil Réseau.",
+  "grid_connection_multiple_devices": "Plusieurs Moniteurs réseau : __devices__. N'en gardez qu'un.",
   "migration_dap_replace": "Mise à jour de l'app ! Remplacez bientôt __devices__ par un nouvel appareil Prix de l'énergie.",
   "migration_dap_flows": "Mise à jour de l'app ! Passez le Flow __flows__ sur __new__, puis supprimez __old__.",
   "migration_dap_delete": "Mise à jour de l'app ! __new__ remplace __old__. Supprimez __old__.",

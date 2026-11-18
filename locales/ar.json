@@ -53,7 +53,7 @@
   "solar_chart_model_fit": "ملاءمة النموذج (%)",
   "solar_export_diagnostics_popup": "أنشئ الآن تقرير تشخيص للتطبيق مع رسالة: الاتجاه (مثل جنوب/شرق/غرب).",
   "tariff_group_conflict": "تتلقى مجموعة التعريفة __group__ أسعارًا من عدة أجهزة: __sources__. امنح كل جهاز أسعار مجموعة تعريفة خاصة به.",
-  "grid_connection_multiple_devices": "تم العثور على عدة أجهزة شبكة (__devices__). يتم استخدام __limit__ واط كحد لتوصيل الشبكة في فحوصات المعقولية. احتفظ بجهاز شبكة واحد فقط.",
+  "grid_connection_multiple_devices": "عدة مراقبي شبكة: __devices__. احتفظ بواحد فقط.",
   "migration_dap_replace": "تحديث التطبيق! استبدل قريبًا __devices__ بجهاز سعر الطاقة جديد.",
   "migration_dap_flows": "تحديث التطبيق! انقل Flow __flows__ إلى __new__ ثم احذف __old__.",
   "migration_dap_delete": "تحديث التطبيق! __new__ يحل محل __old__. احذف __old__.",

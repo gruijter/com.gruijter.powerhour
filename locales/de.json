@@ -53,7 +53,7 @@
   "solar_chart_model_fit": "Modellanpassung (%)",
   "solar_export_diagnostics_popup": "Erstellen Sie jetzt einen App-Diagnosebericht mit Nachricht: Ausrichtung (z. B. Süd/Ost/West).",
   "tariff_group_conflict": "Tarifgruppe __group__ erhält Preise von mehreren Geräten: __sources__. Geben Sie jedem Preisgerät eine eigene Tarifgruppe.",
-  "grid_connection_multiple_devices": "Mehrere Netzstrom-Geräte gefunden (__devices__). __limit__ W wird als Netzanschlussgrenze für Plausibilitätsprüfungen verwendet. Behalten Sie nur ein Netzstrom-Gerät.",
+  "grid_connection_multiple_devices": "Mehrere Netzmonitore: __devices__. Behalten Sie nur einen.",
   "migration_dap_replace": "App-Upgrade! Ersetze bald __devices__ durch ein neues Energiepreis-Gerät.",
   "migration_dap_flows": "App-Upgrade! Stelle Flow __flows__ auf __new__ um und lösche dann __old__.",
   "migration_dap_delete": "App-Upgrade! __new__ ersetzt __old__. Lösche __old__.",

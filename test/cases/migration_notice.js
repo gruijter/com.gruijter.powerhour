@@ -7,6 +7,7 @@
 // Run: node test/cases/migration_notice.js
 
 const assert = require('assert');
+const PriceDrivers = require('../../lib/helpers/PriceDrivers');
 const MigrationNotice = require('../../lib/helpers/MigrationNotice');
 const FlowScan = require('../../lib/helpers/FlowScan');
 const manifest = require('../../app.json');
@@ -182,24 +183,22 @@ const priceDevice = (name, group) => {
     assert.strictEqual(scans, 2);
   });
 
-  await test('tariffConflict: warning on the price device, notification with the flows, throttled', async () => {
+  await test('tariffConflict: flow warning for the group, notification with the flows, daily', async () => {
     const price = priceDevice('Electricity price', 1);
     const other = priceDevice('Other group', 2);
     const { homey, notes } = makeHomey({ priceDevices: [price, other] });
     const notice = new MigrationNotice(homey);
     await notice.tariffConflict('power', 1, 1000);
-    assert.strictEqual(price.warning, "tariff_flow_warning|flows='Night tariff'");
-    assert.strictEqual(price.store[MigrationNotice.FLOW_WARNING_KEY], true);
-    assert.strictEqual(other.warning, null);
+    assert.strictEqual(PriceDrivers.flowConflict(homey, 'power', 1, 2000), "tariff_flow_warning|flows='Night tariff'");
+    assert.strictEqual(PriceDrivers.flowConflict(homey, 'power', 2, 2000), null);
+    assert.strictEqual(PriceDrivers.flowConflict(homey, 'power', 1, 1000 + 27 * 3600000), null, 'flow stopped running');
     assert.deepStrictEqual(notes, ["tariff_flow_conflict|device=Electricity price|flows='Night tariff'"]);
-    await notice.tariffConflict('power', 1, 1000 + DAY);
-    assert.strictEqual(notes.length, 1, 'within 3 days');
-    delete price.store[MigrationNotice.FLOW_WARNING_KEY]; // cleared at a restart
-    price.warning = null;
-    await notice.tariffConflict('power', 1, 1000 + DAY);
-    assert.strictEqual(price.warning, "tariff_flow_warning|flows='Night tariff'", 'set again after a restart');
+    await notice.tariffConflict('power', 1, 1000 + DAY / 2);
+    assert.strictEqual(notes.length, 1, 'within a day');
+    await notice.tariffConflict('power', 1, 1000 + DAY + 1);
+    assert.strictEqual(notes.length, 2, 'again after a day');
     await notice.tariffConflict('power', 3, 1000);
-    assert.strictEqual(notes.length, 1, 'no price device in group 3');
+    assert.strictEqual(notes.length, 2, 'no price device in group 3');
   });
 
   console.log(failed ? `\n${failed} FAILED` : '\nall passed');

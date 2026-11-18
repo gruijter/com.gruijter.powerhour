@@ -53,7 +53,7 @@
   "solar_chart_model_fit": "Modeltilpasning (%)",
   "solar_export_diagnostics_popup": "Opret nu en app-diagnosticeringsrapport med besked: orientering (f.eks. Syd/Øst/Vest).",
   "tariff_group_conflict": "Tarifgruppe __group__ får priser fra flere enheder: __sources__. Giv hver prisenhed sin egen tarifgruppe.",
-  "grid_connection_multiple_devices": "Flere Elnet-enheder fundet (__devices__). __limit__ W bruges som nettilslutningsgrænse til plausibilitetstjek. Behold kun én Elnet-enhed.",
+  "grid_connection_multiple_devices": "Flere Elnetmonitorer: __devices__. Behold kun én.",
   "migration_dap_replace": "Appopgradering! Udskift snart __devices__ med en ny Energipris-enhed.",
   "migration_dap_flows": "Appopgradering! Flyt Flow __flows__ til __new__, og slet derefter __old__.",
   "migration_dap_delete": "Appopgradering! __new__ erstatter __old__. Slet __old__.",

@@ -26,6 +26,7 @@ const GridFlows = require('../../lib/flows/GridFlows');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const GridConnection = require('../../lib/helpers/GridConnection');
+const SetupNotice = require('../../lib/helpers/SetupNotice');
 const FuseGuard = require('../../lib/strategies/FuseGuard');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
 const ChartImages = require('../../lib/helpers/ChartImages');
@@ -1219,8 +1220,8 @@ class GridDevice extends GenericDevice {
     return this.phaseW;
   }
 
-  // The connection setting against what the meter shows: notified once per mismatch (store
-  // phaseSetupNotified), cleared when they match.
+  // The connection setting against what the meter shows: a device warning while they differ, the
+  // timeline when it starts, then at most once a day (SetupNotice). Kept in store phaseSetupNotified.
   checkPhaseSetup(now) {
     if (!this.phaseW || !this.phaseSeen) return;
     const one = Number(this.getSettings().connectionPhases) === 1;
@@ -1230,13 +1231,27 @@ class GridDevice extends GenericDevice {
     if (one && three) kind = 'phase_setup_three';
     else if (!one && onlyL1) kind = 'phase_setup_one';
     else if (!(one ? onlyL1 : three)) return; // not clear yet
-    if (this.phaseSetupKind === undefined) this.phaseSetupKind = this.getStoreValue('phaseSetupNotified') || null;
-    if (kind === this.phaseSetupKind) return;
+    const key = `phase|${this.getName()}`;
+    if (kind) SetupNotice.notify(this.homey, key, kind, this.homey.__(kind, { name: this.getName() }), now).catch(this.error);
+    else SetupNotice.clear(this.homey, key);
+    if (kind === this.phaseSetup()) return;
     this.phaseSetupKind = kind;
+    this.log(`[Fuse] phase setup ${kind || 'ok'}`);
     this.setStoreValue('phaseSetupNotified', kind).catch(this.error);
-    if (!kind) return;
-    this.log(`[Fuse] ${kind}`);
-    this.homey.notifications.createNotification({ excerpt: this.homey.__(kind, { name: this.getName() }) }).catch(this.error);
+    this.updateWarning().catch(this.error);
+  }
+
+  phaseSetup() {
+    if (this.phaseSetupKind === undefined) this.phaseSetupKind = this.getStoreValue('phaseSetupNotified') || null;
+    return this.phaseSetupKind;
+  }
+
+  // Setup conflicts of the connection first, then the price setup (base class).
+  deviceWarning() {
+    const kind = this.phaseSetup();
+    return GridConnection.multipleWarning(this.homey)
+      || (kind ? this.homey.__(kind, { name: this.getName() }) : null)
+      || super.deviceWarning();
   }
 
   // Learned phases count, unless a phase overload lasted (checkFuseOverload()).

@@ -152,6 +152,8 @@ const build = ({
     },
     calculateHomePower: async () => {},
     getName: () => 'Grid',
+    setWarning: async () => {},
+    unsetWarning: async () => {},
   });
 
   // Batteries
