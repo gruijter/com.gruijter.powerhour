@@ -121,14 +121,14 @@
         if (d.solar) list.push({ icon: 'solar', color: '--c-solar', kind: 'area', values: d.solar, value: function (i) { return power(d.solar[i]); } });
         if (d.battery) {
           list.push({
-            icon: 'battery', color: '--c-battery', kind: 'soc', values: d.battery, soc: d.soc,
+            icon: 'battery', color: '--c-battery', kind: 'soc', values: d.battery, soc: d.soc, max: d.batteryMax,
             value: function (i) { return d.soc ? pct(d.soc[i]) : power(d.battery[i], true); },
             sub: function (i) { return d.soc ? power(d.battery[i], true) : ''; },
           });
         }
         if (d.ev) {
           list.push({
-            icon: 'ev', color: '--c-ev', kind: 'soc', values: d.ev, soc: d.evSoc,
+            icon: 'ev', color: '--c-ev', kind: 'soc', values: d.ev, soc: d.evSoc, max: d.evMax,
             value: function (i) { return d.evSoc ? pct(d.evSoc[i]) : power(d.ev[i]); },
             sub: function (i) { return d.evSoc ? power(d.ev[i]) : ''; },
           });
@@ -191,9 +191,10 @@
       }
 
       // Charging in the device colour, discharging in the export colour, as the device graphs: more
-      // solid at more power (0.35-1, Palette.powerAlpha), in steps of 0.05 so equal slots join.
-      function powerBand(g, vals, color, y, h, sw) {
-        var peak = Math.max.apply(null, vals.map(Math.abs)) || 1;
+      // solid at more power (0.35-1 of the max (dis)charge power, Palette.powerAlpha; full without
+      // a max), in steps of 0.05 so equal slots join.
+      function powerBand(g, vals, color, y, h, sw, max) {
+        max = max || {};
         var seg = null;
         var flush = function () {
           if (seg) {
@@ -206,7 +207,8 @@
         vals.forEach(function (v, i) {
           if (!v) { flush(); return; }
           var fill = v > 0 ? color : 'var(--c-export)';
-          var alpha = Math.round((0.35 + 0.65 * Math.min(1, Math.abs(v) / peak)) * 20) / 20;
+          var top = v > 0 ? max.charge : max.discharge;
+          var alpha = top > 0 ? Math.round((0.35 + 0.65 * Math.min(1, Math.abs(v) / top)) * 20) / 20 : 1;
           if (seg && seg.fill === fill && seg.alpha === alpha && seg.to === i) {
             seg.to = i + 1;
             return;
@@ -294,7 +296,7 @@
         } else {
           el('path', { d: stepPath(vals, sw, socBottom, socBottom - top, Math.max.apply(null, vals) || 1), fill: color, opacity: 0.85 }, g);
         }
-        powerBand(g, vals, color, bottom - bandH, bandH, sw);
+        powerBand(g, vals, color, bottom - bandH, bandH, sw, lane.max);
       }
 
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
