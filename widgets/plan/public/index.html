@@ -7,7 +7,6 @@
   <style>
     svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
     .time { fill: var(--text); font-size: 12px; font-weight: 600; }
-    .hint { fill: var(--muted); font-size: 11px; }
     .value { fill: var(--text); font-size: 12px; font-weight: 600; }
     .sub { fill: var(--muted); font-size: 10px; }
     .tick { fill: var(--muted); font-size: 9px; }
@@ -419,9 +418,7 @@
         var selTm = d.startMs + idx * d.slotMs;
         var g = chart.sel;
         while (g.firstChild) g.removeChild(g.firstChild);
-        // The selected time; at the start (now) a hint that the chart can be tapped or dragged.
         el('text', { x: 4, y: 15, class: 'time' }, g, (idx === nowIdx(d) ? t('now') + ' · ' : dayFmt.format(selTm) + ' ') + timeFmt.format(selTm));
-        if (selectedMs === null) el('text', { x: W - 4, y: 15, 'text-anchor': 'end', class: 'hint' }, g, t('plan_hint'));
         chart.list.forEach(function (lane, li) {
           var y0 = TOP + li * LANE;
           var sub = lane.sub ? lane.sub(idx) : '';
@@ -470,29 +467,29 @@
         setIdx(Math.floor(((chartX(clientX) - X0) / (X1 - X0)) * data.net.length));
       }
 
-      // A tap close beside the cursor steps one slot (15 minutes) that way; further away it jumps there.
-      var NEAR = 16; // chart units either side of the cursor
-      function tap(clientX) {
-        if (!data || !data.grid) return;
-        var n = data.net.length;
-        var idx = currentIdx();
-        var dx = chartX(clientX) - (X0 + (idx + 0.5) * ((X1 - X0) / n));
-        if (Math.abs(dx) > NEAR) {
-          select(clientX);
-          return;
-        }
-        if (Math.abs(dx) < 1) return;
-        setIdx(idx + (dx > 0 ? 1 : -1));
-        if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+      // As the other widgets: a tap or drag in the chart selects that slot; a tap anywhere else goes
+      // back to the start (now). In the Homey phone app the app itself takes a drag after a few
+      // pixels (pointercancel, seen 16 Nov on Android; the widget API has no way to claim it).
+      function inChart(evt) {
+        var r = svg.getBoundingClientRect();
+        var k = r.width / W;
+        var x = (evt.clientX - r.left) / k;
+        var y = (evt.clientY - r.top) / k;
+        return x >= X0 && x <= X1 && y >= TOP - 2 && y <= chart.axisY;
       }
-      // A tap, or a drag along the chart (mouse, pen; in the Homey phone app the app itself takes a
-      // drag after a few pixels: pointercancel, seen 16 Nov on Android, also alone on a dashboard and
-      // with preventDefault / touch-action none; the widget API has no way to claim it).
       var dragging = false;
-      svg.addEventListener('pointerdown', function (evt) {
-        dragging = true;
-        try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
-        tap(evt.clientX);
+      document.addEventListener('pointerdown', function (evt) {
+        if (!chart || !data || !data.grid || evt.target.closest('#tabs')) return;
+        if (evt.target.closest('#plan') && inChart(evt)) {
+          dragging = true;
+          try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
+          select(evt.clientX);
+        } else {
+          if (selectedMs === null) return;
+          selectedMs = null;
+          drawSelection();
+        }
+        if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
       });
       svg.addEventListener('pointermove', function (evt) { if (dragging) select(evt.clientX); });
       ['pointerup', 'pointercancel'].forEach(function (type) {
