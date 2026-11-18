@@ -172,6 +172,7 @@
           if (d.building && bars) note = t('building');
           else if (d.day === 'tomorrow') note = t('expected');
           else if (tot.est) note = '≈ ' + t('estimated');
+          else if (d.expected && !bars) note = t('expected') + ' ' + kwh(d.expected.imported) + ' / ' + kwh(d.expected.exported);
           setHead(periodTitle(d), note, cells(tot));
           return;
         }

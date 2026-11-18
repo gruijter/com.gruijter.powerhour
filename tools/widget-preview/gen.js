@@ -175,8 +175,37 @@ const batteryPreview = (t) => {
 </svg>`;
 };
 
+// widgets/grid: tabs, three stat pills, zero line in the middle; expected pale bars, measured line with
+// a light fill: import up in the grid colour, export down in the export colour.
+const GRID = '#7A86A0';
+const gridPreview = (t) => {
+  const x0 = 100;
+  const x1 = 960;
+  const mid = 600;
+  const fc = [30, 26, 24, 26, 34, 20, -10, -40, -66, -80, -84, -76, -52, -20, 16, 60, 80, 74, 50, 36];
+  const real = [34, 22, 28, 22, 40, 14, -16, -48, -60, -90, -72, -82];
+  const w = (x1 - x0) / fc.length;
+  const y = (v) => mid - v * 3.2;
+  const bars = fc.map((v, i) => `<rect x="${(x0 + i * w).toFixed(1)}" y="${Math.min(y(v), mid)}" width="${w.toFixed(1)}" height="${Math.abs(v * 3.2)}" fill="${v > 0 ? GRID : EXPORT}" opacity="0.3"/>`).join('');
+  const pts = real.map((v, i) => [x0 + (i + 0.5) * w, y(v)]);
+  const line = pts.map((q) => `${q[0].toFixed(1)},${q[1].toFixed(1)}`).join(' ');
+  const area = `M${pts[0][0]} ${mid}L${pts.map((q) => `${q[0].toFixed(1)} ${q[1].toFixed(1)}`).join('L')}L${pts[pts.length - 1][0]} ${mid}Z`;
+  const nowX = pts[pts.length - 1][0] + w / 2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs><clipPath id="up"><rect x="0" y="0" width="1024" height="${mid}"/></clipPath><clipPath id="down"><rect x="0" y="${mid}" width="1024" height="${1024 - mid}"/></clipPath></defs>
+  ${pill(40, 40, 944, 60, t.track)}${pill(282, 46, 220, 48, t.card)}
+  ${[0, 1, 2].map((i) => `${pill(64 + i * 310, 160, 190, 34, t.shape)}${pill(64 + i * 310, 210, 130, 22, t.track)}`).join('')}
+  ${[-1, 0, 1].map((i) => `<rect x="${x0}" y="${mid + i * 280}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
+  ${bars}
+  <path d="${area}" fill="${GRID}" opacity="0.35" clip-path="url(#up)"/><path d="${area}" fill="${EXPORT}" opacity="0.35" clip-path="url(#down)"/>
+  <polyline points="${line}" fill="none" stroke="${GRID}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#up)"/>
+  <polyline points="${line}" fill="none" stroke="${EXPORT}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#down)"/>
+  <rect x="${nowX - 4}" y="300" width="8" height="${900 - 300}" rx="4" fill="${t.shape}"/>
+</svg>`;
+};
+
 const WIDGETS = {
-  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview, price: pricePreview, battery: batteryPreview,
+  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview, grid: gridPreview, price: pricePreview, battery: batteryPreview,
 };
 
 for (const [widget, render] of Object.entries(WIDGETS)) {
