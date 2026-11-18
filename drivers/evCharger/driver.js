@@ -271,6 +271,8 @@ class CarChargeDriver extends GenericDriver {
     if (!settings.v2x) caps = caps.filter((cap) => cap !== 'meter_kwh_discharging');
     // V2X: charged and discharged per period for the widget (hidden).
     if (settings.v2x) ['hour', 'day', 'month', 'year'].forEach((p) => caps.push(`meter_kwh_this_${p}.charged`, `meter_kwh_this_${p}.discharged`));
+    // V2X: the day that ended, for the widget's day log (generic_bat_device.updateCounterPeriods()).
+    if (settings.v2x) caps.push('meter_kwh_last_day.charged', 'meter_kwh_last_day.discharged');
     return caps;
   }
 

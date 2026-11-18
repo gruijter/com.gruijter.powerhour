@@ -143,6 +143,44 @@
       "insights": false,
       "uiComponent": null
     },
+    "meter_kwh_last_day.charged": {
+      "title": {
+        "en": "kWh prev. day (charged)",
+        "nl": "kWh vorige dag (geladen)",
+        "de": "kWh vorheriger Tag (geladen)",
+        "fr": "KWh hier (chargé)",
+        "it": "kWh giorno precedente (caricato)",
+        "sv": "kWh igår (laddat)",
+        "no": "kWh forrige dag (ladet)",
+        "es": "kWh día anterior (cargado)",
+        "da": "KWh i går (opladet)",
+        "pl": "kWh poprzedni dzień (naładowano)",
+        "ru": "кВтч пред. день (заряд)",
+        "ar": "كيلوواط ساعة اليوم السابق (شحن)",
+        "ko": "어제 kWh (충전)"
+      },
+      "insights": false,
+      "uiComponent": null
+    },
+    "meter_kwh_last_day.discharged": {
+      "title": {
+        "en": "kWh prev. day (discharged)",
+        "nl": "kWh vorige dag (ontladen)",
+        "de": "kWh vorheriger Tag (entladen)",
+        "fr": "KWh hier (déchargé)",
+        "it": "kWh giorno precedente (scaricato)",
+        "sv": "kWh igår (urladdat)",
+        "no": "kWh forrige dag (utladet)",
+        "es": "kWh día anterior (descargado)",
+        "da": "KWh i går (afladet)",
+        "pl": "kWh poprzedni dzień (rozładowano)",
+        "ru": "кВтч пред. день (разряд)",
+        "ar": "كيلوواط ساعة اليوم السابق (تفريغ)",
+        "ko": "어제 kWh (방전)"
+      },
+      "insights": false,
+      "uiComponent": null
+    },
     "meter_kwh_this_month.charged": {
       "title": {
         "en": "kWh this month (charged)",
