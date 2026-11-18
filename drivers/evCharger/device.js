@@ -29,6 +29,7 @@ const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const FileStore = require('../../lib/helpers/FileStore');
+const EvDayLog = require('../../lib/helpers/EvDayLog');
 
 const deviceSpecifics = {
   cmap: {
@@ -135,6 +136,8 @@ class CarChargeDevice extends GenericDevice {
     this.socHistory = await this.loadStoredHistory('socHistory');
 
     await super.onInit().catch(this.error);
+    // widgets/ev: the day log, rebuilt once from Insights a few minutes after the start.
+    await EvDayLog.start(this);
 
     await this._updateEfficiencySetting();
     if (this.controlInterval) this.homey.clearInterval(this.controlInterval);
@@ -895,6 +898,11 @@ class CarChargeDevice extends GenericDevice {
         this.updatePlan().catch(this.error);
       }, 5000);
     }
+  }
+
+  // The day that ended, into the day log (widgets/ev).
+  onDayEnded() {
+    return EvDayLog.logYesterday(this);
   }
 
   async _updateEfficiencySetting() {

@@ -404,7 +404,8 @@
     "efficiency": "sprawność",
     "not_yet": "Ceny jeszcze nieznane.",
     "enable_forecast": "Włącz prognozę",
-    "cost": "Koszt"
+    "cost": "Koszt",
+    "no_ev": "Najpierw dodaj Inteligentną ładowarkę EV."
   },
   "warning_same_source": "__devices__ używają tego samego urządzenia. Usuń jedno z nich.",
   "warning_same_charger": "__devices__ używają tej samej ładowarki i auta. Usuń jedno z nich."

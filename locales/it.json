@@ -404,7 +404,8 @@
     "efficiency": "rendimento",
     "not_yet": "Prezzi non ancora noti.",
     "enable_forecast": "Attiva previsioni",
-    "cost": "Costo"
+    "cost": "Costo",
+    "no_ev": "Aggiungi prima un Caricatore EV intelligente."
   },
   "warning_same_source": "__devices__ usano lo stesso dispositivo. Eliminane uno.",
   "warning_same_charger": "__devices__ usano lo stesso caricatore e la stessa auto. Eliminane uno."

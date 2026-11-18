@@ -204,8 +204,28 @@ const gridPreview = (t) => {
 </svg>`;
 };
 
+// widgets/ev: price bars, charging in the EV colour in the cheap hours, the car's SoC line rising there.
+const EV = '#8E6CEF';
+const evPreview = (t) => {
+  const x0 = 100;
+  const x1 = 960;
+  const base = 900;
+  const p = [52, 46, 40, 36, 38, 50, 72, 88, 70, 48, 30, 18, 14, 20, 34, 56, 84, 100, 94, 78, 64, 58, 54, 50];
+  const soc = [30, 30, 38, 46, 54, 54, 54, 54, 54, 54, 60, 68, 76, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84];
+  const w = (x1 - x0) / p.length;
+  const bars = p.map((v, i) => `<rect x="${(x0 + i * w + w * 0.12).toFixed(1)}" y="${base - v * 5.6}" width="${(w * 0.76).toFixed(1)}" height="${v * 5.6}" rx="6" fill="${soc[i + 1] > soc[i] ? EV : t.shape}"/>`).join('');
+  const line = soc.map((v, i) => `${(x0 + (i + 0.5) * w).toFixed(1)},${(base - v * 5.6).toFixed(1)}`).join(' ');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  ${pill(40, 40, 944, 60, t.track)}${pill(186, 46, 150, 48, t.card)}
+  ${[0, 1, 2, 3].map((i) => `${pill(64 + i * 230, 160, 160, 34, t.shape)}${pill(64 + i * 230, 210, 110, 22, t.track)}`).join('')}
+  ${[0, 1, 2].map((i) => `<rect x="${x0}" y="${base - i * 200}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
+  ${bars}
+  <polyline points="${line}" fill="none" stroke="${EV}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>`;
+};
+
 const WIDGETS = {
-  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview, grid: gridPreview, price: pricePreview, battery: batteryPreview,
+  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview, grid: gridPreview, price: pricePreview, battery: batteryPreview, ev: evPreview,
 };
 
 for (const [widget, render] of Object.entries(WIDGETS)) {

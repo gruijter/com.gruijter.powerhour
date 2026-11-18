@@ -404,7 +404,8 @@
     "efficiency": "Wirkungsgrad",
     "not_yet": "Preise noch nicht bekannt.",
     "enable_forecast": "Prognose einschalten",
-    "cost": "Kosten"
+    "cost": "Kosten",
+    "no_ev": "Füge zuerst ein Intelligentes EV-Ladegerät hinzu."
   },
   "warning_same_source": "__devices__ nutzen dasselbe Gerät. Löschen Sie eines davon.",
   "warning_same_charger": "__devices__ nutzen dieselbe Ladestation und dasselbe Auto. Löschen Sie eines davon."

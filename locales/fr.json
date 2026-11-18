@@ -404,7 +404,8 @@
     "efficiency": "rendement",
     "not_yet": "Prix pas encore connus.",
     "enable_forecast": "Activer les prévisions",
-    "cost": "Coût"
+    "cost": "Coût",
+    "no_ev": "Ajoutez d'abord un Chargeur VE intelligent."
   },
   "warning_same_source": "__devices__ utilisent le même appareil. Supprimez-en un.",
   "warning_same_charger": "__devices__ utilisent la même borne et la même voiture. Supprimez-en un."

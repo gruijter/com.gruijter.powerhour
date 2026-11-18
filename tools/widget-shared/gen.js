@@ -21,7 +21,8 @@ const SOURCES = {
 };
 const { COLORS, PALE, color } = require('../../lib/charts/Palette');
 
-const WIDGETS = ['energy', 'plan', 'flows', 'solar', 'grid', 'price', 'battery'];
+const WIDGETS = ['energy', 'plan', 'flows', 'solar', 'grid', 'price', 'battery', 'ev'];
+const CHARGE = ['battery', 'ev']; // index.html from charge.html, one page for both
 const DIAGRAM = ['energy']; // also gets flow.js and flow.css
 const PERIOD_TABS = ['energy', 'flows']; // also get periodcache.js
 
@@ -90,6 +91,12 @@ WIDGETS.forEach((w) => {
     }
     fs.writeFileSync(path.join(dir, f), `${note}${f}${end}\n${src}`);
   });
+  if (CHARGE.includes(w)) {
+    const page = fs.readFileSync(path.join(__dirname, 'charge.html'), 'utf8')
+      .replace('<!DOCTYPE html>', '<!DOCTYPE html>\n<!-- Copy of tools/widget-shared/charge.html - edit there, run gen.js. -->')
+      .replace("'__KIND__'", `'${w}'`);
+    fs.writeFileSync(path.join(dir, 'index.html'), page);
+  }
 });
 // eslint-disable-next-line no-console
-console.log('icons.js, colors.css, flow.js, flow.css, periodcache.js written for', WIDGETS.join(', '));
+console.log('icons.js, colors.css, flow.js, flow.css, periodcache.js, charge pages written for', WIDGETS.join(', '));

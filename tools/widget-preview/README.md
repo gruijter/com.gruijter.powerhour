@@ -5,7 +5,7 @@
 
     cd tools/widget-preview
     node gen.js
-    for w in energy plan flows solar grid price battery; do
+    for w in energy plan flows solar grid price battery ev; do
       for m in light dark; do
         google-chrome --headless --disable-gpu --hide-scrollbars \
           --default-background-color=00000000 --window-size=1024,1024 \

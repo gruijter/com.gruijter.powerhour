@@ -404,7 +404,8 @@
     "efficiency": "efficiency",
     "not_yet": "Prices not known yet.",
     "enable_forecast": "Turn on forecast",
-    "cost": "Cost"
+    "cost": "Cost",
+    "no_ev": "Add a Smart EV Charger first."
   },
   "warning_same_source": "__devices__ use the same device. Delete one of them.",
   "warning_same_charger": "__devices__ use the same charger and car. Delete one of them."

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Copy of tools/widget-shared/charge.html - edit there, run gen.js. -->
 <html>
 <head>
   <meta charset="utf-8">
@@ -40,6 +41,10 @@
   <div class="legend" id="legend"></div>
   <script>
     var started = false;
+    // One page for widgets/battery and widgets/ev (tools/widget-shared/gen.js fills in the kind).
+    var KIND = 'battery';
+    var COLOR = KIND === 'ev' ? '--c-ev' : '--c-battery';
+    var MONEY = KIND === 'ev' ? 'cost' : 'yield'; // the money of the period: EV costs, a battery earns
     var TABS = ['yesterday', 'today', 'tomorrow', 'next', 'weeks', 'year'];
     var NS = 'http://www.w3.org/2000/svg';
     var W = 320; // 480 for the widescreen shape (setting shape)
@@ -50,7 +55,7 @@
     var SHARE = 0.5; // one price scale for the days, unless a day would fill less than this share of it
     // The palette colour of a plan action (ChargeChart actionColor()).
     var ACTION_COLOR = {
-      charge: '--c-battery', chargeEv: '--c-battery', discharge: '--c-export', dischargeEv: '--c-export',
+      charge: COLOR, chargeEv: COLOR, discharge: '--c-export', dischargeEv: '--c-export',
       xom: '--c-home', hold: '--c-hold', idle: '--c-idle',
     };
     var ACTIONS = ['xom', 'hold', 'charge', 'discharge'];
@@ -79,7 +84,7 @@
       var legend = document.getElementById('legend');
       var empty = document.getElementById('empty');
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
-      var key = 'pbth-battery-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var key = 'pbth-' + KIND + '-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
       var tab = settings.start || 'last';
       if (tab === 'last') {
         tab = 'today';
@@ -203,7 +208,7 @@
         var d = data;
         if (isBars(d)) {
           var b = sel === null ? d.total : d.bars[sel];
-          var label = sel === null ? t('yield') : barLabel(sel);
+          var label = sel === null ? t(MONEY) : barLabel(sel);
           if (!b) {
             setStats([[money(null, d.decimals), label], none, none, none]);
             return;
@@ -211,9 +216,9 @@
           setStats([
             [money(b.money, d.decimals), label],
             [kwh(b.charged), actionName('charge')],
-            [kwh(b.discharged), actionName('discharge')],
+            d.discharges ? [kwh(b.discharged), actionName('discharge')] : none,
             // Per day or month no efficiency: energy charged earlier can be discharged in it.
-            sel === null && b.charged > 0 ? [pct((100 * b.discharged) / b.charged), cap(t('efficiency'))] : none,
+            d.discharges && sel === null && b.charged > 0 ? [pct((100 * b.discharged) / b.charged), cap(t('efficiency'))] : none,
           ]);
           return;
         }
@@ -232,7 +237,7 @@
           setStats([
             nowIn ? [pct(d.socNow), t('now')] : none,
             nowIn ? [power(d.powerNow), t('power')] : none,
-            typeof d.money === 'number' ? [money(d.money, d.decimals), t('yield')] : none,
+            typeof d.money === 'number' ? [money(d.money, d.decimals), t(MONEY)] : none,
             next,
           ]);
           return;
@@ -335,7 +340,7 @@
           list.forEach(function (s, k) { if (typeof s === 'number') pts.push((X0 + (k + 0.5) * sw).toFixed(1) + ',' + ys(s).toFixed(1)); });
           if (pts.length > 1) {
             el('polyline', {
-              points: pts.join(' '), fill: 'none', stroke: 'var(--c-battery)', 'stroke-width': dash ? 1.5 : 2, 'stroke-dasharray': dash ? '4 3' : 'none', 'stroke-linejoin': 'round',
+              points: pts.join(' '), fill: 'none', stroke: 'var(' + COLOR + ')', 'stroke-width': dash ? 1.5 : 2, 'stroke-dasharray': dash ? '4 3' : 'none', 'stroke-linejoin': 'round',
             }, svg);
           }
           return pts.length ? pts[pts.length - 1] : null;
@@ -354,14 +359,15 @@
         ACTIONS.forEach(function (a) { if (used[a]) items.push([actionName(a), ACTION_COLOR[a]]); });
         if (d.forecast.some(Boolean)) items.push([t('expected'), '--c-idle', PALE]);
         if (path) items.push([t('export_price'), '--c-export', 'line']);
-        if (d.soc.concat(d.socPlan).some(function (s) { return typeof s === 'number'; })) items.push(['SoC', '--c-battery', 'line']);
+        if (d.soc.concat(d.socPlan).some(function (s) { return typeof s === 'number'; })) items.push(['SoC', COLOR, 'line']);
         drawLegend(items);
         chart = {
           n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx, ok: function (k) { return typeof d.price[k] === 'number'; },
         };
       }
 
-      // Weeks and year: kWh charged up, discharged down (as the power band of widgets/plan).
+      // Weeks and year: kWh charged up, discharged down (as the power band of widgets/plan); without
+      // discharging (EV without V2X) charged only, from the bottom.
       function drawBars(d, X1, CH, bottom) {
         var list = d.bars;
         var n = list.length;
@@ -369,9 +375,10 @@
         var top = Math.max.apply(null, list.map(function (b) { return b ? Math.max(b.charged || 0, b.discharged || 0) : 0; })) || 1;
         var step = niceStep(top);
         var max = Math.max(Math.ceil(top / step) * step, step);
-        var mid = TOP + CH / 2;
-        var y = function (v) { return mid - (v / max) * (CH / 2); };
-        [-max, 0, max].forEach(function (g) {
+        var half = d.discharges ? CH / 2 : CH;
+        var mid = TOP + half;
+        var y = function (v) { return mid - (v / max) * half; };
+        (d.discharges ? [-max, 0, max] : [0, max / 2, max]).forEach(function (g) {
           el('line', { x1: X0, x2: X1, y1: y(g), y2: y(g), class: g === 0 ? 'zero' : 'grid' }, svg);
           el('text', { x: X0 - 4, y: y(g) + 3, 'text-anchor': 'end', class: 'tick' }, svg, kwhFmt.format(Math.abs(g)).replace(/[.,]0$/, ''));
         });
@@ -388,11 +395,12 @@
           var x = X0 + i * sw + sw * 0.15;
           var bw = sw * 0.7;
           var op = b.est ? PALE : 1;
-          if (b.charged > 0) el('rect', { x: x, y: y(b.charged), width: bw, height: mid - y(b.charged), fill: 'var(--c-battery)', opacity: op }, svg);
+          if (b.charged > 0) el('rect', { x: x, y: y(b.charged), width: bw, height: mid - y(b.charged), fill: 'var(' + COLOR + ')', opacity: op }, svg);
           if (b.discharged > 0) el('rect', { x: x, y: mid, width: bw, height: y(-b.discharged) - mid, fill: 'var(--c-export)', opacity: op }, svg);
         });
-        var items = [[actionName('charge'), '--c-battery'], [actionName('discharge'), '--c-export']];
-        if (hasEst) items.push([t('estimated'), '--c-battery', PALE]);
+        var items = [[actionName('charge'), COLOR]];
+        if (d.discharges) items.push([actionName('discharge'), '--c-export']);
+        if (hasEst) items.push([t('estimated'), COLOR, PALE]);
         drawLegend(items);
         chart = {
           n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: -1, ok: function (k) { return !!list[k] && typeof list[k].charged === 'number'; },
@@ -405,7 +413,7 @@
         var CH = settings.shape !== 'normal' ? 110 : 140;
         var bars = isBars(d);
         var X1 = bars ? W - 4 : W - 26;
-        var missing = !d || !d.battery;
+        var missing = !d || !d[KIND];
         var known = !missing && (bars ? d.bars.some(function (b) { return b && typeof b.charged === 'number'; }) : !!d.price);
         svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
         while (svg.firstChild) svg.removeChild(svg.firstChild);
@@ -417,7 +425,7 @@
           // Same height as with data: placeholders keep the stats and legend lines.
           setStats([none]);
           drawLegend([[' ', '--c-idle']]);
-          if (missing) empty.textContent = d && d.battery === false ? '…' : t('no_battery');
+          if (missing) empty.textContent = d && d[KIND] === false ? '…' : t('no_' + KIND);
           else empty.textContent = bars && d.building ? t('building') : '…';
           fit();
           return;
@@ -515,7 +523,7 @@
             data = d;
             draw();
             // Battery still starting, its charts not drawn yet, or its history being built.
-            if (d && (d.battery === false || (d.battery && !d.price && !d.bars) || d.building)) setTimeout(refresh, 30000);
+            if (d && (d[KIND] === false || (d[KIND] && !d.price && !d.bars) || d.building)) setTimeout(refresh, 30000);
           })
           .catch(function (err) { console.error(err); })
           .finally(function () {
@@ -527,7 +535,7 @@
       // Days per quarter (the now line, the plan); weeks and year hourly.
       function stale() {
         var c = cache[tab];
-        if (!c || c.day !== new Date().toDateString() || !c.data || !c.data.battery) return true;
+        if (!c || c.day !== new Date().toDateString() || !c.data || !c.data[KIND]) return true;
         var quarter = function (ms) { return Math.floor((ms - 30000) / 900000); };
         if (tab === 'weeks' || tab === 'year') return Date.now() - c.ms > 3600000;
         return quarter(Date.now()) !== quarter(c.ms);

@@ -404,7 +404,8 @@
     "efficiency": "virkningsgrad",
     "not_yet": "Prisene er ikke kjent ennå.",
     "enable_forecast": "Slå på prognose",
-    "cost": "Kostnad"
+    "cost": "Kostnad",
+    "no_ev": "Legg først til en Smart EV-lader."
   },
   "warning_same_source": "__devices__ bruker samme enhet. Slett én av dem.",
   "warning_same_charger": "__devices__ bruker samme lader og bil. Slett én av dem."

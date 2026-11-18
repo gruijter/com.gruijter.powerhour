@@ -404,7 +404,8 @@
     "efficiency": "verkningsgrad",
     "not_yet": "Priserna är inte kända än.",
     "enable_forecast": "Slå på prognos",
-    "cost": "Kostnad"
+    "cost": "Kostnad",
+    "no_ev": "Lägg först till en Smart EV-laddare."
   },
   "warning_same_source": "__devices__ använder samma enhet. Ta bort en av dem.",
   "warning_same_charger": "__devices__ använder samma laddare och bil. Ta bort en av dem."
