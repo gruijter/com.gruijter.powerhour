@@ -282,7 +282,7 @@
             width: Math.max(0.5, sw - gap),
             height: Math.max(0.5, Math.abs(y0 - yv)),
             fill: 'var(' + lv + ')',
-            opacity: d.forecast[k] ? PALE : 1,
+            opacity: (d.forecast[k] ? PALE : 1) * ((d.levelAlpha && d.levelAlpha[k]) || 1),
           }, svg);
         });
         if (d.export) {

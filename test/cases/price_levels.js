@@ -22,7 +22,7 @@ const test = (name, fn) => {
 const H = 3600000;
 const day0 = Date.UTC(2026, 10, 18);
 const hours = (start, prices) => prices.map((price, i) => ({ t: start + i * H, price }));
-const at = (map, start, i) => map.get(start + i * H);
+const at = (map, start, i) => map.get(start + i * H).level;
 
 test('per day the n cheapest and dearest hours', () => {
   const prices = Array.from({ length: 24 }, (_, i) => 0.2 + i / 100);
@@ -40,20 +40,29 @@ test('each day on its own', () => {
 
 test('free at 0 or less; flat day normal; 15 minute slots', () => {
   const free = Array.from({ length: 96 }, (_, i) => (i === 10 ? -0.01 : 0.3 + i / 1000));
-  assert.strictEqual(PriceLevels.levels(free.map((price, i) => ({ t: day0 + i * 900000, price })), 15, 4, 'UTC').get(day0 + 10 * 900000), 'free');
+  assert.strictEqual(PriceLevels.levels(free.map((price, i) => ({ t: day0 + i * 900000, price })), 15, 4, 'UTC').get(day0 + 10 * 900000).level, 'free');
   const flat = Array.from({ length: 96 }, (_, i) => 0.3 + (i % 2) / 1000);
   const m = PriceLevels.levels(flat.map((price, i) => ({ t: day0 + i * 900000, price })), 15, 4, 'UTC');
-  assert.strictEqual(m.get(day0), 'normal');
+  assert.strictEqual(m.get(day0).level, 'normal');
   const steps = Array.from({ length: 96 }, (_, i) => 0.2 + i / 1000);
   const q = PriceLevels.levels(steps.map((price, i) => ({ t: day0 + i * 900000, price })), 15, 1, 'UTC');
-  assert.strictEqual(q.get(day0 + 3 * 900000), 'cheap');
-  assert.strictEqual(q.get(day0 + 4 * 900000), 'normal');
+  assert.strictEqual(q.get(day0 + 3 * 900000).level, 'cheap');
+  assert.strictEqual(q.get(day0 + 4 * 900000).level, 'normal');
 });
 
 test('0 hours: no cheap or dear', () => {
   const prices = Array.from({ length: 24 }, (_, i) => 0.2 + i / 100);
   const m = PriceLevels.levels(hours(day0, prices), 60, 0, 'UTC');
-  assert.ok([...m.values()].every((v) => v === 'normal'));
+  assert.ok([...m.values()].every((v) => v.level === 'normal'));
+});
+
+test('gradation: lowest price and highest price most solid', () => {
+  const prices = Array.from({ length: 24 }, (_, i) => 0.2 + i / 100);
+  const m = PriceLevels.levels(hours(day0, prices), 60, 4, 'UTC');
+  const a = (i) => m.get(day0 + i * H).alpha;
+  assert.ok(a(0) === 1 && a(3) === 0.35 && a(1) > a(2));
+  assert.ok(a(23) === 1 && a(20) === 0.35 && a(22) > a(21));
+  assert.strictEqual(a(10), 1);
 });
 
 if (failed) process.exitCode = 1;

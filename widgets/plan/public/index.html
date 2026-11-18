@@ -68,7 +68,7 @@
         var list = [];
         if (d.price) {
           list.push({
-            icon: 'price', color: '--c-price', kind: 'price', values: d.price, forecast: d.priceForecast || [], levels: d.priceLevel || [],
+            icon: 'price', color: '--c-price', kind: 'price', values: d.price, forecast: d.priceForecast || [], levels: d.priceLevel || [], alphas: d.priceAlpha || [],
             value: function (i) { return typeof d.price[i] === 'number' ? money.format(d.price[i]) : '-'; },
             sub: function () { return d.currency || ''; },
           });
@@ -176,17 +176,21 @@
           var ps = lane.values.filter(function (v) { return typeof v === 'number'; });
           var base = Math.min(0, Math.min.apply(null, ps));
           var range = Math.max.apply(null, ps) - base || 1;
-          ['free', 'cheap', 'normal', 'dear'].forEach(function (lv) {
-            [false, true].forEach(function (expected) {
-              var part = lane.values.map(function (v, i) {
-                return typeof v === 'number' && (lane.levels[i] || 'normal') === lv && !!lane.forecast[i] === expected ? v - base : 0;
-              });
-              if (part.some(function (v) { return v > 0; })) {
-                el('path', {
-                  d: stepPath(part, sw, bottom, bottom - top, range), fill: 'var(--c-' + lv + ')', opacity: expected ? PALE : 1,
-                }, g);
-              }
-            });
+          // One step area per level, known/expected and gradation (PriceLevels alpha).
+          var groups = {};
+          lane.values.forEach(function (v, i) {
+            if (typeof v !== 'number') return;
+            var lv = lane.levels[i] || 'normal';
+            var alpha = (lane.forecast[i] ? PALE : 1) * ((lane.alphas && lane.alphas[i]) || 1);
+            var key = lv + '|' + alpha;
+            if (!groups[key]) groups[key] = { lv: lv, alpha: alpha, part: lane.values.map(function () { return 0; }) };
+            groups[key].part[i] = v - base;
+          });
+          Object.keys(groups).forEach(function (key) {
+            var gr = groups[key];
+            if (gr.part.some(function (v) { return v > 0; })) {
+              el('path', { d: stepPath(gr.part, sw, bottom, bottom - top, range), fill: 'var(--c-' + gr.lv + ')', opacity: gr.alpha }, g);
+            }
           });
           return;
         }
