@@ -20743,6 +20743,9 @@
         "ko": "스마트 배터리"
       },
       "class": "other",
+      "energy": {
+        "excludedByDefault": true
+      },
       "capabilities": [],
       "capabilitiesOptions": {
         "meter_tariff": {
@@ -25880,6 +25883,9 @@
         "ko": "스마트 EV 충전기"
       },
       "class": "other",
+      "energy": {
+        "excludedByDefault": true
+      },
       "capabilities": [],
       "capabilitiesOptions": {
         "alarm_generic": {
@@ -28637,6 +28643,9 @@
         "ko": "그리드 모니터"
       },
       "class": "other",
+      "energy": {
+        "excludedByDefault": true
+      },
       "capabilities": [],
       "capabilitiesOptions": {
         "meter_power_hidden.grid": {
@@ -31107,6 +31116,9 @@
         "ko": "전력 모니터"
       },
       "class": "other",
+      "energy": {
+        "excludedByDefault": true
+      },
       "capabilities": [],
       "capabilitiesOptions": {
         "button.retrain": {
@@ -33654,6 +33666,9 @@
         "ko": "태양광 모니터"
       },
       "class": "other",
+      "energy": {
+        "excludedByDefault": true
+      },
       "capabilities": [],
       "capabilitiesOptions": {
         "measure_watt_max.day": {

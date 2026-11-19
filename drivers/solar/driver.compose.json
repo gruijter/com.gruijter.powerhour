@@ -15,6 +15,9 @@
     "ko": "태양광 모니터"
   },
   "class": "other",
+  "energy": {
+    "excludedByDefault": true
+  },
   "capabilities": [],
   "capabilitiesOptions": {
     "measure_watt_max.day": {

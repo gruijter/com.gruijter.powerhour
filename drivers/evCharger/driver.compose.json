@@ -15,6 +15,9 @@
     "ko": "스마트 EV 충전기"
   },
   "class": "other",
+  "energy": {
+    "excludedByDefault": true
+  },
   "capabilities": [],
   "capabilitiesOptions": {
     "alarm_generic": {
