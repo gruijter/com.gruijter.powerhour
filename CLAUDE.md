@@ -18,3 +18,9 @@ empirically-confirmed findings for this codebase family, including:
 
 Do not skip this — it exists specifically because these findings were each learned the hard
 way, more than once, before being written down.
+
+## Code comments → zzz_docs/ARCHITECTURE.md
+
+Write no explanatory code comments (only license headers, lint directives, generated-file markers).
+A non-obvious why, a pitfall or a stored data format goes to `zzz_docs/ARCHITECTURE.md`, under its
+module, short. Read it before changing a module; keep it up to date with every change.
