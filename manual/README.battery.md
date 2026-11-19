@@ -1,7 +1,7 @@
 # 🔋 Smart Battery
 
 **Plans and controls your home battery: lowest costs, most self-consumption.**
-The heart of the EMS. [← Overview](./README.md)
+The heart of the EMS. [← Overview](../README.md)
 
 ---
 

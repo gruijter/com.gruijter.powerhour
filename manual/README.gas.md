@@ -1,7 +1,7 @@
 # 🛢️ Gas Monitor
 
 **Gas use and costs, with the daily gas price.**
-[← Overview](./README.md)
+[← Overview](../README.md)
 
 ---
 

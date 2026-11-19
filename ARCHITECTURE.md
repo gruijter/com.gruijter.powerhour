@@ -284,4 +284,4 @@ Generic Homey SDK / Insights / memory findings live in the shared skill
 - Dev diagnostics (env.json): `PBTH_INSPECT=1` opens the V8 inspector to the LAN (no auth), `PBTH_MEMLOG=1` logs memory to app settings.
 - Shared Insights fetch per key and local day; empty/partial results not kept.
 - Slot tariffs once per boundary, first caller runs it, one driver after the other.
-- Inter-app API: see README.prices-api.md.
+- Inter-app API: see manual/README.prices-api.md.

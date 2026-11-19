@@ -1,7 +1,7 @@
 # ⚡ Power Monitor
 
 **Use and costs per appliance or sub-meter, and the cheapest start for your washing machine.**
-[← Overview](./README.md)
+[← Overview](../README.md)
 
 ---
 

@@ -18,10 +18,10 @@ Lowest energy costs, most self-consumption. Set up from your phone.
 
 ## 🧠 The heart: smart planning
 
-- **🔋 Smart battery:** plans charge and discharge on prices, solar and home load. Cheapest total, including losses and wear. [How](./README.battery.md#how-smart-works)
-- **🚗 Smart EV charging:** learns when you leave, charges at the cheapest hours or on solar, ready on time. [How](./README.evCharger.md#how-smart-works)
-- **☀️ Self-learning solar forecast:** no orientation or panel data needed. Learns shade by itself. [How](./README.solar.md#how-the-forecast-works)
-- **⚡ Appliances:** learns programs, plans the cheapest start for the washing machine or dishwasher. [How](./README.power.md#appliance-forecast--planner)
+- **🔋 Smart battery:** plans charge and discharge on prices, solar and home load. Cheapest total, including losses and wear. [How](./manual/README.battery.md#how-smart-works)
+- **🚗 Smart EV charging:** learns when you leave, charges at the cheapest hours or on solar, ready on time. [How](./manual/README.evCharger.md#how-smart-works)
+- **☀️ Self-learning solar forecast:** no orientation or panel data needed. Learns shade by itself. [How](./manual/README.solar.md#how-the-forecast-works)
+- **⚡ Appliances:** learns programs, plans the cheapest start for the washing machine or dishwasher. [How](./manual/README.power.md#appliance-forecast--planner)
 
 **No battery? No problem.** Prices, meters, forecasts, EV charging and appliances all work without one.
 
@@ -42,14 +42,14 @@ Lowest energy costs, most self-consumption. Set up from your phone.
 
 | Device | What it does | Guide |
 |---|---|---|
-| 💶 Energy Price | Your real price: market or fixed, all markups and taxes | [price](./README.price.md) |
-| 🔌 Grid Monitor | Import/export, home load, capacity peaks, load forecast | [grid](./README.grid.md) |
-| ☀️ Solar Monitor | Production, self-learning solar forecast | [solar](./README.solar.md) |
-| 🔋 Smart Battery | Plans and controls home batteries | [battery](./README.battery.md) |
-| 🚗 Smart EV Charger | Charges at the cheapest time or on solar, ready for departure | [evCharger](./README.evCharger.md) |
-| ⚡ Power Monitor | Use per appliance, standby, cheapest program start | [power](./README.power.md) |
-| 🛢️ Gas Monitor | Gas use and costs | [gas](./README.gas.md) |
-| 💧 Water Monitor | Water use, costs, leak check | [water](./README.water.md) |
+| 💶 Energy Price | Your real price: market or fixed, all markups and taxes | [price](./manual/README.price.md) |
+| 🔌 Grid Monitor | Import/export, home load, capacity peaks, load forecast | [grid](./manual/README.grid.md) |
+| ☀️ Solar Monitor | Production, self-learning solar forecast | [solar](./manual/README.solar.md) |
+| 🔋 Smart Battery | Plans and controls home batteries | [battery](./manual/README.battery.md) |
+| 🚗 Smart EV Charger | Charges at the cheapest time or on solar, ready for departure | [evCharger](./manual/README.evCharger.md) |
+| ⚡ Power Monitor | Use per appliance, standby, cheapest program start | [power](./manual/README.power.md) |
+| 🛢️ Gas Monitor | Gas use and costs | [gas](./manual/README.gas.md) |
+| 💧 Water Monitor | Water use, costs, leak check | [water](./manual/README.water.md) |
 
 ---
 
@@ -90,7 +90,7 @@ Lowest energy costs, most self-consumption. Set up from your phone.
 
 - `GET /prices`: all prices from now on.
 - Realtime event `prices-updated`: new slot or new prices.
-- Full reference: **[README.prices-api.md](./README.prices-api.md)**
+- Full reference: **[README.prices-api.md](./manual/README.prices-api.md)**
 
 ---
 

@@ -15,12 +15,12 @@ Your v8 devices, totals, Insights and flows are kept.
 
 ## 🆕 What's new
 
-- **💶 Energy Price:** one new price device for power, gas and water. Almost any contract in the EU and worldwide: dynamic or fixed, with all markups and taxes, any currency. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.price.md)
-- **🔋 Smart Battery:** fully automatic, built-in modes and control. Plans on prices, solar and home load, and learns its own losses. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.battery.md)
-- **🚗 Smart EV Charger:** learns when you leave, charges cheap or on solar, ready on time. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.evCharger.md)
-- **🔌 Grid Monitor:** peak shaving for capacity tariffs, main fuse and per-phase guard, self-learning home load forecast. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.grid.md)
-- **☀️ Solar:** self-learning forecast, no panel data needed. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.solar.md)
-- **⚡ Appliances:** learns programs, plans the cheapest start. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.power.md)
+- **💶 Energy Price:** one new price device for power, gas and water. Almost any contract in the EU and worldwide: dynamic or fixed, with all markups and taxes, any currency. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.price.md)
+- **🔋 Smart Battery:** fully automatic, built-in modes and control. Plans on prices, solar and home load, and learns its own losses. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md)
+- **🚗 Smart EV Charger:** learns when you leave, charges cheap or on solar, ready on time. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.evCharger.md)
+- **🔌 Grid Monitor:** peak shaving for capacity tariffs, main fuse and per-phase guard, self-learning home load forecast. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.grid.md)
+- **☀️ Solar:** self-learning forecast, no panel data needed. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.solar.md)
+- **⚡ Appliances:** learns programs, plans the cheapest start. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.power.md)
 - **📱 Setup from your phone:** a wizard at pairing, and **Repair** to change source, price, budget or totals later.
 - **📈 Year budget:** spread over the year by your local climate.
 
@@ -29,7 +29,7 @@ Your v8 devices, totals, Insights and flows are kept.
 ## ✅ After installing: what to do
 
 **Prices**
-- Add an **Energy Price** device and use **Take over settings** to copy your old `dap`, `dap15` or `dapg` device. [How](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.price.md#from-the-old-day-ahead-price-drivers)
+- Add an **Energy Price** device and use **Take over settings** to copy your old `dap`, `dap15` or `dapg` device. [How](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.price.md#from-the-old-day-ahead-price-drivers)
 - The new device takes over the tariff group.
 - Move your price flows to the new cards (the timeline lists the old ones), then **delete the old price device**.
 
@@ -38,8 +38,8 @@ Your v8 devices, totals, Insights and flows are kept.
 - Grid: check phases, main fuse and capacity tariff in **Repair**.
 
 **Battery**
-- Choose how the battery is controlled: [Control](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.battery.md#control)
-  - **Built-in:** tick **Let the app control the battery** and pick a [mode](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.battery.md#modes). Then **remove your own (dis)charge flows**, or they will fight the app.
+- Choose how the battery is controlled: [Control](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md#control)
+  - **Built-in:** tick **Let the app control the battery** and pick a [mode](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md#modes). Then **remove your own (dis)charge flows**, or they will fight the app.
   - **By flows:** leave control off and use **New planned battery power** or **New XOM power available**.
 - The old **ROI** cards still work but are deprecated: replace them with the new plan cards.
 - Several batteries? They now plan as one group.
@@ -47,7 +47,7 @@ Your v8 devices, totals, Insights and flows are kept.
 
 **Flows**
 - Old cards show as deprecated. They still work, but move to the new cards when you can.
-- App developers: use `GET /prices` and the realtime event `prices-updated`. The v8 names `/dap-prices` and `dap-prices-updated` are gone. [API](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.prices-api.md)
+- App developers: use `GET /prices` and the realtime event `prices-updated`. The v8 names `/dap-prices` and `dap-prices-updated` are gone. [API](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.prices-api.md)
 
 ---
 

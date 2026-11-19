@@ -1,7 +1,7 @@
 # 🚗 Smart EV Charger
 
 **Charges your car at the cheapest time or on solar, ready when you leave.**
-[← Overview](./README.md)
+[← Overview](../README.md)
 
 ---
 

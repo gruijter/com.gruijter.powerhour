@@ -1,7 +1,7 @@
 # 🔌 Grid Monitor
 
 **Your main meter: import, export, home load, peaks and load forecast.**
-[← Overview](./README.md)
+[← Overview](../README.md)
 
 ---
 

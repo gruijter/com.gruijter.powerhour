@@ -1,7 +1,7 @@
 # 💧 Water Monitor
 
 **Water use and costs, and a leak check.**
-[← Overview](./README.md)
+[← Overview](../README.md)
 
 ---
 

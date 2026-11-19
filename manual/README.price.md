@@ -1,7 +1,7 @@
 # 💶 Energy Price
 
 **Your real price, per 15 minutes or per hour: market or fixed, with all markups and taxes.**
-[← Overview](./README.md)
+[← Overview](../README.md)
 
 <img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/b/5/b536b76cdb308d7d3745e087f17280ac481600b4_2_182x500.jpeg" alt="Price chart" width="180"/>
 

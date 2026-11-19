@@ -1,7 +1,7 @@
 # ☀️ Solar Monitor
 
 **Measures your solar production and forecasts it, fully self-learning.**
-[← Overview](./README.md)
+[← Overview](../README.md)
 
 ---
 
