@@ -53,9 +53,26 @@ Lowest energy costs, most self-consumption. Set up from your phone.
 
 ---
 
+## 📱 Widgets
+
+Add them to a Homey dashboard. [Guide](./manual/README.widgets.md)
+
+| Widget | Shows |
+|---|---|
+| Energy | Use, production and money per source: hour, day, month, year |
+| Energy flows | Where your energy goes, optionally per zone |
+| Energy plan | Prices, solar, home load and battery/EV plan for today and tomorrow |
+| Price | Prices today and tomorrow, cheapest and dearest times |
+| Grid | Import and export per day, 4 weeks and year |
+| Solar | Yield, own use and value |
+| Battery | Charge, discharge and charge level per day, 4 weeks and year |
+| EV charger | Charging and charge level per day, 4 weeks and year |
+
+---
+
 ## 🚀 Quick Start
 
-1. Add an **Energy Price** device: zone and contract, tariff group `1`.
+1. Add an **Energy Price** device: zone and contract, tariff group `1`. Only a fixed price? Skip this and choose **Fixed tariff** in each meter.
 2. Add a **Grid Monitor**: pick your P1 or main meter.
 3. Add a **Solar Monitor**: pick your inverter.
 4. Optional: battery, EV charger, appliances, gas, water.
@@ -64,8 +81,9 @@ Lowest energy costs, most self-consumption. Set up from your phone.
 **Good to know**
 - **Tariff group:** devices with the same number share one price device.
 - **Repair:** change source, budget, price or totals later.
+- **Totals:** per hour, day, calendar month and year. Contract year too, when it does not start on 1 January.
 - **Year budget:** compare your use with a budget, spread over the year by your local climate.
-- **Virtual meter:** no Homey device? Pair `VIRTUAL_VIA_FLOW` and send readings by flow.
+- **Virtual meter:** no Homey device? Pair `VIRTUAL_VIA_FLOW` and send readings with the device card **Send reading**.
 
 ---
 

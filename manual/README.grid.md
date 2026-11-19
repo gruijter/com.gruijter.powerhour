@@ -7,7 +7,7 @@
 
 ## What it does
 
-- Import, export and net: kWh and money per hour, day, month and year.
+- Import, export and net: kWh and money per hour, day, calendar month and year. Contract year too, when it does not start on 1 January.
 - Prices import and export the way your supplier bills (with or without netting).
 - Calculates your real home load.
 - Tracks capacity tariff peaks, live.
@@ -23,8 +23,9 @@
 3. Check price, grid connection and peak settings. Done.
 
 - Source: a cumulative main meter in Homey Energy. Only a signed power? Tick **Use Watt as source**.
-- The load forecast trains itself from Homey Insights at pairing.
-- **Repair:** new meter (totals stay correct), budget, settings, fix totals.
+- Totals and the load forecast are restored from Homey Insights at pairing.
+- **Repair:** new meter (totals stay correct), budget, settings, fix totals. The device settings only show the values.
+- **Virtual meter:** pair `VIRTUAL_VIA_FLOW`, send readings with **Send reading**.
 
 ---
 
@@ -37,7 +38,9 @@
 | **Continuous net** | Everything netted, then priced (netting). |
 | **Block settlement** | Netted per block of 15–60 min, then priced. |
 
+- **Price:** a tariff group with an Energy Price device, or **Fixed tariff**.
 - **Fixed costs** per hour, day and month.
+- **Contract starts on:** gives extra totals per contract year.
 
 ---
 
@@ -86,3 +89,11 @@
 - Extra load … W today/tomorrow at … for … min (0 W: remove)
 - Set fixed tariff or fixed export tariff
 - Set fixed cost per hour, day or month
+- Send reading (virtual meter)
+
+---
+
+## Widgets
+
+- **Grid:** import and export per day, 4 weeks and year; expected for today.
+- **Energy** and **Energy flows:** where your energy comes from and goes.

@@ -7,7 +7,7 @@
 
 ## What it does
 
-- m³ and money per hour, day, month and year.
+- m³ and money per hour, day, calendar month and year. Contract year too, when it does not start on 1 January.
 - Gas flow now, minimum and maximum (L/min).
 - Daily market gas price, or a fixed tariff.
 - Compares use with a year budget, spread by your local climate.
@@ -20,8 +20,9 @@
 2. Pick your gas meter, e.g. a P1 meter with gas.
 3. Check tariff group and budget. Done.
 
-- **Virtual meter:** pair `VIRTUAL_VIA_FLOW`, send readings (m³) by flow.
-- **Repair:** other source, budget, settings, fix totals.
+- **Price:** a tariff group with an Energy Price device, or **Fixed tariff**.
+- **Virtual meter:** pair `VIRTUAL_VIA_FLOW`, send readings (m³) with **Send reading**.
+- **Repair:** other source, budget, settings, fix totals. The device settings only show the values.
 
 ---
 
@@ -38,4 +39,10 @@
 **Actions**
 - Set fixed cost per hour, day or month
 - Set fixed tariff
-- Send reading to virtual meter (app card)
+- Send reading (virtual meter)
+
+---
+
+## Widgets
+
+**Energy** and **Energy flows** show gas too (setting **Show gas**).

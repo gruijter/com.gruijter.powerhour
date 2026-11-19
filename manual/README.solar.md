@@ -11,7 +11,7 @@
 - **Fully self-learning:** no orientation, tilt or panel data needed.
 - Learns shade, orientation and inverter limit from what your panels really did.
 - Corrects today's forecast during the day.
-- Production, money and own use per hour, day, month and year.
+- Production, money and own use per hour, day, calendar month and year.
 - Detects curtailment.
 - Feeds the battery, EV and grid planners.
 
@@ -24,8 +24,9 @@
 3. Fill in **Peak power (W)**. Done.
 
 - Location: from your Homey.
-- The forecast trains itself from Homey Insights at pairing.
-- **Repair:** other source, budget, settings.
+- Totals and the forecast are restored from Homey Insights at pairing.
+- **Repair:** other source, budget, settings. The device settings only show the values.
+- **Virtual meter:** pair `VIRTUAL_VIA_FLOW`, send readings with **Send reading**. Only a virtual meter shows up in Homey Energy; others would count twice.
 
 ---
 
@@ -73,6 +74,7 @@
 - Provide solar forecast JSON
 - Set curtailment
 - Set fixed tariff or fixed export tariff
+- Send reading (virtual meter)
 
 Times: `07:30`, `7.5`, or a tag.
 
@@ -83,3 +85,9 @@ Times: `07:30`, `7.5`, or a tag.
 1. Run **Export diagnostics data** (maintenance).
 2. Send a **Diagnostics Report** of the app.
 3. Mention the panel orientation and what looked wrong.
+
+---
+
+## Widget
+
+**Solar:** forecast and measured per 15 min for yesterday, today and tomorrow; yield, own use and value per 4 weeks and year.

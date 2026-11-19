@@ -6,9 +6,11 @@ zzz*
 .github
 .claude
 AGENTS.md
+CLAUDE.md
 scratch/
 /test/
 # Dev tooling: tracked by git, never part of the published app.
 /tools/
 # Docs and agent notes: not needed on Homey (the app store uses README.txt / README.<lang>.txt)
 *.md
+/manual/

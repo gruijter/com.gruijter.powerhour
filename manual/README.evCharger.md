@@ -24,7 +24,8 @@
 
 - **Charger:** class *EV charger*, or Homey's energy setting *This device is an EV charger*. A smart plug works too.
 - **Car (optional):** gives real SoC, home/away and charge state.
-- **Repair:** other charger or car, budget, settings.
+- **Repair:** other charger or car, budget, settings. The device settings only show the values.
+- Two devices with the same charger and car? You get a warning.
 
 ---
 
@@ -56,21 +57,23 @@
 - **Solar:** surplus counts at the export price, what it would earn exported.
 - **Cheap extra:** up to the daily maximum when clearly cheaper than usual (learned), or below your fixed price. ≤ 0 is always cheap.
 - **Max. price:** no charging at home above it.
-- **No flapping:** short gaps in a session are bridged.
+- **No flapping:** short pauses are bridged, short sessions extended to the **Min. charging time**.
 - **No SoC known:** plans on the usual energy per session.
 
-**Learns your driving:** departure times and trip use per weekday. Short trips (< **Min. trip SoC**) and away periods are not learned.
+**Learns your driving:** departure times and trip use per weekday. Short trips (< **Min. trip use**) and away periods are not learned.
 
 ---
 
 ## Key settings
 
 - **Reserve level / Minimum level / Daily maximum (%)**
-- **Charge to max SoC when cheap:** Automatic, below fixed price, or off.
+- **Charge to daily maximum when cheap:** Automatic, below **Cheap price**, or off.
+- **Max. price** and **Max. grid power on solar (W)**.
 - **Max. charging power** (0: measured) and **Variable charging power**.
+- **Min. charging time (minutes):** no shorter sessions (default 30).
 - **Control charger:** off: drive the charger with your own flows.
 - **Charger phase:** Automatic (learned from the meter), L1, L2, L3 or 3 phases.
-- **Charger guards the main fuse:** the app does not cut the charger on an overload.
+- **Charger guards the main fuse itself:** the app does not cut the charger on an overload.
 - **Weekly departures:** a time per weekday overrides the learned one.
 - **Away periods:** e.g. `2026-09-17/2026-10-01, 2026-12-24`.
 - **Plug on without car, Shared charger, Start charging in the car, V2X.**
@@ -91,7 +94,14 @@
 
 **Actions**
 - Set charge mode … for … minutes (0: until changed)
-- Departure today/tomorrow at …, min. SoC … (empty: unchanged; `auto`; `-` = car not used)
+- Departure today/tomorrow at …, min. SoC … (empty: unchanged; `auto`; `-` = car not used). Not reachable? The card gives an error with the reason.
 - Car away from … to …
 - Car has left / is home
 - Set car SoC
+
+---
+
+## Widgets
+
+- **EV charger:** charging and charge level per day, 4 weeks and year.
+- **Energy plan:** the charge plan next to prices, solar and home load.

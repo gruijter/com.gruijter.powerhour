@@ -7,7 +7,7 @@
 
 ## What it does
 
-- kWh and money per hour, day, month and year.
+- kWh and money per hour, day, calendar month and year.
 - Any meter: smart plug, energy monitor, heat pump, sub-meter.
 - Shows always-on (standby) power.
 - Learns appliance programs and plans the cheapest start.
@@ -24,8 +24,9 @@
 - **Use Watt as source:** only without a kWh meter.
 - **Has daily reset:** the meter resets at midnight.
 - **Homey Energy totals:** pair `HOMEY_ENERGY_SMARTMETERS`, `_SOLARPANELS` or `_DEVICES`.
-- **Virtual meter:** pair `VIRTUAL_VIA_FLOW`, send readings by flow.
-- **Repair:** other source, mode, budget, fix totals.
+- **Virtual meter:** pair `VIRTUAL_VIA_FLOW`, send readings with **Send reading**. Only a virtual meter shows up in Homey Energy; others would count twice.
+- **Heating or cooling:** tick it for a heat pump or airco. Widgets show it as **Climate**.
+- **Repair:** other source, mode, budget, fix totals. The device settings only show the values.
 
 ---
 
@@ -67,6 +68,6 @@
 - Cancel planned program
 - Set fixed cost per hour, day or month
 - Set fixed tariff or fixed export tariff
-- Send reading to virtual meter (app card)
+- Send reading (virtual meter)
 
 Times: `07:30`, `7.5`, or a tag.

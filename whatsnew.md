@@ -23,6 +23,10 @@ Your v8 devices, totals, Insights and flows are kept.
 - **⚡ Appliances:** learns programs, plans the cheapest start. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.power.md)
 - **📱 Setup from your phone:** a wizard at pairing, and **Repair** to change source, price, budget or totals later.
 - **📈 Year budget:** spread over the year by your local climate.
+- **📊 Widgets:** energy, energy flows, energy plan, price, grid, solar, battery and EV charger on your dashboard. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.widgets.md)
+- **📅 Calendar month and year** on every meter, plus a contract year when it does not start on 1 January.
+- **🧾 Fixed tariff without a price device:** choose **Fixed tariff** in the meter's price step.
+- **⏱️ Quarter hours:** time-of-day markups per 15 minutes (`7:30:0.05`).
 
 ---
 
@@ -34,8 +38,11 @@ Your v8 devices, totals, Insights and flows are kept.
 - Move your price flows to the new cards (the timeline lists the old ones), then **delete the old price device**.
 
 **Meters (grid, solar, power, gas, water)**
-- Price and tariff settings are now in **Repair**, not in the device settings.
+- All settings are now in **Repair**. The device settings only show them.
+- No price device and no tariff flow? The meter moves to **Fixed tariff** once, with your old tariff.
 - Grid: check phases, main fuse and capacity tariff in **Repair**.
+- Heat pump or airco on a Power Monitor? Tick **Heating or cooling** in **Repair**.
+- Only virtual meters still show up in Homey Energy, so nothing counts twice. Check your Energy overview.
 
 **Battery**
 - Choose how the battery is controlled: [Control](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md#control)
@@ -47,6 +54,7 @@ Your v8 devices, totals, Insights and flows are kept.
 
 **Flows**
 - Old cards show as deprecated. They still work, but move to the new cards when you can.
+- **Send reading** to a virtual meter is now a device card; the old app card is deprecated.
 - App developers: use `GET /prices` and the realtime event `prices-updated`. The v8 names `/dap-prices` and `dap-prices-updated` are gone. [API](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.prices-api.md)
 
 ---

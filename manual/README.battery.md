@@ -9,7 +9,7 @@ The heart of the EMS. [← Overview](../README.md)
 
 - Plans charge and discharge per price period (15 or 60 min), on prices, solar and home load.
 - Controls the battery itself, or hands the plan to your flows.
-- One plan for several batteries, any brand.
+- One plan for several batteries, any brand. Wear is spread evenly over them.
 - Protects the main fuse and limits capacity peaks.
 - Learns capacity, losses and taper by itself.
 
@@ -19,11 +19,12 @@ The heart of the EMS. [← Overview](../README.md)
 
 1. **Add Device** → **Power by the Hour** → **Smart Battery**.
 2. Pick your battery.
-3. Fill in capacity and max. charge/discharge power. Done.
+3. Check capacity and max. charge/discharge power (proposed from Insights). Done.
 
 - Works with any battery that shows a SoC and a power in Homey.
 - Built-in control needs a power setpoint (e.g. `target_power`).
-- **Repair:** other battery or capabilities, wear and profit, grid limits, forget learned values.
+- **Repair:** other battery or capabilities, wear and profit, grid limits, forget learned values. The device settings only show the values.
+- Two battery devices on one battery? You get a warning.
 
 ---
 
@@ -39,7 +40,7 @@ The heart of the EMS. [← Overview](../README.md)
 | **Force charge / discharge** | Full power, also from or to the grid. |
 | **Battery decides** | Leaves the group, follows its own app. |
 
-- Set by tile or flow, for a number of minutes or until changed.
+- Set by tile or flow, for a number of minutes or until changed. A new mode replans at once.
 - **Action** tile: Grid target, Save up, Rest, Charge, Discharge, Refill reserve, Calibrate, No control.
 
 ---
@@ -72,7 +73,7 @@ The heart of the EMS. [← Overview](../README.md)
 
 - **Minimum profit per kWh:** extra a grid charge must earn. Starts at 10% of the mean price.
 - **Wear cost per kWh:** or calculate it from purchase price and cycles.
-- **Extra precise planning:** LP planner, about 1% better, up to 4% with peak limiting. Uses much more memory.
+- **Extra precise planning:** LP planner, about 1% better, up to 4% with peak limiting. Uses much more memory; turns itself off after an app crash.
 - **Plan together with other batteries:** one plan, one mode for the group.
 - **Also discharge for the car:** off: the battery does not charge the EV.
 - **Protect the main fuse / Limit peaks:** uses the Grid Monitor's limits.
@@ -80,6 +81,7 @@ The heart of the EMS. [← Overview](../README.md)
 - **Reserve (%):** kept for fuse and peak protection.
 - **Calibrate every (days):** now and then fully empty and full, so the SoC stays right.
 - **Learned:** shows usable capacity, losses and minimum useful power.
+- **Chart:** show power, charge level, export price and legend.
 
 ---
 
@@ -107,3 +109,10 @@ The heart of the EMS. [← Overview](../README.md)
 - Set battery cost: minimum profit or wear per kWh
 - Calibrate battery: start / stop
 - Set grid target (all batteries)
+
+---
+
+## Widgets
+
+- **Battery:** charge, discharge and charge level per day, 4 weeks and year.
+- **Energy plan:** the battery plan next to prices, solar and home load.

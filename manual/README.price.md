@@ -13,6 +13,8 @@
 - 15-minute or hourly prices, as your supplier bills.
 - Supplier markup, taxes, VAT, time-of-day and weekend markups.
 - Own export price, with an optional minimum.
+- Lowest and highest hours of the day, coloured in chart and widget.
+- 4-week average price.
 - AI price forecast until tomorrow's prices are out.
 - Sends the price to all devices in its **tariff group**.
 - Flow cards for cheapest and most expensive periods and blocks.
@@ -27,7 +29,8 @@
 
 - **Price now** shows the result while you type.
 - Each amount: incl. or excl. VAT, as on your contract.
-- **Repair:** same wizard, to change anything.
+- **Repair:** same wizard, to change anything. The device settings only show the values.
+- Only one price device per tariff group. Two? You get a warning.
 
 **Terms:** **import** = from the grid to your home (bill: consumption, supply). **Export** = from your home to the grid (bill: feed-in). Grid power: + import, − export.
 
@@ -42,7 +45,8 @@
 | Export: market minus 0.02, no VAT | `market - 0.02` |
 
 - **Variable markup (%):** on the market price (fixed: on the supplier markup).
-- **Time-of-day markup:** `7:0.05;23:0` = +0.05 from 07:00, 0 from 23:00.
+- **Time-of-day markup:** `7:0.05;23:0` = +0.05 from 07:00, 0 from 23:00. Quarters too: `7:30:0.05`.
+- **Market price not below zero:** the import market price counts as 0 when negative.
 - **Weekend markup:** Saturday and Sunday, replaces time-of-day.
 - **Minimum export price:** the higher of a fixed amount and a % of the supply or import price.
 
@@ -54,6 +58,7 @@ Example: `max(market - 0.02, import * 0.5)`.
 ## Types
 
 - **Fixed:** no market prices. Day/night and weekend tariffs still work everywhere.
+- **No price device at all:** choose **Fixed tariff** in the meter's price step.
 - **Gas:** one price per day (TTF). No cheapest-period cards.
 - **Water:** price per m³, always fixed.
 
@@ -65,6 +70,7 @@ Example: `max(market - 0.02, import * 0.5)`.
 - **ENTSO-E key:** a shared key is built in. Own free key: register at [ENTSO-E](https://transparency.entsoe.eu/), mail `transparency@entsoe.eu` (*Restful API access*).
 - **Forecast prices:** AI prices (Stekker) for the planners to look further ahead.
 - **Currency:** fixed exchange rate, or daily ECB rate.
+- **Lowest and highest hours per day:** how many hours get the cheap and dear colour.
 
 ---
 
@@ -85,7 +91,7 @@ Example: `max(market - 0.02, import * 0.5)`.
 - The price is P% above / below the average of …
 
 **Actions**
-- Find the cheapest / most expensive block (tokens: start, end, minutes until, average)
+- Find the cheapest / most expensive block in the next H hours, before a time (tokens: start, end, minutes until, average, price limit)
 - Provide import / export prices JSON
 - Set a price component
 - Set time-of-day markup or own formula
@@ -98,6 +104,12 @@ Example: `max(market - 0.02, import * 0.5)`.
 - **Boiler:** new price period AND price is one of the cheapest 4 hours → relay on.
 - **Heat pump:** price becomes 30% above the 8-hour average → eco mode.
 - **Notify:** new prices for tomorrow → find cheapest 3-hour block → notification.
+
+---
+
+## Widget
+
+**Price:** today, tomorrow and the next hours, coloured cheap to dear. Lowest, highest and average with time. Tap a slot for its prices.
 
 ---
 
