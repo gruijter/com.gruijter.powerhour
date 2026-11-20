@@ -37,6 +37,7 @@ const DayLog = require('../../lib/helpers/DayLog');
 const DAY_LOG_VERSION = 2;
 const HISTORY_VERSION = 2;
 const BOOTSTRAP_THRESHOLD_DAYS = 14;
+const SCALE_SHARE = 0.5;
 
 const deviceSpecifics = {
   cmap: {
@@ -984,25 +985,28 @@ class SolarDevice extends GenericDevice {
     await LoadSpread.run(this, 'forecastCharts', async ({
       yieldFactorsUpdated: yfUpdated, forecastChanged, dayChanged: dayRolled, quarter,
     }) => {
-      const chartPeak = this.chartPeak();
+      const scales = this.chartScales();
+      const shown = this.chartScalesShown || {};
+      const rescaled = (which) => shown[which] !== scales[which];
+      this.chartScalesShown = scales;
       if (yfUpdated || forecastChanged || quarter || !this.chartSolarToday) {
-        const chartToday = await getSolarChart(this.solarDay('today'), 'Forecast This Day', this.timeZone, chartPeak, true);
+        const chartToday = await getSolarChart(this.solarDay('today'), 'Forecast This Day', this.timeZone, scales.today, true);
         if (chartToday) {
           this.chartSolarToday = chartToday;
           await this.solarTodayImage.update();
         }
       }
 
-      if (yfUpdated || forecastChanged || !this.chartSolarTomorrow) {
-        const chartTomorrow = await getSolarChart(this.solarDay('tomorrow'), 'Forecast Tomorrow', this.timeZone, chartPeak, false);
+      if (yfUpdated || forecastChanged || rescaled('tomorrow') || !this.chartSolarTomorrow) {
+        const chartTomorrow = await getSolarChart(this.solarDay('tomorrow'), 'Forecast Tomorrow', this.timeZone, scales.tomorrow, false);
         if (chartTomorrow) {
           this.chartSolarTomorrow = chartTomorrow;
           await this.solarTomorrowImage.update();
         }
       }
 
-      if (this.forecastHistory.yesterday && (!this.chartSolarYesterday || yfUpdated || dayRolled)) {
-        const chartYesterday = await getSolarChart(this.solarDay('yesterday'), 'Solar Yesterday', this.timeZone, chartPeak, false);
+      if (this.forecastHistory.yesterday && (!this.chartSolarYesterday || yfUpdated || dayRolled || rescaled('yesterday'))) {
+        const chartYesterday = await getSolarChart(this.solarDay('yesterday'), 'Solar Yesterday', this.timeZone, scales.yesterday, false);
         if (chartYesterday) {
           this.chartSolarYesterday = chartYesterday;
           await this.solarYesterdayImage.update();
@@ -1131,6 +1135,22 @@ class SolarDevice extends GenericDevice {
     const slotIndex = (d.getUTCHours() * 4) + Math.floor(d.getUTCMinutes() / 15);
     const yf = this.yieldFactors && this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
     return rad * yf;
+  }
+
+  chartScales() {
+    const s = this.getSettings();
+    const days = ['yesterday', 'today', 'tomorrow'];
+    if (s.chartScale !== 'dynamic') {
+      const fixed = Number(s.chartMax) > 0 ? Number(s.chartMax) : this.chartPeak();
+      return Object.fromEntries(days.map((d) => [d, fixed]));
+    }
+    const top = (which) => {
+      const x = this.solarDay(which);
+      return x ? Math.max(0, ...x.forecast, ...x.real.map((v) => v || 0)) : 0;
+    };
+    const tops = Object.fromEntries(days.map((d) => [d, top(d)]));
+    const shared = Math.max(...Object.values(tops));
+    return Object.fromEntries(days.map((d) => [d, tops[d] >= SCALE_SHARE * shared ? shared : tops[d]]));
   }
 
   chartPeak() {

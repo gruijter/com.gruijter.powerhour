@@ -323,11 +323,19 @@
           });
           x.left = 0;
         });
-        [true, false].forEach(function (strict) {
+        var pairs = !live && d.pairs;
+        var dstOf = function (m) { return m.kind === 'export' || m.kind === 'battery' || m.kind === 'ev' ? m.kind : 'home'; };
+        var share = function (x, m) {
+          var dst = dstOf(m);
+          var all = Object.keys(pairs).reduce(function (a, s) { return a + ((pairs[s] && pairs[s][dst]) || 0); }, 0);
+          return all > 0 && pairs[x.kind] ? (pairs[x.kind][dst] || 0) / all : 0;
+        };
+        var want = need.slice();
+        (pairs ? ['pairs', 'never', 'any'] : ['never', 'any']).forEach(function (pass) {
           srcs.forEach(function (x) {
             middle.forEach(function (m, j) {
-              if (x.left <= 1e-9 || (strict && NEVER[x.kind] === m.kind)) return;
-              var v = Math.min(x.left, need[j]);
+              if (x.left <= 1e-9 || (pass !== 'any' && NEVER[x.kind] === m.kind)) return;
+              var v = Math.min(x.left, need[j], pass === 'pairs' ? want[j] * share(x, m) : Infinity);
               if (v <= 1e-9) return;
               link(XL + BAR, x.out, xm, inAt[j], v * k, col(x), v);
               m.mix.push({ color: col(x), v: v });

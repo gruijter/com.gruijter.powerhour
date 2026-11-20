@@ -1075,6 +1075,119 @@
         "ar": "فارغ: موقع Homey.",
         "ko": "비워두면 Homey 위치."
       }
+    },
+    "chartScale": {
+      "id": "chartScale",
+      "type": "dropdown",
+      "label": {
+        "en": "Chart scale",
+        "nl": "Grafiekschaal",
+        "de": "Diagrammskala",
+        "fr": "Échelle du graphique",
+        "it": "Scala del grafico",
+        "sv": "Diagramskala",
+        "no": "Diagramskala",
+        "es": "Escala del gráfico",
+        "da": "Diagramskala",
+        "pl": "Skala wykresu",
+        "ru": "Шкала графика",
+        "ar": "مقياس الرسم البياني",
+        "ko": "그래프 축"
+      },
+      "value": "year",
+      "values": [
+        {
+          "id": "year",
+          "label": {
+            "en": "Same all year",
+            "nl": "Hele jaar gelijk",
+            "de": "Ganzjährig gleich",
+            "fr": "Identique toute l'année",
+            "it": "Uguale tutto l'anno",
+            "sv": "Samma hela året",
+            "no": "Lik hele året",
+            "es": "Igual todo el año",
+            "da": "Ens hele året",
+            "pl": "Taka sama cały rok",
+            "ru": "Одинаковая весь год",
+            "ar": "ثابت طوال العام",
+            "ko": "연중 동일"
+          }
+        },
+        {
+          "id": "dynamic",
+          "label": {
+            "en": "Follows the days shown",
+            "nl": "Volgt de getoonde dagen",
+            "de": "Folgt den angezeigten Tagen",
+            "fr": "Suit les jours affichés",
+            "it": "Segue i giorni mostrati",
+            "sv": "Följer de visade dagarna",
+            "no": "Følger dagene som vises",
+            "es": "Sigue los días mostrados",
+            "da": "Følger de viste dage",
+            "pl": "Dopasowana do pokazanych dni",
+            "ru": "По показанным дням",
+            "ar": "يتبع الأيام المعروضة",
+            "ko": "표시된 날짜에 맞춤"
+          }
+        }
+      ],
+      "info": {
+        "en": "For the graph and the widget.",
+        "nl": "Voor de grafiek en de widget.",
+        "de": "Für Diagramm und Widget.",
+        "fr": "Pour le graphique et le widget.",
+        "it": "Per grafico e widget.",
+        "sv": "För diagrammet och widgeten.",
+        "no": "For diagrammet og widgeten.",
+        "es": "Para el gráfico y el widget.",
+        "da": "For diagrammet og widgetten.",
+        "pl": "Dla wykresu i widżetu.",
+        "ru": "Для графика и виджета.",
+        "ar": "للرسم البياني والأداة.",
+        "ko": "그래프와 위젯에 적용."
+      }
+    },
+    "chartMax": {
+      "id": "chartMax",
+      "type": "number",
+      "label": {
+        "en": "Chart maximum (W)",
+        "nl": "Grafiekmaximum (W)",
+        "de": "Diagrammmaximum (W)",
+        "fr": "Maximum du graphique (W)",
+        "it": "Massimo del grafico (W)",
+        "sv": "Diagrammaximum (W)",
+        "no": "Diagrammaks (W)",
+        "es": "Máximo del gráfico (W)",
+        "da": "Diagrammaksimum (W)",
+        "pl": "Maksimum wykresu (W)",
+        "ru": "Максимум графика (Вт)",
+        "ar": "الحد الأقصى للرسم البياني (واط)",
+        "ko": "그래프 최대값 (W)"
+      },
+      "value": 0,
+      "min": 0,
+      "info": {
+        "en": "0: automatic.",
+        "nl": "0: automatisch.",
+        "de": "0: automatisch.",
+        "fr": "0 : automatique.",
+        "it": "0: automatico.",
+        "sv": "0: automatiskt.",
+        "no": "0: automatisk.",
+        "es": "0: automático.",
+        "da": "0: automatisk.",
+        "pl": "0: automatycznie.",
+        "ru": "0: автоматически.",
+        "ar": "0: تلقائي.",
+        "ko": "0: 자동."
+      },
+      "showIf": {
+        "id": "chartScale",
+        "value": "year"
+      }
     }
   },
   "price": {

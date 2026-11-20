@@ -32,3 +32,7 @@ test/solar/data/
 test/all_terms.json
 
 CLAUDE.md
+tools/manual-render/names.json
+tools/manual-render/snap/
+tools/manual-render/out/
+tools/manual-render/calls.log

@@ -46,6 +46,7 @@ const kwhRatio = (now, from, to) => {
 const SPLIT_FIELDS = [['importValue', 'imported'], ['exportValue', 'exported'], ['homeValue', 'home']];
 const FileStore = require('../../lib/helpers/FileStore');
 const GridDayLog = require('../../lib/helpers/GridDayLog');
+const FlowPairs = require('../../lib/helpers/FlowPairs');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
 const PeakTariff = require('../../lib/strategies/PeakTariff');
@@ -174,6 +175,7 @@ class GridDevice extends GenericDevice {
 
     if (this.sessionId !== sessionIdAfterSuper) return;
     await GridDayLog.start(this);
+    await FlowPairs.start(this);
     this.startForecastLoop().catch(this.error);
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     const finishInit = async () => {
@@ -331,6 +333,9 @@ class GridDevice extends GenericDevice {
       const homePower = Math.round(gridPower + solarPower - batteryPower - evPower);
 
       const now = Date.now();
+      FlowPairs.record(this, now, {
+        grid: gridPower, solar: solarPower, battery: batteryPower, ev: evPower,
+      });
       if (!Array.isArray(this.homePowerBuffer)) this.homePowerBuffer = [];
       const ceilingW = this.getHomePowerCeilingW();
       if (homePower <= ceilingW) {

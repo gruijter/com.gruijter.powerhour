@@ -282,13 +282,13 @@
           hi = both.hi;
         }
         var step = niceStep((hi - lo) || 1);
-        lo = Math.floor(lo / step) * step;
-        hi = Math.max(Math.ceil(hi / step) * step, lo + step);
+        lo *= 1.05;
+        hi = Math.max(hi * 1.05, lo + step);
         var y = function (v) { return TOP + ((hi - v) / (hi - lo)) * CH; };
         var ys = function (s) { return TOP + ((100 - s) / 100) * CH; };
         var dec = step < 0.01 ? 3 : step < 0.1 ? 2 : step < 1 ? 1 : 0;
         var axisFmt = new Intl.NumberFormat(lang, { minimumFractionDigits: dec, maximumFractionDigits: dec });
-        for (var g = lo; g <= hi + step / 2; g += step) {
+        for (var g = Math.ceil(lo / step - 1e-9) * step; g <= hi + 1e-9; g += step) {
           el('line', { x1: X0, x2: X1, y1: y(g), y2: y(g), class: Math.abs(g) < step / 2 ? 'zero' : 'grid' }, svg);
           el('text', { x: X0 - 4, y: y(g) + 3, 'text-anchor': 'end', class: 'tick' }, svg, axisFmt.format(Math.abs(g) < step / 2 ? 0 : g));
         }
@@ -373,12 +373,15 @@
         var n = list.length;
         var sw = (X1 - X0) / n;
         var top = Math.max.apply(null, list.map(function (b) { return b ? Math.max(b.charged || 0, b.discharged || 0) : 0; })) || 1;
-        var step = niceStep(top);
-        var max = Math.max(Math.ceil(top / step) * step, step);
+        var step = niceStep(d.discharges ? top * 2 : top);
+        var max = Math.max(top * 1.05, step);
         var half = d.discharges ? CH / 2 : CH;
         var mid = TOP + half;
         var y = function (v) { return mid - (v / max) * half; };
-        (d.discharges ? [-max, 0, max] : [0, max / 2, max]).forEach(function (g) {
+        var lines = [0];
+        for (var gs = step; gs <= max + 1e-9; gs += step) lines.push(gs);
+        if (d.discharges) lines = lines.concat(lines.slice(1).map(function (g) { return -g; }));
+        lines.forEach(function (g) {
           el('line', { x1: X0, x2: X1, y1: y(g), y2: y(g), class: g === 0 ? 'zero' : 'grid' }, svg);
           el('text', { x: X0 - 4, y: y(g) + 3, 'text-anchor': 'end', class: 'tick' }, svg, kwhFmt.format(Math.abs(g)).replace(/[.,]0$/, ''));
         });

@@ -253,13 +253,13 @@
           hi = both.hi;
         }
         var step = niceStep((hi - lo) || 1);
-        lo = Math.floor(lo / step) * step;
-        hi = Math.max(Math.ceil(hi / step) * step, lo + step);
+        lo *= 1.05;
+        hi = Math.max(hi * 1.05, lo + step);
         var y = function (v) { return TOP + ((hi - v) / (hi - lo)) * CH; };
         var bottom = TOP + CH;
         var dec = step < 0.01 ? 3 : step < 0.1 ? 2 : step < 1 ? 1 : 0;
         var axisFmt = new Intl.NumberFormat(lang, { minimumFractionDigits: dec, maximumFractionDigits: dec });
-        for (var g = lo; g <= hi + step / 2; g += step) {
+        for (var g = Math.ceil(lo / step - 1e-9) * step; g <= hi + 1e-9; g += step) {
           var gy = y(g);
           el('line', { x1: X0, x2: X1, y1: gy, y2: gy, class: Math.abs(g) < step / 2 ? 'zero' : 'grid' }, svg);
           el('text', { x: X0 - 4, y: gy + 3, 'text-anchor': 'end', class: 'tick' }, svg, axisFmt.format(Math.abs(g) < step / 2 ? 0 : g));

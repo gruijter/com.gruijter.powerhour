@@ -214,18 +214,18 @@
 
       // Grid lines of a signed axis from lo to hi (both multiples of step), labels without sign.
       function gridLines(lo, hi, step, y, X1, label) {
-        for (var g = lo; g <= hi + step / 2; g += step) {
+        for (var g = Math.ceil(lo / step - 1e-9) * step; g <= hi + 1e-9; g += step) {
           var v = Math.abs(g) < step / 2 ? 0 : g;
           el('line', { x1: X0, x2: X1, y1: y(v), y2: y(v), class: 'grid', opacity: v === 0 ? 1 : 0.6 }, svg);
           el('text', { x: X0 - 4, y: y(v) + 3, 'text-anchor': 'end', class: 'tick' }, svg, label(Math.abs(v)));
         }
       }
-      function range(vals) {
-        var hi = Math.max.apply(null, vals.concat([0]));
-        var lo = Math.min.apply(null, vals.concat([0]));
+      function range(vals, shared) {
+        var hi = Math.max.apply(null, vals.concat([0, shared ? shared.hi : 0]));
+        var lo = Math.min.apply(null, vals.concat([0, shared ? shared.lo : 0]));
         var step = niceStep(Math.max(hi - lo, 1) * 1.05);
-        hi = Math.ceil((hi * 1.05) / step) * step;
-        lo = Math.floor((lo * 1.05) / step) * step;
+        hi *= 1.05;
+        lo *= 1.05;
         if (hi - lo < step) hi = lo + step;
         return { lo: lo, hi: hi, step: step };
       }
@@ -319,7 +319,7 @@
         var n = d.forecast.length;
         var sw = (X1 - X0) / n;
         var nums = d.forecast.concat(d.real).filter(function (v) { return typeof v === 'number'; });
-        var r = range(nums);
+        var r = range(nums, d.scale);
         var y = function (v) { return TOP + ((r.hi - v) / (r.hi - r.lo)) * CH; };
         var y0 = y(0);
         gridLines(r.lo, r.hi, r.step, y, X1, function (g) { return r.step < 1000 ? g + ' W' : fmt[0].format(g / 1000) + ' kW'; });
