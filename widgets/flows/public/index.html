@@ -307,36 +307,36 @@
         var col = function (n) { return 'var(' + COLORS[n.kind] + ')'; };
 
         // Sources to destinations.
-        // Filled in order: each source fills the destinations top-down where the previous one stopped
-        // (no crossings); gas to climate only, below its electricity.
         var inAt = middle.map(function (m) { m.mix = []; return m.y0; });
         var need = middle.map(function (m) { return m.flow - (m.gasIn || 0); });
-        var mi = 0;
+        var NEVER = { battery: 'battery', ev: 'ev', grid: 'export' };
         srcs.forEach(function (x) {
-          var out = x.y0;
-          if (x.gas) {
+          x.out = x.y0;
+          x.left = x.value;
+          if (!x.gas) return;
+          middle.forEach(function (m, j) {
+            if (!m.gasIn) return;
+            link(XL + BAR, x.out, xm, inAt[j], m.gasIn * k, col(x), m.gasIn);
+            m.mix.push({ color: col(x), v: m.gasIn, gas: true });
+            x.out += m.gasIn * k;
+            inAt[j] += m.gasIn * k;
+          });
+          x.left = 0;
+        });
+        [true, false].forEach(function (strict) {
+          srcs.forEach(function (x) {
             middle.forEach(function (m, j) {
-              if (!m.gasIn) return;
-              link(XL + BAR, out, xm, inAt[j], m.gasIn * k, col(x), m.gasIn);
-              m.mix.push({ color: col(x), v: m.gasIn, gas: true });
-              out += m.gasIn * k;
-              inAt[j] += m.gasIn * k;
+              if (x.left <= 1e-9 || (strict && NEVER[x.kind] === m.kind)) return;
+              var v = Math.min(x.left, need[j]);
+              if (v <= 1e-9) return;
+              link(XL + BAR, x.out, xm, inAt[j], v * k, col(x), v);
+              m.mix.push({ color: col(x), v: v });
+              x.out += v * k;
+              inAt[j] += v * k;
+              need[j] -= v;
+              x.left -= v;
             });
-            return;
-          }
-          var left = x.value;
-          while (left > 1e-9 && mi < middle.length) {
-            var v = Math.min(left, need[mi]);
-            if (v > 0) {
-              link(XL + BAR, out, xm, inAt[mi], v * k, col(x), v);
-              middle[mi].mix.push({ color: col(x), v: v });
-              out += v * k;
-              inAt[mi] += v * k;
-              need[mi] -= v;
-              left -= v;
-            }
-            if (need[mi] <= 1e-9) mi += 1;
-          }
+          });
         });
         // Destinations to their users, in the colours of the sources that feed the destination.
         middle.forEach(function (m) {
