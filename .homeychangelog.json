@@ -1,4 +1,7 @@
 {
+  "9.0.5": {
+    "en": "New widgets: solar, grid, price, battery and EV. One colour scheme for graphs and widgets. Setup conflicts shown on the device. New tariff group option in setup. Fix history rebuild from Insights."
+  },
   "9.0.4": {
     "en": "New widgets: energy, energy flows and battery plan. Calendar month and year for every meter, contract year when it does not start on 1 January. Time of day markup per quarter hour. Meter reading via device card. Fix double counting in Homey Energy."
   },
