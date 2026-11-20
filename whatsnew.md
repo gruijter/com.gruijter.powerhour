@@ -1,62 +1,26 @@
-# ⚡ Power by the Hour v9: test version available
+# ⚡ Power by the Hour v9: test version
 
-v9 turns Power by the Hour into your own **Energy Management System** on Homey: it measures, predicts, plans and controls.
+v9 turns the app into your own **Energy Management System**: it measures, predicts, plans and controls. **Big rewrite: expect bugs.**
 
-**This is a huge rewrite of the app. Expect bugs!** In return you get:
-- Much simpler setup and configuration.
-- Far fewer flow cards, that still do all you need and more.
+⚠️ **Make a Homey backup first.** There is no way back to v8.
+👉 **Install:** https://homey.app/a/com.gruijter.powerhour/test/ (devices, totals, Insights and flows are kept)
 
-⚠️ **Make a Homey backup first.** After migration there is no way back to v8.
+## 🆕 New
 
-👉 **Install the test version:** https://homey.app/a/com.gruijter.powerhour/test/
-Your v8 devices, totals, Insights and flows are kept.
+- **💶 [Energy Price](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.price.md):** one device for power, gas and water, any contract and currency.
+- **🔋 [Smart Battery](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md):** built-in modes and control.
+- **🚗 [Smart EV Charger](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.evCharger.md):** charges cheap or on solar, ready on time.
+- **🔌 [Grid](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.grid.md):** peak shaving, fuse guard, home load forecast.
+- **☀️ [Solar](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.solar.md)** and **⚡ [appliance](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.power.md)** forecasts that learn by themselves.
+- **📊 [Widgets](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.widgets.md)** for your dashboard.
+- **📱 Setup from your phone**, changes later via **Repair**. Far fewer flow cards.
 
----
+## ✅ After installing
 
-## 🆕 What's new
+- **Prices:** add an **Energy Price** device and use **Take over settings** on your old `dap`/`dap15`/`dapg` device. Move your price flows (the timeline lists them), then delete the old device.
+- **Meters:** settings are now in **Repair**. Grid: check phases, fuse and capacity tariff. Heat pump or airco: tick **Heating or cooling**. Check your Homey Energy overview.
+- **Battery:** either tick **Let the app control the battery**, pick a [mode](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md#modes) and remove your own (dis)charge flows; or leave it off and use **New planned battery power**. Homey Pro 2019 / Early 2023: leave **Extra precise planning** off.
+- **Flows:** old cards still work but are deprecated; move to the new ones.
+- **App developers:** `/dap-prices` is now [`GET /prices`](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.prices-api.md), event `prices-updated`.
 
-- **💶 Energy Price:** one new price device for power, gas and water. Almost any contract in the EU and worldwide: dynamic or fixed, with all markups and taxes, any currency. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.price.md)
-- **🔋 Smart Battery:** fully automatic, built-in modes and control. Plans on prices, solar and home load, and learns its own losses. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md)
-- **🚗 Smart EV Charger:** learns when you leave, charges cheap or on solar, ready on time. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.evCharger.md)
-- **🔌 Grid Monitor:** peak shaving for capacity tariffs, main fuse and per-phase guard, self-learning home load forecast. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.grid.md)
-- **☀️ Solar:** self-learning forecast, no panel data needed. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.solar.md)
-- **⚡ Appliances:** learns programs, plans the cheapest start. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.power.md)
-- **📱 Setup from your phone:** a wizard at pairing, and **Repair** to change source, price, budget or totals later.
-- **📈 Year budget:** spread over the year by your local climate.
-- **📊 Widgets:** energy, energy flows, energy plan, price, grid, solar, battery and EV charger on your dashboard. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.widgets.md)
-- **📅 Calendar month and year** on every meter, plus a contract year when it does not start on 1 January.
-- **🧾 Fixed tariff without a price device:** choose **Fixed tariff** in the meter's price step.
-- **⏱️ Quarter hours:** time-of-day markups per 15 minutes (`7:30:0.05`).
-
----
-
-## ✅ After installing: what to do
-
-**Prices**
-- Add an **Energy Price** device and use **Take over settings** to copy your old `dap`, `dap15` or `dapg` device. [How](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.price.md#from-the-old-day-ahead-price-drivers)
-- The new device takes over the tariff group.
-- Move your price flows to the new cards (the timeline lists the old ones), then **delete the old price device**.
-
-**Meters (grid, solar, power, gas, water)**
-- All settings are now in **Repair**. The device settings only show them.
-- No price device and no tariff flow? The meter moves to **Fixed tariff** once, with your old tariff.
-- Grid: check phases, main fuse and capacity tariff in **Repair**.
-- Heat pump or airco on a Power Monitor? Tick **Heating or cooling** in **Repair**.
-- Only virtual meters still show up in Homey Energy, so nothing counts twice. Check your Energy overview.
-
-**Battery**
-- Choose how the battery is controlled: [Control](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md#control)
-  - **Built-in:** tick **Let the app control the battery** and pick a [mode](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.battery.md#modes). Then **remove your own (dis)charge flows**, or they will fight the app.
-  - **By flows:** leave control off and use **New planned battery power** or **New XOM power available**.
-- The old **ROI** cards still work but are deprecated: replace them with the new plan cards.
-- Several batteries? They now plan as one group.
-- Older Homey (Pro 2019 or Early 2023)? Leave **Extra precise planning** off: it uses much more memory.
-
-**Flows**
-- Old cards show as deprecated. They still work, but move to the new cards when you can.
-- **Send reading** to a virtual meter is now a device card; the old app card is deprecated.
-- App developers: use `GET /prices` and the realtime event `prices-updated`. The v8 names `/dap-prices` and `dap-prices-updated` are gone. [API](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/manual/README.prices-api.md)
-
----
-
-🐞 **Problems?** Send a diagnostic report (Homey app → Power by the Hour → Settings) and post the time and what went wrong here, or on [GitHub](https://github.com/gruijter/com.gruijter.powerhour/issues).
+🐞 **Problems?** Send a diagnostic report (app Settings) and post the time and what went wrong here or on [GitHub](https://github.com/gruijter/com.gruijter.powerhour/issues).
