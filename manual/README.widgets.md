@@ -90,5 +90,5 @@
 - **Climate:** Power Monitors with **Heating or cooling** ticked, plus gas.
 - **Home other:** home use minus climate.
 - **Pale bars:** expected values. **Estimated:** a gap in the history is filled in.
-- Graphs and widgets use the same colours.
+- Graphs and widgets use the same colours. **Red:** charging, import, use. **Blue:** discharging, export. **Green / purple:** lowest / highest prices.
 - The dashboard's edit mode blocks taps on widgets. Tap **Done** first.

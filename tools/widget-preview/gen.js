@@ -15,10 +15,10 @@ const THEMES = {
 
 const SOLAR = '#F2A900';
 const GREEN = '#34C759';
-const CHEAP = '#2F9E44';
-const DEAR = '#8B5CF6';
-const USE = '#E23D4B';
-const EXPORT = '#2F74E0';
+const CHEAP = '#22C55E';
+const DEAR = '#B04DFF';
+const USE = '#FF3348';
+const EXPORT = '#1F8FFF';
 
 const pill = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/>`;
 
@@ -196,7 +196,7 @@ const gridPreview = (t) => {
   ${[0, 1, 2].map((i) => `${pill(64 + i * 310, 160, 190, 34, t.shape)}${pill(64 + i * 310, 210, 130, 22, t.track)}`).join('')}
   ${[-1, 0, 1].map((i) => `<rect x="${x0}" y="${mid + i * 280}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
   ${bars}
-  <path d="${area}" fill="${USE}" opacity="0.35" clip-path="url(#up)"/><path d="${area}" fill="${EXPORT}" opacity="0.35" clip-path="url(#down)"/>
+  <path d="${area}" fill="${USE}" clip-path="url(#up)"/><path d="${area}" fill="${EXPORT}" clip-path="url(#down)"/>
   <polyline points="${line}" fill="none" stroke="${USE}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#up)"/>
   <polyline points="${line}" fill="none" stroke="${EXPORT}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#down)"/>
   <rect x="${nowX - 4}" y="300" width="8" height="${900 - 300}" rx="4" fill="${t.shape}"/>

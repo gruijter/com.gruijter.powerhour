@@ -60,8 +60,8 @@ test('gradation: lowest price and highest price most solid', () => {
   const prices = Array.from({ length: 24 }, (_, i) => 0.2 + i / 100);
   const m = PriceLevels.levels(hours(day0, prices), 60, 4, 'UTC');
   const a = (i) => m.get(day0 + i * H).alpha;
-  assert.ok(a(0) === 1 && a(3) === 0.35 && a(1) > a(2));
-  assert.ok(a(23) === 1 && a(20) === 0.35 && a(22) > a(21));
+  assert.ok(a(0) === 1 && a(3) === 0.7 && a(1) > a(2));
+  assert.ok(a(23) === 1 && a(20) === 0.7 && a(22) > a(21));
   assert.strictEqual(a(10), 1);
 });
 
