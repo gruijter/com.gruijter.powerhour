@@ -43,7 +43,6 @@
     var started = false;
     // One page for widgets/battery and widgets/ev (tools/widget-shared/gen.js fills in the kind).
     var KIND = 'battery';
-    var COLOR = KIND === 'ev' ? '--c-ev' : '--c-battery';
     var MONEY = KIND === 'ev' ? 'cost' : 'yield'; // the money of the period: EV costs, a battery earns
     var TABS = ['yesterday', 'today', 'tomorrow', 'next', 'weeks', 'year'];
     var NS = 'http://www.w3.org/2000/svg';
@@ -55,8 +54,8 @@
     var SHARE = 0.5; // one price scale for the days, unless a day would fill less than this share of it
     // The palette colour of a plan action (ChargeChart actionColor()).
     var ACTION_COLOR = {
-      charge: COLOR, chargeEv: COLOR, discharge: '--c-export', dischargeEv: '--c-export',
-      xom: '--c-home', hold: '--c-hold', idle: '--c-idle',
+      charge: '--c-use', chargeEv: '--c-use', discharge: '--c-export', dischargeEv: '--c-export',
+      xom: '--c-xom', hold: '--c-hold', idle: '--c-idle',
     };
     var ACTIONS = ['xom', 'hold', 'charge', 'discharge'];
 
@@ -340,7 +339,7 @@
           list.forEach(function (s, k) { if (typeof s === 'number') pts.push((X0 + (k + 0.5) * sw).toFixed(1) + ',' + ys(s).toFixed(1)); });
           if (pts.length > 1) {
             el('polyline', {
-              points: pts.join(' '), fill: 'none', stroke: 'var(' + COLOR + ')', 'stroke-width': dash ? 1.5 : 2, 'stroke-dasharray': dash ? '4 3' : 'none', 'stroke-linejoin': 'round',
+              points: pts.join(' '), fill: 'none', stroke: 'var(--text)', 'stroke-width': dash ? 1.5 : 2, 'stroke-dasharray': dash ? '4 3' : 'none', 'stroke-linejoin': 'round',
             }, svg);
           }
           return pts.length ? pts[pts.length - 1] : null;
@@ -359,7 +358,7 @@
         ACTIONS.forEach(function (a) { if (used[a]) items.push([actionName(a), ACTION_COLOR[a]]); });
         if (d.forecast.some(Boolean)) items.push([t('expected'), '--c-idle', PALE]);
         if (path) items.push([t('export_price'), '--c-export', 'line']);
-        if (d.soc.concat(d.socPlan).some(function (s) { return typeof s === 'number'; })) items.push(['SoC', COLOR, 'line']);
+        if (d.soc.concat(d.socPlan).some(function (s) { return typeof s === 'number'; })) items.push(['SoC', '--text', 'line']);
         drawLegend(items);
         chart = {
           n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx, ok: function (k) { return typeof d.price[k] === 'number'; },
@@ -395,12 +394,12 @@
           var x = X0 + i * sw + sw * 0.15;
           var bw = sw * 0.7;
           var op = b.est ? PALE : 1;
-          if (b.charged > 0) el('rect', { x: x, y: y(b.charged), width: bw, height: mid - y(b.charged), fill: 'var(' + COLOR + ')', opacity: op }, svg);
+          if (b.charged > 0) el('rect', { x: x, y: y(b.charged), width: bw, height: mid - y(b.charged), fill: 'var(--c-use)', opacity: op }, svg);
           if (b.discharged > 0) el('rect', { x: x, y: mid, width: bw, height: y(-b.discharged) - mid, fill: 'var(--c-export)', opacity: op }, svg);
         });
-        var items = [[actionName('charge'), COLOR]];
+        var items = [[actionName('charge'), '--c-use']];
         if (d.discharges) items.push([actionName('discharge'), '--c-export']);
-        if (hasEst) items.push([t('estimated'), COLOR, PALE]);
+        if (hasEst) items.push([t('estimated'), '--c-use', PALE]);
         drawLegend(items);
         chart = {
           n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: -1, ok: function (k) { return !!list[k] && typeof list[k].charged === 'number'; },

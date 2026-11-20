@@ -24,8 +24,8 @@
     .now { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
     .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
     .legend { display: flex; gap: 12px; margin: 0 8px 4px; color: var(--muted); font-size: 11px; }
-    .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; background: var(--c-grid); vertical-align: -1px; }
-    .legend i.line { height: 0; border-top: 2px dashed var(--c-grid); background: none; border-radius: 0; vertical-align: 3px; }
+    .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; background: var(--c-use); vertical-align: -1px; }
+    .legend i.line { height: 0; border-top: 2px dashed var(--c-use); background: none; border-radius: 0; vertical-align: 3px; }
   </style>
 </head>
 <body>
@@ -350,7 +350,7 @@
         runs.forEach(function (pts) {
           var line = monoPath(pts);
           var area = line + 'L' + pts[pts.length - 1][0].toFixed(2) + ' ' + y0.toFixed(2) + 'L' + pts[0][0].toFixed(2) + ' ' + y0.toFixed(2) + 'Z';
-          [[up, '--c-grid'], [down, '--c-export']].forEach(function (p) {
+          [[up, '--c-use'], [down, '--c-export']].forEach(function (p) {
             el('path', { d: area, fill: 'var(' + p[1] + ')', opacity: FILL, 'clip-path': p[0] }, svg);
             el('path', { d: line, fill: 'none', stroke: 'var(' + p[1] + ')', 'stroke-width': 1, 'stroke-linejoin': 'round', 'clip-path': p[0] }, svg);
           });
@@ -364,7 +364,7 @@
           var x2 = (X0 + (k + 1) * sw).toFixed(2);
           bars[v > 0 ? 'in' : 'out'] += 'M' + x1 + ' ' + y0.toFixed(2) + 'V' + y(v).toFixed(2) + 'H' + x2 + 'V' + y0.toFixed(2) + 'Z';
         });
-        if (bars.in) el('path', { d: bars.in, fill: 'var(--c-grid)', opacity: PALE }, svg);
+        if (bars.in) el('path', { d: bars.in, fill: 'var(--c-use)', opacity: PALE }, svg);
         if (bars.out) el('path', { d: bars.out, fill: 'var(--c-export)', opacity: PALE }, svg);
         var nowIdx = d.day === 'today' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
         if (nowIdx < 0 || nowIdx >= n) nowIdx = -1;
@@ -373,9 +373,9 @@
           el('line', { x1: nx, x2: nx, y1: TOP, y2: bottom, class: 'now' }, svg);
         }
         var items = [];
-        if (hasIn) items.push([cap(t('import')), FILL * 2, '--c-grid']);
+        if (hasIn) items.push([cap(t('import')), FILL * 2, '--c-use']);
         if (hasOut) items.push([cap(t('export')), FILL * 2, '--c-export']);
-        if (bars.in || bars.out) items.push([t('expected'), PALE, '--c-grid']);
+        if (bars.in || bars.out) items.push([t('expected'), PALE, '--c-use']);
         drawLegend(items);
         chart = {
           n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx,
@@ -405,11 +405,11 @@
           if (!b || typeof b.imported !== 'number') return;
           if (b.est) hasEst = true;
           var op = b.est ? PALE : 1;
-          if (b.imported > 0) el('rect', { x: x, y: y(b.imported), width: bw, height: y0 - y(b.imported), fill: 'var(--c-grid)', opacity: op }, svg);
+          if (b.imported > 0) el('rect', { x: x, y: y(b.imported), width: bw, height: y0 - y(b.imported), fill: 'var(--c-use)', opacity: op }, svg);
           if (b.exported > 0) el('rect', { x: x, y: y0, width: bw, height: y(-b.exported) - y0, fill: 'var(--c-export)', opacity: op }, svg);
         });
-        var items = [[cap(t('import')), 1, '--c-grid'], [cap(t('export')), 1, '--c-export']];
-        if (hasEst) items.push([t('estimated'), PALE, '--c-grid']);
+        var items = [[cap(t('import')), 1, '--c-use'], [cap(t('export')), 1, '--c-export']];
+        if (hasEst) items.push([t('estimated'), PALE, '--c-use']);
         drawLegend(items);
         chart = {
           n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: -1,

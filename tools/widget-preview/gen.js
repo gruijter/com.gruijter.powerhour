@@ -6,17 +6,19 @@ const path = require('path');
 // Guideline 1.10: transparent background, simple shapes, no text, few colours.
 const THEMES = {
   light: {
-    card: '#FFFFFF', shape: '#D6DAE2', track: '#E4E7EC', shadow: 'rgba(17,24,39,0.13)',
+    card: '#FFFFFF', shape: '#D6DAE2', track: '#E4E7EC', soc: '#5D6676', shadow: 'rgba(17,24,39,0.13)',
   },
   dark: {
-    card: '#3A3A3C', shape: '#6B6B70', track: '#4E4E51', shadow: 'rgba(0,0,0,0.55)',
+    card: '#3A3A3C', shape: '#6B6B70', track: '#4E4E51', soc: '#E5E5EA', shadow: 'rgba(0,0,0,0.55)',
   },
 };
 
 const SOLAR = '#F2A900';
 const GREEN = '#34C759';
-const CHEAP = '#4C6EF5';
-const DEAR = '#E5484D';
+const CHEAP = '#2F9E44';
+const DEAR = '#8B5CF6';
+const USE = '#E23D4B';
+const EXPORT = '#2F74E0';
 
 const pill = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/>`;
 
@@ -67,7 +69,7 @@ const plan = (t) => {
   };
   const price = [70, 60, 45, 40, 50, 80, 110, 95, 75, 60, 55, 70, 120, 140, 115, 85];
   const priceFill = (i, v) => {
-    if (v >= 110) return '#E5484D';
+    if (v >= 110) return DEAR;
     return v >= 70 ? t.shape : CHEAP;
   };
   const solar = [0, 0, 0, 0, 0, 30, 80, 120, 140, 120, 80, 30, 0, 0, 0, 0];
@@ -80,8 +82,8 @@ const plan = (t) => {
   <rect x="${x0}" y="${lane(i) + 150}" width="${x1 - x0}" height="6" rx="3" fill="${t.track}"/>`).join('\n  ')}
   ${bars(lane(0), price, priceFill)}
   ${bars(lane(1), solar, SOLAR)}
-  <polyline points="${socLine(lane(2))}" fill="none" stroke="${GREEN}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
-  ${[[2, 4], [7, 10]].map(([a, b]) => `<rect x="${x0 + a * 40.75}" y="${lane(2) + 128}" width="${(b - a) * 40.75}" height="22" rx="11" fill="${GREEN}"/>`).join('')}
+  <polyline points="${socLine(lane(2))}" fill="none" stroke="${t.soc}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+  ${[[2, 4], [7, 10]].map(([a, b]) => `<rect x="${x0 + a * 40.75}" y="${lane(2) + 128}" width="${(b - a) * 40.75}" height="22" rx="11" fill="${USE}"/>`).join('')}
   ${bars(lane(3), load, t.shape)}
   <rect x="${x0 + 238}" y="120" width="8" height="${lane(3) + 186 - 120}" rx="4" fill="${t.shape}"/>
 </svg>`;
@@ -98,12 +100,12 @@ const flowsPreview = (t) => {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   ${b(102, 170, 600, 490, 300, 730, SOLAR)}
   ${b(102, 640, 840, 490, 730, 930, t.shape)}
-  ${b(512, 300, 480, 900, 170, 350, CHEAP)}
+  ${b(512, 300, 480, 900, 170, 350, USE)}
   ${b(512, 480, 600, 900, 390, 510, GREEN)}
   ${b(512, 600, 930, 900, 550, 880, t.shape)}
   ${bar(80, 170, 430, SOLAR)}${bar(80, 640, 200, t.shape)}
-  ${bar(490, 300, 630, CHEAP)}
-  ${bar(900, 170, 180, CHEAP)}${bar(900, 390, 120, GREEN)}${bar(900, 550, 330, t.shape)}
+  ${bar(490, 300, 630, USE)}
+  ${bar(900, 170, 180, USE)}${bar(900, 390, 120, GREEN)}${bar(900, 550, 330, t.shape)}
 </svg>`;
 };
 
@@ -151,8 +153,6 @@ const pricePreview = (t) => {
 };
 
 // widgets/battery: price bars in the colour of the planned action (charge, discharge, rest) and the SoC line.
-const BATTERY = '#2EB872';
-const EXPORT = '#22B8CF';
 const batteryPreview = (t) => {
   const x0 = 100;
   const x1 = 960;
@@ -161,7 +161,7 @@ const batteryPreview = (t) => {
   const soc = [40, 40, 55, 70, 85, 85, 80, 60, 45, 45, 50, 65, 80, 92, 92, 90, 70, 45, 25, 20, 20, 20, 22, 25];
   const w = (x1 - x0) / p.length;
   const color = (v, i) => {
-    if (soc[i + 1] > soc[i] + 2) return BATTERY;
+    if (soc[i + 1] > soc[i] + 2) return USE;
     return soc[i + 1] < soc[i] - 2 ? EXPORT : t.shape;
   };
   const bars = p.map((v, i) => `<rect x="${(x0 + i * w + w * 0.12).toFixed(1)}" y="${base - v * 5.6}" width="${(w * 0.76).toFixed(1)}" height="${v * 5.6}" rx="6" fill="${color(v, i)}"/>`).join('');
@@ -171,13 +171,12 @@ const batteryPreview = (t) => {
   ${[0, 1, 2, 3].map((i) => `${pill(64 + i * 230, 160, 160, 34, t.shape)}${pill(64 + i * 230, 210, 110, 22, t.track)}`).join('')}
   ${[0, 1, 2].map((i) => `<rect x="${x0}" y="${base - i * 200}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
   ${bars}
-  <polyline points="${line}" fill="none" stroke="${BATTERY}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="${line}" fill="none" stroke="${t.soc}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
 </svg>`;
 };
 
 // widgets/grid: tabs, three stat pills, zero line in the middle; expected pale bars, measured line with
 // a light fill: import up in the grid colour, export down in the export colour.
-const GRID = '#7A86A0';
 const gridPreview = (t) => {
   const x0 = 100;
   const x1 = 960;
@@ -186,7 +185,7 @@ const gridPreview = (t) => {
   const real = [34, 22, 28, 22, 40, 14, -16, -48, -60, -90, -72, -82];
   const w = (x1 - x0) / fc.length;
   const y = (v) => mid - v * 3.2;
-  const bars = fc.map((v, i) => `<rect x="${(x0 + i * w).toFixed(1)}" y="${Math.min(y(v), mid)}" width="${w.toFixed(1)}" height="${Math.abs(v * 3.2)}" fill="${v > 0 ? GRID : EXPORT}" opacity="0.3"/>`).join('');
+  const bars = fc.map((v, i) => `<rect x="${(x0 + i * w).toFixed(1)}" y="${Math.min(y(v), mid)}" width="${w.toFixed(1)}" height="${Math.abs(v * 3.2)}" fill="${v > 0 ? USE : EXPORT}" opacity="0.3"/>`).join('');
   const pts = real.map((v, i) => [x0 + (i + 0.5) * w, y(v)]);
   const line = pts.map((q) => `${q[0].toFixed(1)},${q[1].toFixed(1)}`).join(' ');
   const area = `M${pts[0][0]} ${mid}L${pts.map((q) => `${q[0].toFixed(1)} ${q[1].toFixed(1)}`).join('L')}L${pts[pts.length - 1][0]} ${mid}Z`;
@@ -197,15 +196,14 @@ const gridPreview = (t) => {
   ${[0, 1, 2].map((i) => `${pill(64 + i * 310, 160, 190, 34, t.shape)}${pill(64 + i * 310, 210, 130, 22, t.track)}`).join('')}
   ${[-1, 0, 1].map((i) => `<rect x="${x0}" y="${mid + i * 280}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
   ${bars}
-  <path d="${area}" fill="${GRID}" opacity="0.35" clip-path="url(#up)"/><path d="${area}" fill="${EXPORT}" opacity="0.35" clip-path="url(#down)"/>
-  <polyline points="${line}" fill="none" stroke="${GRID}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#up)"/>
+  <path d="${area}" fill="${USE}" opacity="0.35" clip-path="url(#up)"/><path d="${area}" fill="${EXPORT}" opacity="0.35" clip-path="url(#down)"/>
+  <polyline points="${line}" fill="none" stroke="${USE}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#up)"/>
   <polyline points="${line}" fill="none" stroke="${EXPORT}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#down)"/>
   <rect x="${nowX - 4}" y="300" width="8" height="${900 - 300}" rx="4" fill="${t.shape}"/>
 </svg>`;
 };
 
-// widgets/ev: price bars, charging in the EV colour in the cheap hours, the car's SoC line rising there.
-const EV = '#8E6CEF';
+// widgets/ev: price bars, charging in the use colour in the cheap hours, the car's SoC line rising there.
 const evPreview = (t) => {
   const x0 = 100;
   const x1 = 960;
@@ -213,14 +211,14 @@ const evPreview = (t) => {
   const p = [52, 46, 40, 36, 38, 50, 72, 88, 70, 48, 30, 18, 14, 20, 34, 56, 84, 100, 94, 78, 64, 58, 54, 50];
   const soc = [30, 30, 38, 46, 54, 54, 54, 54, 54, 54, 60, 68, 76, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84];
   const w = (x1 - x0) / p.length;
-  const bars = p.map((v, i) => `<rect x="${(x0 + i * w + w * 0.12).toFixed(1)}" y="${base - v * 5.6}" width="${(w * 0.76).toFixed(1)}" height="${v * 5.6}" rx="6" fill="${soc[i + 1] > soc[i] ? EV : t.shape}"/>`).join('');
+  const bars = p.map((v, i) => `<rect x="${(x0 + i * w + w * 0.12).toFixed(1)}" y="${base - v * 5.6}" width="${(w * 0.76).toFixed(1)}" height="${v * 5.6}" rx="6" fill="${soc[i + 1] > soc[i] ? USE : t.shape}"/>`).join('');
   const line = soc.map((v, i) => `${(x0 + (i + 0.5) * w).toFixed(1)},${(base - v * 5.6).toFixed(1)}`).join(' ');
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   ${pill(40, 40, 944, 60, t.track)}${pill(186, 46, 150, 48, t.card)}
   ${[0, 1, 2, 3].map((i) => `${pill(64 + i * 230, 160, 160, 34, t.shape)}${pill(64 + i * 230, 210, 110, 22, t.track)}`).join('')}
   ${[0, 1, 2].map((i) => `<rect x="${x0}" y="${base - i * 200}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
   ${bars}
-  <polyline points="${line}" fill="none" stroke="${EV}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="${line}" fill="none" stroke="${t.soc}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
 </svg>`;
 };
 

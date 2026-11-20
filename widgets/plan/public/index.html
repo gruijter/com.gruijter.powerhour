@@ -229,7 +229,7 @@
         return out;
       }
 
-      // Charging in the device colour, discharging in the export colour, as the device graphs: more
+      // Charging in the use colour, discharging in the export colour, as the device graphs: more
       // solid at more power (0.35-1 of the max (dis)charge power, Palette.powerAlpha; full without
       // a max), in steps of 0.05 so equal slots join.
       function powerBand(g, vals, color, y, h, sw, max) {
@@ -245,7 +245,7 @@
         };
         vals.forEach(function (v, i) {
           if (!v) { flush(); return; }
-          var fill = v > 0 ? color : 'var(--c-export)';
+          var fill = v > 0 ? 'var(--c-use)' : 'var(--c-export)';
           var top = v > 0 ? max.charge : max.discharge;
           var alpha = top > 0 ? Math.round((0.35 + 0.65 * Math.min(1, Math.abs(v) / top)) * 20) / 20 : 1;
           if (seg && seg.fill === fill && seg.alpha === alpha && seg.to === i) {
@@ -317,14 +317,14 @@
           return;
         }
         if (lane.kind === 'signed') {
-          // Import up, export down (pale).
+          // Import up, export down.
           var mid = (top + bottom) / 2;
           var pk = Math.max.apply(null, vals.map(Math.abs)) || 1;
           el('line', { x1: X0, x2: X1, y1: mid, y2: mid, class: 'base' }, g);
-          el('path', { d: stepPath(vals, sw, mid, mid - top, pk), fill: color }, g);
+          el('path', { d: stepPath(vals, sw, mid, mid - top, pk), fill: 'var(--c-use)' }, g);
           el('path', {
             d: stepPath(vals.map(function (x) { return -x; }), sw, mid, mid - top, pk),
-            fill: color, opacity: PALE, transform: 'translate(0 ' + (2 * mid) + ') scale(1 -1)',
+            fill: 'var(--c-export)', transform: 'translate(0 ' + (2 * mid) + ') scale(1 -1)',
           }, g);
           return;
         }
@@ -340,12 +340,12 @@
             var line = pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
             el('polygon', {
               points: pts[0][0].toFixed(1) + ',' + socBottom + ' ' + line + ' ' + pts[pts.length - 1][0].toFixed(1) + ',' + socBottom,
-              fill: color, opacity: 0.15,
+              fill: 'var(--text)', opacity: 0.1,
             }, g);
-            el('polyline', { points: line, fill: 'none', stroke: color, 'stroke-width': 1.5, 'stroke-linejoin': 'round' }, g);
+            el('polyline', { points: line, fill: 'none', stroke: 'var(--text)', 'stroke-width': 1.5, 'stroke-linejoin': 'round' }, g);
           }
         } else {
-          el('path', { d: stepPath(vals, sw, socBottom, socBottom - top, Math.max.apply(null, vals) || 1), fill: color, opacity: 0.85 }, g);
+          el('path', { d: stepPath(vals, sw, socBottom, socBottom - top, Math.max.apply(null, vals) || 1), fill: 'var(--c-use)', opacity: 0.85 }, g);
         }
         powerBand(g, vals, color, bottom - bandH, bandH, sw, lane.max);
       }
