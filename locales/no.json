@@ -52,7 +52,7 @@
   "solar_chart_yield_factor": "Utbyttefaktor",
   "solar_chart_model_fit": "Modelltilpasning (%)",
   "solar_export_diagnostics_popup": "Opprett nå en app-diagnostikkrapport med melding: retning (f.eks. Sør/Øst/Vest).",
-  "tariff_group_conflict": "Tariffgruppe __group__ får priser fra flere enheter: __sources__. Gi hver prisenhet sin egen tariffgruppe.",
+  "tariff_group_conflict": "__sources__ er alle i tariffgruppe __group__: gi hver sin egen gruppe.",
   "grid_connection_multiple_devices": "Flere Strømnettmonitorer: __devices__. Behold bare én.",
   "migration_dap_replace": "Appoppgradering! Bytt snart ut __devices__ med en ny Energipris-enhet.",
   "migration_dap_flows": "Appoppgradering! Flytt Flow __flows__ til __new__ og slett deretter __old__.",

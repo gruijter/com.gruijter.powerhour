@@ -22,6 +22,7 @@
     .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
   </style>
   <script src="icons.js"></script>
+  <script src="chart.js"></script>
 </head>
 <body>
   <div class="tabs" id="tabs"></div>
@@ -30,13 +31,13 @@
     <div id="empty"></div>
   </div>
   <script>
-    var W = 320; // 480 for the widescreen shape (setting shape)
-    var X0 = 78; // chart area; icon and values to its left
-    var X1 = 316; // W - 4
-    var TOP = 22; // selected time
-    var LANE = 40; // 34 for widescreen
+    var W = 320;
+    var X0 = 78;
+    var X1 = 316;
+    var TOP = 22;
+    var LANE = 40;
     var AXIS = 16;
-    var PALE = 0.4; // discharging, export and expected prices
+    var PALE = 0.4;
     var NS = 'http://www.w3.org/2000/svg';
     var started = false;
 
@@ -51,7 +52,6 @@
     function onHomeyReady(Homey) {
       if (started) return;
       started = true;
-      // The Homey's language (the texts are in it too), not the phone's: dates and numbers.
       var homeyLang = Homey.__('widget.lang');
       var lang = homeyLang && homeyLang.indexOf('.') < 0 ? homeyLang : (navigator.language || 'en');
       if (lang === 'ar') document.documentElement.dir = 'rtl';
@@ -61,7 +61,7 @@
       var svg = document.getElementById('plan');
       var empty = document.getElementById('empty');
       var data = null;
-      var selectedMs = null; // null: now (today, next hours), the start (tomorrow)
+      var selectedMs = null;
       var TABS = ['today', 'tomorrow', 'next'];
       var tabs = document.getElementById('tabs');
       var key = 'pbth-plan-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
@@ -89,7 +89,6 @@
         Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.id === tab); });
       }
       markTabs();
-      // The slot of now (today: after the measured part; next hours: the first), -1 when not in view.
       function nowIdx(d) {
         if (d.day === 'tomorrow') return -1;
         return d.day === 'today' ? Math.min(d.past || 0, d.net.length - 1) : 0;
@@ -139,7 +138,6 @@
             value: function (i) {
               return power(apps.reduce(function (sum, a) { return sum + (a.w[i] || 0); }, 0));
             },
-            // Running now: its name (+ the number of others); else the next start.
             sub: function (i) {
               var on = apps.filter(function (a) { return a.w[i] > 0; });
               if (on.length) return on[0].name + (on.length > 1 ? ' +' + (on.length - 1) : '');
@@ -167,7 +165,6 @@
         return list;
       }
 
-      // Step-area path of values (>= 0) scaled to h, rising from baseline y.
       function stepPath(vals, sw, y, h, peak) {
         var p = 'M' + X0 + ' ' + y;
         vals.forEach(function (v, i) {
@@ -177,47 +174,8 @@
         return p + 'L' + X1 + ' ' + y + 'Z';
       }
 
-      // Smooth line through [x, y] points as the device graphs (Chart.js monotone): no overshoot.
-      function monoPath(pts, move) {
-        var n = pts.length;
-        var f = function (v) { return v.toFixed(2); };
-        if (!n) return '';
-        var p = (move === false ? 'L' : 'M') + f(pts[0][0]) + ' ' + f(pts[0][1]);
-        if (n === 1) return p;
-        var dx = [];
-        var m = [];
-        var tg = [];
-        var i;
-        for (i = 0; i < n - 1; i += 1) {
-          dx[i] = pts[i + 1][0] - pts[i][0];
-          m[i] = (pts[i + 1][1] - pts[i][1]) / dx[i];
-        }
-        tg[0] = m[0];
-        tg[n - 1] = m[n - 2];
-        for (i = 1; i < n - 1; i += 1) tg[i] = m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2;
-        for (i = 0; i < n - 1; i += 1) {
-          if (m[i] === 0) {
-            tg[i] = 0;
-            tg[i + 1] = 0;
-          } else {
-            var a = tg[i] / m[i];
-            var b = tg[i + 1] / m[i];
-            var s = a * a + b * b;
-            if (s > 9) {
-              tg[i] = (3 / Math.sqrt(s)) * a * m[i];
-              tg[i + 1] = (3 / Math.sqrt(s)) * b * m[i];
-            }
-          }
-        }
-        for (i = 0; i < n - 1; i += 1) {
-          var h = dx[i] / 3;
-          p += 'C' + f(pts[i][0] + h) + ' ' + f(pts[i][1] + tg[i] * h) + ' ' + f(pts[i + 1][0] - h) + ' ' + f(pts[i + 1][1] - tg[i + 1] * h)
-            + ' ' + f(pts[i + 1][0]) + ' ' + f(pts[i + 1][1]);
-        }
-        return p;
-      }
+      var monoPath = window.PbthMonoPath;
 
-      // Runs of slots where test(v) holds, as [start, end) index pairs.
       function runs(vals, test) {
         var out = [];
         var s = -1;
@@ -229,9 +187,6 @@
         return out;
       }
 
-      // Charging use, discharging export, xom and hold their own colour, as the device graphs: more
-      // solid at more power (0.7-1 of the max (dis)charge power, Palette.powerAlpha; full without
-      // a max), in steps of 0.05 so equal slots join.
       function powerBand(g, vals, y, h, sw, max, blocks) {
         max = max || {};
         var seg = null;
@@ -263,7 +218,6 @@
       function drawLane(g, lane, top, bottom, sw) {
         var color = 'var(' + lane.color + ')';
         if (lane.kind === 'apps') {
-          // One thin row per appliance; darker at more power.
           var rowH = (bottom - top - 4) / lane.apps.length;
           lane.apps.forEach(function (a, ai) {
             var peak = Math.max.apply(null, a.w) || 1;
@@ -279,12 +233,10 @@
         }
         var vals = lane.values.map(function (v) { return typeof v === 'number' ? v : 0; });
         if (lane.kind === 'price') {
-          // One step area per price level and known/expected: no seams between slots.
           var ps = lane.values.filter(function (v) { return typeof v === 'number'; });
-          if (!ps.length) return; // prices not known yet: the lane stays, empty
+          if (!ps.length) return;
           var base = Math.min(0, Math.min.apply(null, ps));
           var range = Math.max.apply(null, ps) - base || 1;
-          // One step area per level, known/expected and gradation (PriceLevels alpha).
           var groups = {};
           lane.values.forEach(function (v, i) {
             if (typeof v !== 'number') return;
@@ -303,7 +255,6 @@
           return;
         }
         if (lane.kind === 'area') {
-          // As the graph: measured a smooth line, expected pale bars.
           var apeak = Math.max.apply(null, vals) || 1;
           var past = data.day === 'today' ? Math.min(data.past || 0, vals.length) : 0;
           if (past < vals.length) {
@@ -319,7 +270,6 @@
           return;
         }
         if (lane.kind === 'signed') {
-          // Import up, export down.
           var mid = (top + bottom) / 2;
           var pk = Math.max.apply(null, vals.map(Math.abs)) || 1;
           var gpast = Math.min(data.past || 0, vals.length);
@@ -334,7 +284,6 @@
           });
           return;
         }
-        // soc: the planned SoC as a line over a light area; the (dis)charge power as a band below.
         var bandH = 7;
         var socBottom = bottom - bandH - 2;
         if (lane.soc) {
@@ -370,7 +319,7 @@
       if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; draw(); });
       var timeFmt = null;
       var dayFmt = null;
-      var chart = null; // the drawn chart: lanes, slot width, selection layer
+      var chart = null;
 
       function draw() {
         var d = data;
@@ -397,7 +346,6 @@
         svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
         while (svg.firstChild) svg.removeChild(svg.firstChild);
 
-        // Hour labels every 3 or 6 hours; the day name at midnight (no line: a line reads as 'now').
         var every = n <= 112 ? 3 : 6;
         var axisY = TOP + list.length * LANE;
         for (var i = 0; i < n; i += 1) {
@@ -425,7 +373,6 @@
         fit();
       }
 
-      // The values and the cursor of the selected slot; the chart itself stays (fast while dragging).
       function drawSelection() {
         var d = data;
         if (!chart || !d || !d.grid) return;
@@ -445,8 +392,6 @@
         el('line', { x1: cx, x2: cx, y1: TOP - 2, y2: chart.axisY, class: 'cursor' }, g);
       }
 
-      // Height (px) down to the lowest visible element: the body itself can be the frame's height.
-      // The first call ends the loading state with it (a height set before ready() does not stick).
       function fit() {
         var bottom = 0;
         Array.prototype.forEach.call(document.body.children, function (e) {
@@ -469,7 +414,6 @@
         var n = data.net.length;
         var k = Math.max(0, Math.min(n - 1, i));
         selectedMs = k === defaultIdx(data) ? null : data.startMs + k * data.slotMs;
-        // Right away: requestAnimationFrame lags in the app's widget view.
         drawSelection();
       }
 
@@ -483,9 +427,6 @@
         setIdx(Math.floor(((chartX(clientX) - X0) / (X1 - X0)) * data.net.length));
       }
 
-      // As the other widgets: a tap or drag in the chart selects that slot; a tap anywhere else goes
-      // back to the start (now). In the Homey phone app the app itself takes a drag after a few
-      // pixels (pointercancel, seen 16 Nov on Android; the widget API has no way to claim it).
       function inChart(evt) {
         var r = svg.getBoundingClientRect();
         var k = r.width / W;
@@ -525,7 +466,6 @@
           .finally(function () { if (!ready) fit(); });
       }
 
-      // Per 15-minute slot, 30 s after the slot change: the plans update first.
       var fetchedSlot = -1;
       function slotNow() { return Math.floor((Date.now() - 30000) / 900000); }
       function tick() {

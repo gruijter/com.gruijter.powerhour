@@ -171,7 +171,7 @@ test('year: months from their days; month share and value where days lack them',
   const y = WidgetData.getSolar(homey, 'year', []);
   assert.strictEqual(y.bars.length, 12);
   assert.deepStrictEqual(y.bars[M - 1], {
-    kwh: 10, own: 4, money: 2, est: false,
+    kwh: 10, own: 4, money: 2, est: true,
   });
   assert.strictEqual(y.bars[M].kwh, 2); // this month so far: today
   if (M + 1 < 12) assert.strictEqual(y.bars[M + 1], null);

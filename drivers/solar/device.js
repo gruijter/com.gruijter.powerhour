@@ -985,12 +985,17 @@ class SolarDevice extends GenericDevice {
     await LoadSpread.run(this, 'forecastCharts', async ({
       yieldFactorsUpdated: yfUpdated, forecastChanged, dayChanged: dayRolled, quarter,
     }) => {
-      const scales = this.chartScales();
+      const series = {};
+      const day = (which) => {
+        if (!(which in series)) series[which] = this.solarDay(which);
+        return series[which];
+      };
+      const scales = this.chartScales(day);
       const shown = this.chartScalesShown || {};
       const rescaled = (which) => shown[which] !== scales[which];
       this.chartScalesShown = scales;
       if (yfUpdated || forecastChanged || quarter || !this.chartSolarToday) {
-        const chartToday = await getSolarChart(this.solarDay('today'), 'Forecast This Day', this.timeZone, scales.today, true);
+        const chartToday = await getSolarChart(day('today'), 'Forecast This Day', this.timeZone, scales.today, true);
         if (chartToday) {
           this.chartSolarToday = chartToday;
           await this.solarTodayImage.update();
@@ -998,7 +1003,7 @@ class SolarDevice extends GenericDevice {
       }
 
       if (yfUpdated || forecastChanged || rescaled('tomorrow') || !this.chartSolarTomorrow) {
-        const chartTomorrow = await getSolarChart(this.solarDay('tomorrow'), 'Forecast Tomorrow', this.timeZone, scales.tomorrow, false);
+        const chartTomorrow = await getSolarChart(day('tomorrow'), 'Forecast Tomorrow', this.timeZone, scales.tomorrow, false);
         if (chartTomorrow) {
           this.chartSolarTomorrow = chartTomorrow;
           await this.solarTomorrowImage.update();
@@ -1006,7 +1011,7 @@ class SolarDevice extends GenericDevice {
       }
 
       if (this.forecastHistory.yesterday && (!this.chartSolarYesterday || yfUpdated || dayRolled || rescaled('yesterday'))) {
-        const chartYesterday = await getSolarChart(this.solarDay('yesterday'), 'Solar Yesterday', this.timeZone, scales.yesterday, false);
+        const chartYesterday = await getSolarChart(day('yesterday'), 'Solar Yesterday', this.timeZone, scales.yesterday, false);
         if (chartYesterday) {
           this.chartSolarYesterday = chartYesterday;
           await this.solarYesterdayImage.update();
@@ -1071,7 +1076,11 @@ class SolarDevice extends GenericDevice {
 
     await super.handleUpdateMeter(reading);
 
-    if (dayEnded) this.logDay(dayEnded.reading, dayEnded.kwh, dayEnded.share, this.meterMoney ? this.meterMoney.lastDay : null);
+    if (dayEnded) {
+      const today = TimeHelpers.getLocalMidnightUTC(new Date(), this.timeZone).getTime();
+      const exact = DayLog.spanExact(dayEnded.reading.meterTm, TimeHelpers.getLocalMidnightUTC(new Date(today - 1), this.timeZone).getTime());
+      this.logDay(dayEnded.reading, dayEnded.kwh, dayEnded.share, this.meterMoney ? this.meterMoney.lastDay : null, exact);
+    }
 
     const setPct = async (cap, valSC, valTotal, isNewPeriod) => {
       if (valTotal > 0) {
@@ -1104,7 +1113,7 @@ class SolarDevice extends GenericDevice {
     };
   }
 
-  logDay(reading, kwh, share, money) {
+  logDay(reading, kwh, share, money, exact = true) {
     this.dayLogFor(reading.year);
     const slot = DayLog.daySlot(this.dayLog, DAY_LOG_VERSION, reading.year, DayLog.doyOf(reading.year, reading.month, reading.day));
     if (!slot) return;
@@ -1112,7 +1121,7 @@ class SolarDevice extends GenericDevice {
     log.kwh[i] = Math.max(0, Math.round(kwh * 1000) / 1000);
     log.own[i] = typeof share === 'number' ? Math.round(log.kwh[i] * Math.min(1, Math.max(0, share)) * 1000) / 1000 : -1;
     log.money[i] = typeof money === 'number' ? Math.round((money === -1 ? -1.0001 : money) * 10000) / 10000 : -1;
-    log.est[i] = 0;
+    log.est[i] = exact ? 0 : 1;
     this.fileStore.set('dayLog', this.dayLog);
   }
 
@@ -1137,7 +1146,7 @@ class SolarDevice extends GenericDevice {
     return rad * yf;
   }
 
-  chartScales() {
+  chartScales(day = (which) => this.solarDay(which)) {
     const s = this.getSettings();
     const days = ['yesterday', 'today', 'tomorrow'];
     if (s.chartScale !== 'dynamic') {
@@ -1145,7 +1154,7 @@ class SolarDevice extends GenericDevice {
       return Object.fromEntries(days.map((d) => [d, fixed]));
     }
     const top = (which) => {
-      const x = this.solarDay(which);
+      const x = day(which);
       return x ? Math.max(0, ...x.forecast, ...x.real.map((v) => v || 0)) : 0;
     };
     const tops = Object.fromEntries(days.map((d) => [d, top(d)]));

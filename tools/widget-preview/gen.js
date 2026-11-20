@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Guideline 1.10: transparent background, simple shapes, no text, few colours.
 const THEMES = {
   light: {
     card: '#FFFFFF', shape: '#D6DAE2', track: '#E4E7EC', shadow: 'rgba(17,24,39,0.13)',
@@ -24,14 +23,11 @@ const EXPORT = '#1F8FFF';
 
 const pill = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/>`;
 
-// widgets/energy: the widget's node layout (tools/widget-shared/flow.js) at 2.8x with the tabs,
-// two flows lit (solar in, home out).
 const flowPreview = (t) => {
   const k = 2.8;
   const at = (x, y) => [64 + x * k, 120 + y * k];
   const hub = at(160, 150);
   const climate = at(280, 150);
-  // Top row: text above; gas: its own line straight to climate.
   const nodes = [
     { p: at(40, 72), top: true },
     { p: at(160, 72), lit: SOLAR, top: true },
@@ -59,7 +55,6 @@ const flowPreview = (t) => {
 </svg>`;
 };
 
-// widgets/plan: lanes on a shared time axis - price levels, solar, battery SoC, grid.
 const plan = (t) => {
   const x0 = 300;
   const x1 = 952;
@@ -75,7 +70,6 @@ const plan = (t) => {
     return v >= 70 ? t.shape : CHEAP;
   };
   const solar = [0, 0, 0, 0, 0, 30, 80, 120, 140, 120, 80, 30, 0, 0, 0, 0];
-  // Battery: planned SoC line with the charging slots as a band below.
   const soc = [30, 30, 30, 60, 80, 80, 80, 80, 95, 110, 110, 110, 90, 70, 60, 60];
   const socLine = (y) => soc.map((v, i) => `${(x0 + (i + 0.5) * 40.75).toFixed(1)},${y + 112 - v * 0.8}`).join(' ');
   const load = [40, 40, 40, 40, 40, 70, 70, 40, 40, 40, 40, 40, 110, 110, 110, 40];
@@ -91,7 +85,6 @@ const plan = (t) => {
 </svg>`;
 };
 
-// widgets/flows: sources left, the home in the middle, users right, joined by bands.
 const flowsPreview = (t) => {
   const bar = (x, y, h, fill) => `<rect x="${x}" y="${y}" width="22" height="${h}" rx="8" fill="${fill}"/>`;
   const bandPath = (x0, a0, b0, x1, a1, b1) => {
@@ -111,7 +104,6 @@ const flowsPreview = (t) => {
 </svg>`;
 };
 
-// widgets/solar: tabs, three stat pills, the forecast as pale bars with the measured line over it.
 const solarPreview = (t) => {
   const x0 = 100;
   const x1 = 960;
@@ -134,7 +126,6 @@ const solarPreview = (t) => {
 </svg>`;
 };
 
-// widgets/price: tabs, three stat pills, a bar per hour coloured cheap / normal / dear.
 const pricePreview = (t) => {
   const x0 = 100;
   const x1 = 960;
@@ -154,7 +145,6 @@ const pricePreview = (t) => {
 </svg>`;
 };
 
-// widgets/battery: price bars in the colour of the planned action (charge, discharge, rest) and the SoC line.
 const batteryPreview = (t) => {
   const x0 = 100;
   const x1 = 960;
@@ -177,8 +167,6 @@ const batteryPreview = (t) => {
 </svg>`;
 };
 
-// widgets/grid: tabs, three stat pills, zero line in the middle; expected pale bars, measured line with
-// a light fill: import up in the grid colour, export down in the export colour.
 const gridPreview = (t) => {
   const x0 = 100;
   const x1 = 960;
@@ -205,7 +193,6 @@ const gridPreview = (t) => {
 </svg>`;
 };
 
-// widgets/ev: price bars, charging in the use colour in the cheap hours, the car's SoC line rising there.
 const evPreview = (t) => {
   const x0 = 100;
   const x1 = 960;

@@ -3,9 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Shared files of the widgets, copied into widgets/<id>/public/: colors.css (all widgets), flow.js
-// and flow.css (the node diagram, one source here), and icons.js: the driver icons without the app badge, so both look the
-// same; black becomes currentColor, so a node colours its icon.
 const ROOT = path.join(__dirname, '../..');
 const SOURCES = {
   grid: 'drivers/grid/assets/icon.svg',
@@ -14,33 +11,32 @@ const SOURCES = {
   ev: 'drivers/evCharger/assets/icon.svg',
   gas: 'drivers/gas/assets/icon.svg',
   water: 'drivers/water/assets/icon.svg',
-  home: 'assets/measure_watt_home.svg', // no home driver: the Grid Monitor's home power icon
+  home: 'assets/measure_watt_home.svg',
   price: 'drivers/price/assets/icon.svg',
   appliance: 'drivers/power/assets/icon.svg',
-  climate: 'tools/widget-shared/climate.svg', // no climate driver: drawn for the widgets
+  climate: 'tools/widget-shared/climate.svg',
 };
 const { COLORS, PALE, color } = require('../../lib/charts/Palette');
 
 const WIDGETS = ['energy', 'plan', 'flows', 'solar', 'grid', 'price', 'battery', 'ev'];
-const CHARGE = ['battery', 'ev']; // index.html from charge.html, one page for both
-const DIAGRAM = ['energy']; // also gets flow.js and flow.css
-const PERIOD_TABS = ['energy', 'flows']; // also get periodcache.js
+const CHARGE = ['battery', 'ev'];
+const DIAGRAM = ['energy'];
+const PERIOD_TABS = ['energy', 'flows'];
+const CHARTS = ['plan', 'grid', 'solar'];
 
-// Inner markup of one icon in a 100 x 100 box.
 const glyph = (file) => {
   const src = fs.readFileSync(path.join(ROOT, file), 'utf8');
   const box = src.match(/viewBox="0 0 (\d+) (\d+)"/);
   let inner = src.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')
     .replace(/<defs>[\s\S]*?<\/defs>/g, '')
     .replace(/\s*mask="url\(#pbth-badge-cut\)"/g, '')
-    .replace(/<circle cx="79" cy="79" r="16"[^>]*\/>\s*<g fill="#000">[\s\S]*?<\/g>/, '') // badge
+    .replace(/<circle cx="79" cy="79" r="16"[^>]*\/>\s*<g fill="#000">[\s\S]*?<\/g>/, '')
     .replace(/\s+id="[^"]*"/g, '')
     .replace(/#000000|#000\b/g, 'currentColor')
     .replace(/\s*\n\s*/g, ' ')
     .trim();
   const size = box ? Number(box[1]) : 100;
   if (size !== 100) inner = `<g transform="scale(${100 / size})">${inner}</g>`;
-  // SVG fills an element without a fill black: those parts take the node colour too.
   return `<g fill="currentColor">${inner}</g>`;
 };
 
@@ -48,8 +44,6 @@ const icons = {};
 Object.entries(SOURCES).forEach(([name, file]) => {
   icons[name] = glyph(file);
 });
-// PBTH_PLACE_ICON centres an icon on its drawn shape: the driver icons sit off-centre in their box
-// (room for the badge). Measured once per icon in a hidden svg (getBBox needs it rendered).
 const PLACE = `
 window.PBTH_PLACE_ICON = function (parent, id, cx, cy, size, color) {
   var NS = 'http://www.w3.org/2000/svg';
@@ -81,7 +75,7 @@ WIDGETS.forEach((w) => {
   const dir = path.join(ROOT, 'widgets', w, 'public');
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'icons.js'), js);
-  ['colors.css', ...(DIAGRAM.includes(w) ? ['flow.js', 'flow.css'] : []), ...(PERIOD_TABS.includes(w) ? ['periodcache.js'] : [])].forEach((f) => {
+  ['colors.css', ...(DIAGRAM.includes(w) ? ['flow.js', 'flow.css'] : []), ...(PERIOD_TABS.includes(w) ? ['periodcache.js'] : []), ...(CHARTS.includes(w) ? ['chart.js'] : [])].forEach((f) => {
     const note = f.endsWith('.css') ? '/* Copy of tools/widget-shared/' : '// Copy of tools/widget-shared/';
     const end = f.endsWith('.css') ? ' - edit there, run gen.js. */' : ' - edit there, run gen.js.';
     let src = fs.readFileSync(path.join(__dirname, f), 'utf8');
@@ -99,4 +93,4 @@ WIDGETS.forEach((w) => {
   }
 });
 // eslint-disable-next-line no-console
-console.log('icons.js, colors.css, flow.js, flow.css, periodcache.js, charge pages written for', WIDGETS.join(', '));
+console.log('icons.js, colors.css, flow.js, flow.css, periodcache.js, chart.js, charge pages written for', WIDGETS.join(', '));

@@ -1,25 +1,17 @@
 // Copy of tools/widget-shared/flow.js - edit there, run gen.js.
-/* The node diagram of the Energy widget: nodes around a hub that every flow runs through. Icons
-   from icons.js (window.PBTH_ICONS). */
-
 'use strict';
 
 (function pbthFlow() {
   const NS = 'http://www.w3.org/2000/svg';
-  // Chart width: 320, or 480 for the widescreen shape (draw opts.wide); x positions below are for 320.
   const BASE_W = 320;
   let W = BASE_W;
-  // Three rows: sources on top (text above, out of the way of their lines), storage and climate
-  // beside the hub, consumers below. Each row spreads its visible nodes evenly, so a missing driver
-  // leaves no gap; the middle row stays left/right of the hub.
   const ROWS = { top: 72, mid: 150, bottom: 250 };
   const hub = () => ({ x: W / 2, y: ROWS.mid });
   const HEIGHT = 322;
-  // Gas is no electricity: its own line to the climate node (`to`), not through the hub.
   const NODES = [
     { id: 'grid', row: 'top', color: '--c-grid' },
     { id: 'solar', row: 'top', color: '--c-solar' },
-    { id: 'water', row: 'top', color: '--c-water' }, // no electricity: no line
+    { id: 'water', row: 'top', color: '--c-water' },
     {
       id: 'gas', row: 'top', color: '--c-gas', to: 'climate',
     },
@@ -54,7 +46,6 @@
     return ARROWS[(Math.round(a / (Math.PI / 4)) + 8) % 8];
   }
 
-  // Positions of the visible nodes (ids).
   function layout(ids) {
     const pos = {};
     Object.keys(ROWS).forEach((row) => {
@@ -66,7 +57,6 @@
     return pos;
   }
 
-  // Draws the visible nodes (ids) and returns them by id.
   function build(svg, ids) {
     while (svg.firstChild) svg.removeChild(svg.firstChild);
     svg.setAttribute('viewBox', `0 0 ${W} ${HEIGHT}`);
@@ -99,7 +89,6 @@
     return byId;
   }
 
-  // Values, then the label; below the node, or above it on the top row.
   function setText(n, s) {
     const values = s.values || [];
     const colors = s.colors || [];
@@ -114,17 +103,12 @@
     });
     n.label.setAttribute('y', first + values.length * 14);
     n.label.textContent = s.label;
-    // A long text near the edge moves inward (length 0 while the svg is hidden: no move).
     n.values.concat(n.label).forEach((e) => {
       const half = e.getComputedTextLength() / 2;
       e.setAttribute('x', Math.min(Math.max(n.x, half + 2), W - half - 2));
     });
   }
 
-  // s: { values: [text | { dir: 'into' | 'out', text }], colors: [css colour per value]?, label,
-  // flow: { into: bool, dur: s } | null, line: false without a line, dashed: true for a dashed ring,
-  // dim: true for a pale icon }. into: toward the hub (or `to`). dir puts the arrow of that direction
-  // before the text.
   function set(n, s) {
     n.ring.classList.toggle('dashed', !!s.dashed);
     n.ring.classList.toggle('dim', !!s.dim);
@@ -139,8 +123,6 @@
     if (on) n.flow.style.animationDuration = `${s.flow.dur.toFixed(2)}s`;
   }
 
-  // states: { id: s | null } (null or missing hides the node). Redraws when the set of nodes changes.
-  // opts.wide: the widescreen shape (wider, the same height).
   function draw(svg, states, opts) {
     W = opts && opts.wide ? 480 : BASE_W;
     const ids = NODES.map((d) => d.id).filter((id) => states[id]);
@@ -152,7 +134,6 @@
     ids.forEach((id) => set(svg.pbthNodes[id], states[id]));
   }
 
-  // Height (px) down to the lowest visible element: the body itself can be the frame's height.
   function contentHeight() {
     let bottom = 0;
     Array.prototype.forEach.call(document.body.children, (e) => {
@@ -162,8 +143,6 @@
     return Math.ceil(bottom) + 2;
   }
 
-  // The first call ends the loading state with the content height (a height set before ready()
-  // does not stick); later calls follow a changed height.
   function fit(Homey) {
     const h = contentHeight();
     if (!fit.ready) {

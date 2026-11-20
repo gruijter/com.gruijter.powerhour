@@ -25,8 +25,14 @@ const test = async (name, fn) => {
 const files = new Map();
 FileStore.open = async () => ({ get: (k) => files.get(k), set: (k, v) => files.set(k, v) });
 
-const battery = (caps, lastDay) => ({
+const yesterdayStart = () => TimeHelpers.getLocalMidnightUTC(
+  new Date(TimeHelpers.getLocalMidnightUTC(new Date(), 'Europe/Amsterdam').getTime() - 1),
+  'Europe/Amsterdam',
+).getTime();
+
+const battery = (caps, lastDay, endedDayStartTm = new Date(yesterdayStart() + 60000).toISOString()) => ({
   timeZone: 'Europe/Amsterdam',
+  endedDayStartTm,
   homey: { clock: { getTimezone: () => 'Europe/Amsterdam' } },
   hasCapability: (id) => id in caps,
   getCapabilityValue: (id) => caps[id],
@@ -47,6 +53,13 @@ const yesterday = () => {
       charged: 5.25, discharged: 4.5, money: 1.23, est: false,
     });
     assert.strictEqual(BatteryDayLog.loggedDay(dev, y, doy - 1), null);
+  });
+
+  await test('a day total spanning app downtime is estimated', async () => {
+    const dev = battery({ 'meter_kwh_last_day.charged': 9, 'meter_kwh_last_day.discharged': 7 }, 2, new Date(yesterdayStart() - 86400000).toISOString());
+    await BatteryDayLog.logYesterday(dev);
+    const [y, doy] = yesterday();
+    assert.strictEqual(BatteryDayLog.loggedDay(dev, y, doy).est, true);
   });
 
   await test('a loss of exactly 1 is not unknown', async () => {

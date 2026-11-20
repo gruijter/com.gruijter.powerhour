@@ -52,7 +52,7 @@
   "solar_chart_yield_factor": "Współczynnik wydajności",
   "solar_chart_model_fit": "Dopasowanie modelu (%)",
   "solar_export_diagnostics_popup": "Utwórz teraz raport diagnostyczny aplikacji z wiadomością: orientacja (np. Południe/Wschód/Zachód).",
-  "tariff_group_conflict": "Grupa taryfowa __group__ otrzymuje ceny z kilku urządzeń: __sources__. Przypisz każdemu urządzeniu cenowemu osobną grupę taryfową.",
+  "tariff_group_conflict": "__sources__ są w tej samej grupie taryfowej __group__: daj każdemu własną grupę.",
   "grid_connection_multiple_devices": "Kilka Monitorów sieci: __devices__. Zostaw tylko jeden.",
   "migration_dap_replace": "Aktualizacja aplikacji! Wkrótce zastąp __devices__ nowym urządzeniem Cena energii.",
   "migration_dap_flows": "Aktualizacja aplikacji! Przenieś Flow __flows__ na __new__, a potem usuń __old__.",

@@ -37,18 +37,19 @@
     <div id="empty"></div>
   </div>
   <div class="legend" id="legend"></div>
+  <script src="chart.js"></script>
   <script>
     var started = false;
     var TABS = ['yesterday', 'today', 'tomorrow', 'weeks', 'year'];
     var NS = 'http://www.w3.org/2000/svg';
-    var W = 320; // 480 for the widescreen shape (setting shape)
-    var X0 = 34; // y labels to the left: 34 (W, kW), 46 (kWh)
+    var W = 320;
+    var X0 = 34;
     var TOP = 6;
     var AXIS = 14;
-    var OWN = 0.5; // own use (solar colour)
-    var REST = 0.5; // the part exported (export colour)
-    var UNKNOWN = 0.35; // own use unknown (solar colour)
-    var PALE = 0.4; // expected, as the graph (Palette.PALE)
+    var OWN = 0.5;
+    var REST = 0.5;
+    var UNKNOWN = 0.35;
+    var PALE = 0.4;
 
     function el(tag, attrs, parent, text) {
       var e = document.createElementNS(NS, tag);
@@ -61,7 +62,6 @@
     function onHomeyReady(Homey) {
       if (started) return;
       started = true;
-      // The Homey's language (the texts are in it too), not the phone's: dates and numbers.
       var homeyLang = Homey.__('widget.lang');
       var lang = homeyLang && homeyLang.indexOf('.') < 0 ? homeyLang : (navigator.language || 'en');
       if (lang === 'ar') document.documentElement.dir = 'rtl';
@@ -83,7 +83,7 @@
       }
       if (TABS.indexOf(tab) < 0) tab = 'today';
       var data = null;
-      var sel = null; // selected slot or bar; null: the whole period
+      var sel = null;
       var chart = null;
       var ready = false;
       var lastHeight = 0;
@@ -107,7 +107,6 @@
         var f = new Intl.NumberFormat(lang, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
         return (v < 0 ? '−' : '') + (data.currency || '') + ' ' + f.format(Math.abs(v));
       }
-      // 'YYYY-MM-DD' as a short date: 'di 12 nov' (long) or '12 nov'.
       function dateText(k, long) {
         if (!k) return '';
         var p = k.split('-').map(Number);
@@ -140,7 +139,6 @@
       }
       markTabs();
 
-      // The one row of numbers: the whole period, or the selected slot or bar.
       function setHead(title, note, cells) {
         titleEl.textContent = title;
         noteEl.textContent = note || '';
@@ -212,7 +210,6 @@
         });
       }
 
-      // A round step for 2-4 grid lines up to max.
       function niceStep(max) {
         var steps = [0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000];
         for (var i = 0; i < steps.length; i += 1) if (max / steps[i] <= 4) return steps[i];
@@ -228,48 +225,8 @@
         el('line', { x1: X0, x2: X1, y1: bottom, y2: bottom, class: 'grid' }, svg);
       }
 
-      // Step area of vals (>= 0) on top of base (per slot), scaled to h from baseline y.
-      // Smooth line through [x, y] points as the device graphs (Chart.js monotone): no overshoot.
-      function monoPath(pts, move) {
-        var n = pts.length;
-        var f = function (v) { return v.toFixed(2); };
-        if (!n) return '';
-        var p = (move === false ? 'L' : 'M') + f(pts[0][0]) + ' ' + f(pts[0][1]);
-        if (n === 1) return p;
-        var dx = [];
-        var m = [];
-        var tg = [];
-        var i;
-        for (i = 0; i < n - 1; i += 1) {
-          dx[i] = pts[i + 1][0] - pts[i][0];
-          m[i] = (pts[i + 1][1] - pts[i][1]) / dx[i];
-        }
-        tg[0] = m[0];
-        tg[n - 1] = m[n - 2];
-        for (i = 1; i < n - 1; i += 1) tg[i] = m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2;
-        for (i = 0; i < n - 1; i += 1) {
-          if (m[i] === 0) {
-            tg[i] = 0;
-            tg[i + 1] = 0;
-          } else {
-            var a = tg[i] / m[i];
-            var b = tg[i + 1] / m[i];
-            var s = a * a + b * b;
-            if (s > 9) {
-              tg[i] = (3 / Math.sqrt(s)) * a * m[i];
-              tg[i + 1] = (3 / Math.sqrt(s)) * b * m[i];
-            }
-          }
-        }
-        for (i = 0; i < n - 1; i += 1) {
-          var h = dx[i] / 3;
-          p += 'C' + f(pts[i][0] + h) + ' ' + f(pts[i][1] + tg[i] * h) + ' ' + f(pts[i + 1][0] - h) + ' ' + f(pts[i + 1][1] - tg[i + 1] * h)
-            + ' ' + f(pts[i + 1][0]) + ' ' + f(pts[i + 1][1]);
-        }
-        return p;
-      }
+      var monoPath = window.PbthMonoPath;
 
-      // Smooth area between base and base + vals over slots 0..last (slot centres), as the graph's line.
       function stackPath(vals, base, sw, y, h, max, last) {
         var yOf = function (v) { return y - (v / max) * h; };
         var up = [];
@@ -298,7 +255,6 @@
         stats.classList.toggle('hide', missing);
         empty.style.display = missing || noChart ? 'flex' : 'none';
         chart = null;
-        // Same height as with data: placeholders keep the head, stats and legend lines.
         if (missing || noChart) drawLegend([['\u00a0', 1]]);
         if (missing) {
           setHead('\u00a0', '', [['\u00a0', '\u00a0']]);
@@ -339,7 +295,6 @@
           if (hm[1] !== '00' || Number(hm[0]) % every !== 0) continue;
           el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, hm[0]);
         }
-        // Measured: own use solid, the rest pale; own use unknown: one shade.
         var knownAt = function (k) { return typeof d.real[k] === 'number' && d.own && typeof d.own[k] === 'number'; };
         var ownW = d.real.map(function (r, k) { return knownAt(k) ? r * d.own[k] : 0; });
         var restW = d.real.map(function (r, k) { return knownAt(k) ? r - ownW[k] : 0; });
@@ -356,7 +311,6 @@
           for (var k = 0; k <= last; k += 1) line.push([X0 + (k + 0.5) * sw, bottom - (Math.max(0, d.real[k] || 0) / max) * CH]);
           el('path', { d: monoPath(line), fill: 'none', stroke: color, 'stroke-width': 1, 'stroke-linejoin': 'round' }, svg);
         }
-        // Expected: pale bars on top, as the graph.
         var bars = '';
         d.forecast.forEach(function (v, k) {
           if (!(v > 0)) return;
@@ -381,7 +335,6 @@
         };
       }
 
-      // Last 4 weeks: a bar per day (dates every 7 days back from today); year: per month.
       function drawBars(d, X1, CH, bottom) {
         var color = 'var(--c-solar)';
         var list = d.bars;
@@ -421,7 +374,6 @@
         };
       }
 
-      // The head and the cursor of the selection (none: the whole period); the chart itself stays.
       function drawSelection() {
         if (!chart) return;
         var g = chart.sel;
@@ -455,7 +407,6 @@
         var x = ((clientX - r.left) / r.width) * W;
         return Math.max(0, Math.min(chart.n - 1, Math.floor((x - X0) / chart.sw)));
       }
-      // A tap in the chart selects that slot or bar; a tap anywhere else shows the whole period again.
       function inChart(evt) {
         var r = svg.getBoundingClientRect();
         var k = r.width / W;
@@ -488,9 +439,10 @@
 
       if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; if (data) draw(); });
 
-      // The last data per tab: a tab switch asks again only when that tab's data can have changed.
       var cache = {};
-      var pending = {}; // a tab being asked: not again until its answer
+      var pending = {};
+      var retry = null;
+      var retries = 0;
       function refresh() {
         if ((document.hidden && ready) || pending[tab]) return;
         var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
@@ -502,7 +454,13 @@
             if (asked !== tab) return;
             data = d;
             draw();
-            if (d && d.solar === false) setTimeout(refresh, 15000); // devices still starting
+            clearTimeout(retry);
+            retry = null;
+            if (!(d && d.solar === false)) retries = 0;
+            else if (retries < 40) {
+              retries += 1;
+              retry = setTimeout(refresh, 15000);
+            }
           })
           .catch(function (err) { console.error(err); })
           .finally(function () {
@@ -511,8 +469,6 @@
           });
       }
 
-      // Only when the shown data can have changed: today per 15-minute slot, the other tabs hourly
-      // and on a new day; while the history is being rebuilt every 5 minutes.
       function stale() {
         var c = cache[tab];
         if (!c || c.day !== new Date().toDateString() || !c.data || !c.data.solar) return true;
@@ -521,8 +477,6 @@
         if (tab === 'today') return Math.floor((Date.now() - 30000) / 900000) !== Math.floor((c.ms - 30000) / 900000);
         return age > 3600000;
       }
-      // Each quarter, 30 s after the slot change (the device updates first); every 5 minutes while
-      // the history is being rebuilt.
       function tick() {
         if (stale()) refresh();
         var building = cache[tab] && cache[tab].data && cache[tab].data.building;

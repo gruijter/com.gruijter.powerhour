@@ -4,7 +4,8 @@
         ".homeybuild/",
         "widgets/*/public/icons.js",
         "widgets/*/public/flow.js",
-        "widgets/*/public/periodcache.js"
+        "widgets/*/public/periodcache.js",
+        "widgets/*/public/chart.js"
     ],
     "extends": "athom/homey-app",
     "overrides": [
@@ -23,7 +24,8 @@
         {
             "files": [
                 "tools/widget-shared/flow.js",
-                "tools/widget-shared/periodcache.js"
+                "tools/widget-shared/periodcache.js",
+                "tools/widget-shared/chart.js"
             ],
             "env": {
                 "browser": true,

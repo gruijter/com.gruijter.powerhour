@@ -1,7 +1,4 @@
 // Copy of tools/widget-shared/periodcache.js - edit there, run gen.js.
-/* The data of each period tab, asked again only when it can have changed: now always (live), hour
-   after 5 minutes, day after 15, month and year after an hour, and at once in a new period. */
-
 'use strict';
 
 (function pbthPeriodCache() {
@@ -20,7 +17,7 @@
   window.PbthPeriodCache = function create() {
     let cache = {};
     return {
-      pending: {}, // period being asked: not again until its answer
+      pending: {},
       get(p) {
         return cache[p] ? cache[p].data : null;
       },

@@ -52,7 +52,7 @@
   "solar_chart_yield_factor": "수율 계수",
   "solar_chart_model_fit": "모델 적합도 (%)",
   "solar_export_diagnostics_popup": "이제 앱 진단 보고서를 메시지와 함께 작성하세요: 방향 (예: 남/동/서).",
-  "tariff_group_conflict": "요금 그룹 __group__이(가) 여러 기기에서 가격을 받습니다: __sources__. 가격 기기마다 별도의 요금 그룹을 지정하세요.",
+  "tariff_group_conflict": "__sources__이(가) 모두 요금 그룹 __group__에 있으니 각각 별도 그룹을 지정하세요.",
   "grid_connection_multiple_devices": "그리드 모니터가 여러 개입니다: __devices__. 하나만 남기세요.",
   "migration_dap_replace": "앱 업그레이드! 곧 __devices__를 새 에너지 가격 디바이스로 바꾸세요.",
   "migration_dap_flows": "앱 업그레이드! Flow __flows__를 __new__로 옮긴 후 __old__를 삭제하세요.",

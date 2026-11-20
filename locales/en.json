@@ -52,7 +52,7 @@
   "solar_chart_yield_factor": "Yield Factor",
   "solar_chart_model_fit": "Model Fit (%)",
   "solar_export_diagnostics_popup": "Now create an app diagnostics report with Message: panel orientation (e.g. South/East/West).",
-  "tariff_group_conflict": "Tariff group __group__ gets prices from several devices: __sources__. Give each price device its own tariff group.",
+  "tariff_group_conflict": "__sources__ are all in tariff group __group__: give each its own group.",
   "grid_connection_multiple_devices": "Several Grid Monitors: __devices__. Keep only one.",
   "migration_dap_replace": "App upgrade! Soon, replace __devices__ with a new Energy Price device.",
   "migration_dap_flows": "App upgrade! Move Flow __flows__ to __new__, then delete __old__.",

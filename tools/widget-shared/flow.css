@@ -1,4 +1,3 @@
-/* The node diagram; colours and base styles in colors.css. */
 svg { display: block; width: 100%; height: auto; }
 .base { stroke: var(--line); stroke-width: 2; fill: none; }
 .flow { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 0 10; opacity: 0; }

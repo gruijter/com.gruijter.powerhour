@@ -44,12 +44,12 @@
     var started = false;
     var TABS = ['today', 'tomorrow', 'next'];
     var NS = 'http://www.w3.org/2000/svg';
-    var W = 320; // 480 for the widescreen shape (setting shape)
+    var W = 320;
     var X0 = 38;
     var TOP = 6;
     var AXIS = 14;
-    var PALE = 0.4; // expected prices
-    var SHARE = 0.5; // one scale for both days, unless a day would fill less than this share of it
+    var PALE = 0.4;
+    var SHARE = 0.5;
     var LEVELS = ['free', 'cheap', 'normal', 'dear'];
 
     function el(tag, attrs, parent, text) {
@@ -63,7 +63,6 @@
     function onHomeyReady(Homey) {
       if (started) return;
       started = true;
-      // The Homey's language (the texts are in it too), not the phone's: dates and numbers.
       var homeyLang = Homey.__('widget.lang');
       var lang = homeyLang && homeyLang.indexOf('.') < 0 ? homeyLang : (navigator.language || 'en');
       if (lang === 'ar') document.documentElement.dir = 'rtl';
@@ -86,7 +85,7 @@
       }
       if (TABS.indexOf(tab) < 0) tab = 'today';
       var data = null;
-      var sel = null; // selected slot; null: the whole day
+      var sel = null;
       var chart = null;
       var ready = false;
       var lastHeight = 0;
@@ -136,7 +135,6 @@
         });
       }
 
-      // The known prices of the day: average, lowest and highest with their slot.
       function summary(d) {
         var s = { sum: 0, n: 0, lo: -1, hi: -1, expected: false };
         d.import.forEach(function (v, i) {
@@ -153,8 +151,6 @@
 
       function slotTime(i) { return timeFmt.format(data.startMs + i * data.slotMs); }
 
-      // The figures on the same places on every tab: now (when in view), the day average, lowest and
-      // highest; a selected slot: its price, the day average, its export price.
       function drawHead() {
         var d = data;
         var s = chart.summary;
@@ -193,7 +189,6 @@
         });
       }
 
-      // A round step (1, 2 or 5 x 10^k) for 2-4 grid lines over range.
       function niceStep(range) {
         var raw = range / 4;
         var mag = Math.pow(10, Math.floor(Math.log10(raw)));
@@ -201,7 +196,6 @@
         return f * mag;
       }
 
-      // The price range of today and tomorrow together, from the latest answer (prices arrive later).
       function scaleOfDays() {
         var latest = null;
         Object.keys(cache).forEach(function (k) {
@@ -225,7 +219,6 @@
         empty.style.display = known ? 'none' : 'flex';
         chart = null;
         if (!known) {
-          // Same height as with prices: placeholders keep the stats and legend lines.
           while (svg.firstChild) svg.removeChild(svg.firstChild);
           setHead([['\u00a0', '\u00a0']]);
           drawLegend([['\u00a0', '--c-normal']]);
@@ -359,7 +352,6 @@
         var x = ((clientX - r.left) / r.width) * W;
         return Math.max(0, Math.min(chart.n - 1, Math.floor((x - X0) / chart.sw)));
       }
-      // A tap in the chart selects that slot; a tap anywhere else shows the whole day again.
       function inChart(evt) {
         var r = svg.getBoundingClientRect();
         var k = r.width / W;
@@ -405,13 +397,14 @@
         Homey.api('POST', '/forecast', { ids: ids })
           .catch(function (err) { console.error(err); })
           .then(function () {
-            // The device restarts and then fetches: look again a few times.
             [20000, 60000, 180000].forEach(function (ms) { setTimeout(function () { cache = {}; refresh(); }, ms); });
           });
       });
 
       var cache = {};
       var pending = {};
+      var retry = null;
+      var retries = 0;
       function refresh() {
         if ((document.hidden && ready) || pending[tab]) return;
         var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
@@ -423,7 +416,13 @@
             if (asked !== tab) return;
             data = d;
             draw();
-            if (d && d.price === false) setTimeout(refresh, 15000); // device still starting
+            clearTimeout(retry);
+            retry = null;
+            if (!(d && d.price === false)) retries = 0;
+            else if (retries < 40) {
+              retries += 1;
+              retry = setTimeout(refresh, 15000);
+            }
           })
           .catch(function (err) { console.error(err); })
           .finally(function () {
@@ -432,8 +431,6 @@
           });
       }
 
-      // Today and next hours per slot (the now line and price); tomorrow per quarter until all its
-      // prices are known (they arrive once a day), then hourly.
       function stale() {
         var c = cache[tab];
         if (!c || c.day !== new Date().toDateString() || !c.data || !c.data.price) return true;

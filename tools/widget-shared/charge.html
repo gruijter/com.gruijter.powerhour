@@ -13,7 +13,6 @@
     .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
     .stats { display: flex; margin: 2px 8px 2px; }
     .stat { flex: 1 1 0; min-width: 0; padding-right: 4px; }
-    /* Short values first (SoC, power); the last one holds a time and an action. */
     .stat:nth-child(1), .stat:nth-child(2) { flex-grow: 0.8; }
     .stat:nth-child(4) { flex-grow: 1.5; }
     .stat b { display: block; color: var(--text); font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -40,18 +39,16 @@
   <div class="legend" id="legend"></div>
   <script>
     var started = false;
-    // One page for widgets/battery and widgets/ev (tools/widget-shared/gen.js fills in the kind).
     var KIND = '__KIND__';
-    var MONEY = KIND === 'ev' ? 'cost' : 'yield'; // the money of the period: EV costs, a battery earns
+    var MONEY = KIND === 'ev' ? 'cost' : 'yield';
     var TABS = ['yesterday', 'today', 'tomorrow', 'next', 'weeks', 'year'];
     var NS = 'http://www.w3.org/2000/svg';
-    var W = 320; // 480 for the widescreen shape (setting shape)
+    var W = 320;
     var X0 = 34;
     var TOP = 6;
     var AXIS = 14;
-    var PALE = 0.4; // expected / estimated
-    var SHARE = 0.5; // one price scale for the days, unless a day would fill less than this share of it
-    // The palette colour of a plan action (ChargeChart actionColor()).
+    var PALE = 0.4;
+    var SHARE = 0.5;
     var COLOR = KIND === 'ev' ? '--c-ev' : '--c-battery';
     var ACTION_COLOR = {
       charge: '--c-use', chargeEv: '--c-use', discharge: '--c-export', dischargeEv: '--c-export',
@@ -70,7 +67,6 @@
     function onHomeyReady(Homey) {
       if (started) return;
       started = true;
-      // The Homey's language (the texts are in it too), not the phone's: dates and numbers.
       var homeyLang = Homey.__('widget.lang');
       var lang = homeyLang && homeyLang.indexOf('.') < 0 ? homeyLang : (navigator.language || 'en');
       if (lang === 'ar') document.documentElement.dir = 'rtl';
@@ -91,7 +87,7 @@
       }
       if (TABS.indexOf(tab) < 0) tab = 'today';
       var data = null;
-      var sel = null; // selected slot or bar; null: the whole period
+      var sel = null;
       var chart = null;
       var ready = false;
       var lastHeight = 0;
@@ -132,7 +128,6 @@
         });
         tabs.appendChild(b);
       });
-      // Six tabs: in a long language the text gets smaller until they fit (at least 9 px).
       function fitTabs() {
         var size = 11;
         tabs.style.fontSize = '';
@@ -162,7 +157,6 @@
           d.appendChild(s);
           stats.appendChild(d);
         });
-        // A long value (a time and an action in a long language) gets smaller until it fits (12 px).
         Array.prototype.forEach.call(stats.querySelectorAll('b'), function (b) {
           var size = 15;
           while (b.scrollWidth > b.clientWidth && size > 12) {
@@ -190,7 +184,6 @@
         });
       }
 
-      // A round step (1, 2 or 5 x 10^k) for 2-4 grid lines over range.
       function niceStep(range) {
         var raw = range / 4;
         var mag = Math.pow(10, Math.floor(Math.log10(raw)));
@@ -200,9 +193,6 @@
 
       function slotTime(i) { return timeFmt.format(data.startMs + i * data.slotMs); }
 
-      // The figures on the same places on every tab. Days: SoC and power now (when in view), the
-      // day's money, the next action; a slot: its SoC, power, price and action. Weeks and year: money,
-      // charged, discharged, efficiency; a bar: the same for it.
       function drawStats() {
         var d = data;
         if (isBars(d)) {
@@ -216,14 +206,12 @@
             [money(b.money, d.decimals), label],
             [kwh(b.charged), actionName('charge')],
             d.discharges ? [kwh(b.discharged), actionName('discharge')] : none,
-            // Per day or month no efficiency: energy charged earlier can be discharged in it.
             d.discharges && sel === null && b.charged > 0 ? [pct((100 * b.discharged) / b.charged), cap(t('efficiency'))] : none,
           ]);
           return;
         }
         if (sel === null) {
           var nowIn = chart.nowIdx >= 0;
-          // The next action with its start: '07:45 Discharge'; the day in the label when not today.
           var next = none;
           if (nowIn && d.nextAction) {
             var label = t('next_action');
@@ -258,7 +246,6 @@
         return b && b.date ? dateFmt.format(new Date(b.date + 'T12:00:00Z')) : '';
       }
 
-      // The price range of the days together (WidgetData.getBattery range).
       function scaleOfDays(d) {
         var r = d.range || {};
         var list = ['yesterday', 'today', 'tomorrow'].map(function (k) { return r[k]; }).filter(Boolean);
@@ -320,7 +307,6 @@
           }, svg);
         });
 
-        // The export price with an edge of the background: visible on discharge (export) bars.
         var path = '';
         d.exportPrice.forEach(function (v, k) {
           if (typeof v !== 'number') return;
@@ -332,7 +318,6 @@
           el('path', { d: path, fill: 'none', stroke: 'var(--c-exportPrice)', 'stroke-width': 1.5 }, svg);
         }
 
-        // SoC: measured solid, planned dashed (from the last measured point on).
         var socLine = function (list, dash, from) {
           var pts = [];
           if (from) pts.push(from);
@@ -365,8 +350,6 @@
         };
       }
 
-      // Weeks and year: kWh charged up, discharged down (as the power band of widgets/plan); without
-      // discharging (EV without V2X) charged only, from the bottom.
       function drawBars(d, X1, CH, bottom) {
         var list = d.bars;
         var n = list.length;
@@ -424,7 +407,6 @@
         empty.style.display = known ? 'none' : 'flex';
         chart = null;
         if (!known) {
-          // Same height as with data: placeholders keep the stats and legend lines.
           setStats([none]);
           drawLegend([[' ', '--c-idle']]);
           if (missing) empty.textContent = d && d[KIND] === false ? '…' : t('no_' + KIND);
@@ -475,7 +457,6 @@
         var x = ((clientX - r.left) / r.width) * W;
         return Math.max(0, Math.min(chart.n - 1, Math.floor((x - X0) / chart.sw)));
       }
-      // A tap in the chart selects that slot or bar; a tap anywhere else shows the whole period again.
       function inChart(evt) {
         var r = svg.getBoundingClientRect();
         var k = r.width / W;
@@ -513,6 +494,8 @@
 
       var cache = {};
       var pending = {};
+      var retry = null;
+      var retries = 0;
       function refresh() {
         if ((document.hidden && ready) || pending[tab]) return;
         var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
@@ -524,8 +507,13 @@
             if (asked !== tab) return;
             data = d;
             draw();
-            // Battery still starting, its charts not drawn yet, or its history being built.
-            if (d && (d[KIND] === false || (d[KIND] && !d.price && !d.bars) || d.building)) setTimeout(refresh, 30000);
+            clearTimeout(retry);
+            retry = null;
+            if (!(d && (d[KIND] === false || (d[KIND] && !d.price && !d.bars) || d.building))) retries = 0;
+            else if (retries < 20) {
+              retries += 1;
+              retry = setTimeout(refresh, 30000);
+            }
           })
           .catch(function (err) { console.error(err); })
           .finally(function () {
@@ -534,7 +522,6 @@
           });
       }
 
-      // Days per quarter (the now line, the plan); weeks and year hourly.
       function stale() {
         var c = cache[tab];
         if (!c || c.day !== new Date().toDateString() || !c.data || !c.data[KIND]) return true;
