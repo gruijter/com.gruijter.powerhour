@@ -340,9 +340,9 @@
             var line = pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
             el('polygon', {
               points: pts[0][0].toFixed(1) + ',' + socBottom + ' ' + line + ' ' + pts[pts.length - 1][0].toFixed(1) + ',' + socBottom,
-              fill: 'var(--text)', opacity: 0.1,
+              fill: color, opacity: 0.15,
             }, g);
-            el('polyline', { points: line, fill: 'none', stroke: 'var(--text)', 'stroke-width': 1.5, 'stroke-linejoin': 'round' }, g);
+            el('polyline', { points: line, fill: 'none', stroke: color, 'stroke-width': 1.5, 'stroke-linejoin': 'round' }, g);
           }
         } else {
           el('path', { d: stepPath(vals, sw, socBottom, socBottom - top, Math.max.apply(null, vals) || 1), fill: 'var(--c-use)', opacity: 0.85 }, g);
