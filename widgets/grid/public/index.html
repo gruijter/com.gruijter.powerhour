@@ -45,7 +45,7 @@
     var X0 = 34; // y labels to the left: 34 (W, kW), 46 (kWh)
     var TOP = 6;
     var AXIS = 14;
-    var FILL = 1; // under the measured line
+    var FILL = 0.5; // under the measured line
     var PALE = 0.4; // expected, as the graph (Palette.PALE)
 
     function el(tag, attrs, parent, text) {
@@ -352,7 +352,7 @@
           var area = line + 'L' + pts[pts.length - 1][0].toFixed(2) + ' ' + y0.toFixed(2) + 'L' + pts[0][0].toFixed(2) + ' ' + y0.toFixed(2) + 'Z';
           [[up, '--c-use'], [down, '--c-export']].forEach(function (p) {
             el('path', { d: area, fill: 'var(' + p[1] + ')', opacity: FILL, 'clip-path': p[0] }, svg);
-            el('path', { d: line, fill: 'none', stroke: 'var(' + p[1] + ')', 'stroke-width': 2, 'stroke-linejoin': 'round', 'clip-path': p[0] }, svg);
+            el('path', { d: line, fill: 'none', stroke: 'var(' + p[1] + ')', 'stroke-width': 1, 'stroke-linejoin': 'round', 'clip-path': p[0] }, svg);
           });
           pts.forEach(function (p) { if (p[1] < y0 - 0.5) hasIn = true; else if (p[1] > y0 + 0.5) hasOut = true; });
         });

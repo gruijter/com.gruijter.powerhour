@@ -330,7 +330,7 @@
         });
         if (path) {
           el('path', { d: path, fill: 'none', stroke: 'var(--node-bg)', 'stroke-width': 3.5 }, svg);
-          el('path', { d: path, fill: 'none', stroke: 'var(--c-export)', 'stroke-width': 1.5 }, svg);
+          el('path', { d: path, fill: 'none', stroke: 'var(--c-exportPrice)', 'stroke-width': 1.5 }, svg);
         }
 
         // SoC: measured solid, planned dashed (from the last measured point on).
@@ -340,7 +340,7 @@
           list.forEach(function (s, k) { if (typeof s === 'number') pts.push((X0 + (k + 0.5) * sw).toFixed(1) + ',' + ys(s).toFixed(1)); });
           if (pts.length > 1) {
             el('polyline', {
-              points: pts.join(' '), fill: 'none', stroke: 'var(' + COLOR + ')', 'stroke-width': dash ? 1.5 : 2, 'stroke-dasharray': dash ? '4 3' : 'none', 'stroke-linejoin': 'round',
+              points: pts.join(' '), fill: 'none', stroke: 'var(' + COLOR + ')', 'stroke-width': 1.5, 'stroke-dasharray': dash ? '4 3' : 'none', 'stroke-linejoin': 'round',
             }, svg);
           }
           return pts.length ? pts[pts.length - 1] : null;
@@ -358,7 +358,7 @@
         var items = [];
         ACTIONS.forEach(function (a) { if (used[a]) items.push([actionName(a), ACTION_COLOR[a]]); });
         if (d.forecast.some(Boolean)) items.push([t('expected'), '--c-idle', PALE]);
-        if (path) items.push([t('export_price'), '--c-export', 'line']);
+        if (path) items.push([t('export_price'), '--c-exportPrice', 'line']);
         if (d.soc.concat(d.socPlan).some(function (s) { return typeof s === 'number'; })) items.push(['SoC', COLOR, 'line']);
         drawLegend(items);
         chart = {

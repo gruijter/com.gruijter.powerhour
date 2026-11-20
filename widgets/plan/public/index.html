@@ -36,7 +36,7 @@
     var TOP = 22; // selected time
     var LANE = 40; // 34 for widescreen
     var AXIS = 16;
-    var PALE = 0.45; // discharging, export and expected prices
+    var PALE = 0.4; // discharging, export and expected prices
     var NS = 'http://www.w3.org/2000/svg';
     var started = false;
 
@@ -120,7 +120,7 @@
         if (d.solar) list.push({ icon: 'solar', color: '--c-solar', kind: 'area', values: d.solar, value: function (i) { return power(d.solar[i]); } });
         if (d.battery) {
           list.push({
-            icon: 'battery', color: '--c-battery', kind: 'soc', values: d.battery, soc: d.soc, max: d.batteryMax,
+            icon: 'battery', color: '--c-battery', kind: 'soc', values: d.battery, soc: d.soc, max: d.batteryMax, blocks: d.batteryBlock,
             value: function (i) { return d.soc ? pct(d.soc[i]) : power(d.battery[i], true); },
             sub: function (i) { return d.soc ? power(d.battery[i], true) : ''; },
           });
@@ -229,10 +229,10 @@
         return out;
       }
 
-      // Charging in the use colour, discharging in the export colour, as the device graphs: more
+      // Charging use, discharging export, xom and hold their own colour, as the device graphs: more
       // solid at more power (0.7-1 of the max (dis)charge power, Palette.powerAlpha; full without
       // a max), in steps of 0.05 so equal slots join.
-      function powerBand(g, vals, color, y, h, sw, max) {
+      function powerBand(g, vals, y, h, sw, max, blocks) {
         max = max || {};
         var seg = null;
         var flush = function () {
@@ -244,10 +244,12 @@
           seg = null;
         };
         vals.forEach(function (v, i) {
-          if (!v) { flush(); return; }
-          var fill = v > 0 ? 'var(--c-use)' : 'var(--c-export)';
+          var block = blocks && blocks[i];
+          if (!v && block !== 'hold') { flush(); return; }
+          var fill = 'var(--c-hold)';
+          if (block !== 'hold') fill = v > 0 ? 'var(--c-use)' : (block === 'xom' ? 'var(--c-xom)' : 'var(--c-export)');
           var top = v > 0 ? max.charge : max.discharge;
-          var alpha = top > 0 ? Math.round((0.7 + 0.3 * Math.min(1, Math.abs(v) / top)) * 20) / 20 : 1;
+          var alpha = v && top > 0 ? Math.round((0.7 + 0.3 * Math.min(1, Math.abs(v) / top)) * 20) / 20 : 1;
           if (seg && seg.fill === fill && seg.alpha === alpha && seg.to === i) {
             seg.to = i + 1;
             return;
@@ -311,7 +313,7 @@
           if (past > 0) {
             var line = vals.slice(0, past).map(function (v, i) { return [X0 + (i + 0.5) * sw, bottom - (Math.max(0, v) / apeak) * (bottom - top)]; });
             var lp = monoPath(line);
-            el('path', { d: lp + 'L' + line[line.length - 1][0].toFixed(2) + ' ' + bottom + 'L' + line[0][0].toFixed(2) + ' ' + bottom + 'Z', fill: color, opacity: 0.35 }, g);
+            el('path', { d: lp + 'L' + line[line.length - 1][0].toFixed(2) + ' ' + bottom + 'L' + line[0][0].toFixed(2) + ' ' + bottom + 'Z', fill: color, opacity: 0.5 }, g);
             el('path', { d: lp, fill: 'none', stroke: color, 'stroke-width': 1, 'stroke-linejoin': 'round' }, g);
           }
           return;
@@ -320,12 +322,16 @@
           // Import up, export down.
           var mid = (top + bottom) / 2;
           var pk = Math.max.apply(null, vals.map(Math.abs)) || 1;
+          var gpast = Math.min(data.past || 0, vals.length);
           el('line', { x1: X0, x2: X1, y1: mid, y2: mid, class: 'base' }, g);
-          el('path', { d: stepPath(vals, sw, mid, mid - top, pk), fill: 'var(--c-use)' }, g);
-          el('path', {
-            d: stepPath(vals.map(function (x) { return -x; }), sw, mid, mid - top, pk),
-            fill: 'var(--c-export)', transform: 'translate(0 ' + (2 * mid) + ') scale(1 -1)',
-          }, g);
+          [[function (i) { return i < gpast; }, 1], [function (i) { return i >= gpast; }, PALE]].forEach(function (part) {
+            var pv = vals.map(function (v, i) { return part[0](i) ? v : 0; });
+            el('path', { d: stepPath(pv, sw, mid, mid - top, pk), fill: 'var(--c-use)', opacity: part[1] }, g);
+            el('path', {
+              d: stepPath(pv.map(function (x) { return -x; }), sw, mid, mid - top, pk),
+              fill: 'var(--c-export)', opacity: part[1], transform: 'translate(0 ' + (2 * mid) + ') scale(1 -1)',
+            }, g);
+          });
           return;
         }
         // soc: the planned SoC as a line over a light area; the (dis)charge power as a band below.
@@ -338,16 +344,26 @@
           });
           if (pts.length > 1) {
             var line = pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+            var spast = data.past || 0;
+            var cut = X0 + spast * sw;
             el('polygon', {
               points: pts[0][0].toFixed(1) + ',' + socBottom + ' ' + line + ' ' + pts[pts.length - 1][0].toFixed(1) + ',' + socBottom,
               fill: color, opacity: 0.15,
             }, g);
-            el('polyline', { points: line, fill: 'none', stroke: color, 'stroke-width': 1.5, 'stroke-linejoin': 'round' }, g);
+            var seen = pts.filter(function (p) { return p[0] <= cut + sw / 2; });
+            var plan = pts.filter(function (p) { return p[0] >= cut - sw / 2; });
+            [[seen, 'none'], [plan, '4 3']].forEach(function (part) {
+              if (part[0].length < 2) return;
+              el('polyline', {
+                points: part[0].map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '),
+                fill: 'none', stroke: color, 'stroke-width': 1.5, 'stroke-dasharray': part[1], 'stroke-linejoin': 'round',
+              }, g);
+            });
           }
         } else {
           el('path', { d: stepPath(vals, sw, socBottom, socBottom - top, Math.max.apply(null, vals) || 1), fill: 'var(--c-use)', opacity: 0.85 }, g);
         }
-        powerBand(g, vals, color, bottom - bandH, bandH, sw, lane.max);
+        powerBand(g, vals, bottom - bandH, bandH, sw, lane.max, lane.blocks);
       }
 
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};

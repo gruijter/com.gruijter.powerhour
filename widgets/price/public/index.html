@@ -27,7 +27,7 @@
       border: 0; border-radius: 8px; padding: 7px 14px; background: var(--node-bg); color: var(--text);
       font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
     }
-    .legend i.line { height: 0; border-top: 2px solid var(--c-export); background: none; border-radius: 0; vertical-align: 3px; }
+    .legend i.line { height: 0; border-top: 2px solid var(--c-exportPrice); background: none; border-radius: 0; vertical-align: 3px; }
     .legend i.avg { height: 0; border-top: 2px dotted var(--c-average); background: none; border-radius: 0; vertical-align: 3px; }
     .avg { stroke: var(--c-average); stroke-width: 1.5; stroke-dasharray: 0.1 3; stroke-linecap: round; }
   </style>
@@ -298,7 +298,10 @@
             var start = k === 0 || typeof d.export[k - 1] !== 'number';
             path += (start ? 'M' : 'L') + (X0 + k * sw).toFixed(1) + ' ' + yy + 'L' + (X0 + (k + 1) * sw).toFixed(1) + ' ' + yy;
           });
-          if (path) el('path', { d: path, fill: 'none', stroke: 'var(--c-export)', 'stroke-width': 1.5 }, svg);
+          if (path) {
+            el('path', { d: path, fill: 'none', stroke: 'var(--node-bg)', 'stroke-width': 3.5 }, svg);
+            el('path', { d: path, fill: 'none', stroke: 'var(--c-exportPrice)', 'stroke-width': 1.5 }, svg);
+          }
         }
         if (avg !== null) el('line', { x1: X0, x2: X1, y1: y(avg), y2: y(avg), class: 'avg' }, svg);
         var nowIdx = d.day !== 'tomorrow' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
