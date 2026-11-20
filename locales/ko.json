@@ -275,6 +275,7 @@
     "tod_daynight": "주간/야간",
     "group_label": "요금 그룹",
     "group_option": "그룹 __n__",
+    "group_new": "새 그룹 (__n__)",
     "group_none": "없음 (Flow만)",
     "group_auto": "새 디바이스는 이 가격을 자동으로 사용합니다.",
     "group_flows": "Flow __flows__가 이미 가격을 설정합니다. 끄세요.",

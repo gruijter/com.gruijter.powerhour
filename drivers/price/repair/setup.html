@@ -431,6 +431,10 @@
 			value: String(g.group),
 			textContent: `${Homey.__('price_setup.group_option').replace('__n__', g.group)}${g.names.length ? `: ${g.names.join(', ')}` : ''}`,
 		})));
+		const next = (data.nextGroup || {})[commodity()];
+		if (next && !groups.some((g) => g.group === next)) {
+			select.appendChild(el('option', { value: String(next), textContent: Homey.__('price_setup.group_new').replace('__n__', next) }));
+		}
 		select.appendChild(el('option', { value: '0', textContent: Homey.__('price_setup.group_none') }));
 		// Pairing proposes the first group in use; after that the user's choice stays.
 		const preferred = (data.repairing || groupsFilled) ? current : groups[0].group;

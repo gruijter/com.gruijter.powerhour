@@ -275,6 +275,7 @@
     "tod_daynight": "نهار/ليل",
     "group_label": "مجموعة التعريفة",
     "group_option": "المجموعة __n__",
+    "group_new": "مجموعة جديدة (__n__)",
     "group_none": "لا شيء (Flows فقط)",
     "group_auto": "تستخدم الأجهزة الجديدة هذا السعر تلقائيًا.",
     "group_flows": "يضبط Flow __flows__ السعر بالفعل. أوقفه.",

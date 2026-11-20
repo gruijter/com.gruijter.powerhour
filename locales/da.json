@@ -275,6 +275,7 @@
     "tod_daynight": "Dag/nat",
     "group_label": "Takstgruppe",
     "group_option": "Gruppe __n__",
+    "group_new": "Ny gruppe (__n__)",
     "group_none": "Intet (kun flows)",
     "group_auto": "Nye enheder bruger denne pris automatisk.",
     "group_flows": "Flow __flows__ sætter allerede prisen. Slå det fra.",

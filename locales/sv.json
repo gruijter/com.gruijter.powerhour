@@ -275,6 +275,7 @@
     "tod_daynight": "Dag/natt",
     "group_label": "Tariffgrupp",
     "group_option": "Grupp __n__",
+    "group_new": "Ny grupp (__n__)",
     "group_none": "Inget (endast Flows)",
     "group_auto": "Nya enheter använder detta pris automatiskt.",
     "group_flows": "Flow __flows__ sätter redan priset. Stäng av det.",

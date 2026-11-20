@@ -275,6 +275,7 @@
     "tod_daynight": "Dzień/noc",
     "group_label": "Grupa taryfowa",
     "group_option": "Grupa __n__",
+    "group_new": "Nowa grupa (__n__)",
     "group_none": "Nic (tylko flow)",
     "group_auto": "Nowe urządzenia automatycznie używają tej ceny.",
     "group_flows": "Flow __flows__ już ustawia cenę. Wyłącz go.",
