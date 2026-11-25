@@ -58,6 +58,11 @@ $$\text{ImportPrice} = \left( \text{SpotPrice}_{\text{EUR/MWh}} \times \frac{\te
 - **Fixed Markup TOD (Time-of-Day):** Hourly custom tariffs (format: `0:0.15; 6:0.25; 23:0.15`).
 - **Exchange Rate:** Currency conversion multiplier (e.g. for NOK, SEK, DKK, GBP).
 
+### Dutch Suppliers (Automatic Markups)
+In the Netherlands you can pick your supplier with a dynamic contract under **Dutch supplier** in the price settings, for both electricity (`dap`, `dap15`) and gas (`dapg`). The variable markup is then set to the VAT, and the fixed markup to the supplier purchase fee plus energy tax, incl. VAT. Both are kept up to date automatically, also when the energy tax changes on 1 January. Choose *Set markups manually* to enter your own values.
+
+Source: the SolarBuffer price service ([hub.solarbuffer.nl/energieprijzen](https://hub.solarbuffer.nl/energieprijzen)), with purchase fees partly from [zhinees/energieprijzen-nl](https://github.com/zhinees/energieprijzen-nl) (CC BY 4.0).
+
 ---
 
 ## AI Price Forecasting (Stekker)

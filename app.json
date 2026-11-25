@@ -15336,6 +15336,196 @@
           },
           "children": [
             {
+              "id": "nlSupplier",
+              "type": "dropdown",
+              "value": "NONE",
+              "label": {
+                "en": "Dutch supplier (fills in markups)",
+                "nl": "Nederlandse leverancier (vult opslagen in)"
+              },
+              "hint": {
+                "en": "Netherlands only. Pick your supplier with a dynamic contract and the variable markup (VAT) and the fixed markup per kWh (supplier purchase fee plus energy tax, incl. VAT) are filled in and kept up to date every day, also when the energy tax changes on 1 January. Values you typed yourself in those two fields are overwritten. Source: SolarBuffer price service (hub.solarbuffer.nl/energieprijzen), purchase fees partly from github.com/zhinees/energieprijzen-nl (CC BY 4.0).",
+                "nl": "Alleen voor Nederland. Kies je leverancier met een dynamisch contract en de variabele opslag (btw) en de vaste opslag per kWh (inkoopvergoeding van je leverancier plus energiebelasting, incl. btw) worden ingevuld en elke dag bijgewerkt, ook als de energiebelasting op 1 januari verandert. Wat je zelf in die twee velden had staan wordt overschreven. Bron: prijzendienst van SolarBuffer (hub.solarbuffer.nl/energieprijzen), inkoopvergoedingen deels van github.com/zhinees/energieprijzen-nl (CC BY 4.0)."
+              },
+              "values": [
+                {
+                  "id": "NONE",
+                  "label": {
+                    "en": "SET MARKUPS MANUALLY",
+                    "nl": "OPSLAGEN ZELF INVULLEN"
+                  }
+                },
+                {
+                  "id": "anwb_energie",
+                  "label": {
+                    "en": "ANWB Energie"
+                  }
+                },
+                {
+                  "id": "budget_energie",
+                  "label": {
+                    "en": "Budget Energie"
+                  }
+                },
+                {
+                  "id": "coolblue_energie",
+                  "label": {
+                    "en": "Coolblue Energie"
+                  }
+                },
+                {
+                  "id": "delta_energie",
+                  "label": {
+                    "en": "Delta Energie"
+                  }
+                },
+                {
+                  "id": "easyenergy",
+                  "label": {
+                    "en": "easyEnergy"
+                  }
+                },
+                {
+                  "id": "eneco",
+                  "label": {
+                    "en": "Eneco"
+                  }
+                },
+                {
+                  "id": "energie_vanons",
+                  "label": {
+                    "en": "Energie VanOns"
+                  }
+                },
+                {
+                  "id": "energiedirect",
+                  "label": {
+                    "en": "Energiedirect"
+                  }
+                },
+                {
+                  "id": "energiek",
+                  "label": {
+                    "en": "Energiek"
+                  }
+                },
+                {
+                  "id": "energyzero",
+                  "label": {
+                    "en": "EnergyZero"
+                  }
+                },
+                {
+                  "id": "engie",
+                  "label": {
+                    "en": "Engie"
+                  }
+                },
+                {
+                  "id": "essent",
+                  "label": {
+                    "en": "Essent"
+                  }
+                },
+                {
+                  "id": "frank_energie",
+                  "label": {
+                    "en": "Frank Energie"
+                  }
+                },
+                {
+                  "id": "greenchoice",
+                  "label": {
+                    "en": "Greenchoice"
+                  }
+                },
+                {
+                  "id": "groenestroomlokaal",
+                  "label": {
+                    "en": "GroeneStroomLokaal"
+                  }
+                },
+                {
+                  "id": "live_energy",
+                  "label": {
+                    "en": "Live Energy"
+                  }
+                },
+                {
+                  "id": "mega",
+                  "label": {
+                    "en": "Mega"
+                  }
+                },
+                {
+                  "id": "nextenergy",
+                  "label": {
+                    "en": "NextEnergy"
+                  }
+                },
+                {
+                  "id": "om_nieuwe_energie",
+                  "label": {
+                    "en": "OM Nieuwe Energie"
+                  }
+                },
+                {
+                  "id": "oxxio",
+                  "label": {
+                    "en": "Oxxio"
+                  }
+                },
+                {
+                  "id": "powerpeers",
+                  "label": {
+                    "en": "Powerpeers"
+                  }
+                },
+                {
+                  "id": "pure_energie",
+                  "label": {
+                    "en": "Pure Energie"
+                  }
+                },
+                {
+                  "id": "tibber",
+                  "label": {
+                    "en": "Tibber"
+                  }
+                },
+                {
+                  "id": "vandebron",
+                  "label": {
+                    "en": "Vandebron"
+                  }
+                },
+                {
+                  "id": "vattenfall",
+                  "label": {
+                    "en": "Vattenfall"
+                  }
+                },
+                {
+                  "id": "vrijopnaam",
+                  "label": {
+                    "en": "Vrijopnaam"
+                  }
+                },
+                {
+                  "id": "zonneplan",
+                  "label": {
+                    "en": "Zonneplan"
+                  }
+                },
+                {
+                  "id": "zonopnaam_energie",
+                  "label": {
+                    "en": "Zonopnaam Energie"
+                  }
+                }
+              ]
+            },
+            {
               "id": "ignore_market_price",
               "type": "checkbox",
               "label": {
@@ -16736,6 +16926,196 @@
           },
           "children": [
             {
+              "id": "nlSupplier",
+              "type": "dropdown",
+              "value": "NONE",
+              "label": {
+                "en": "Dutch supplier (fills in markups)",
+                "nl": "Nederlandse leverancier (vult opslagen in)"
+              },
+              "hint": {
+                "en": "Netherlands only. Pick your supplier with a dynamic contract and the variable markup (VAT) and the fixed markup per kWh (supplier purchase fee plus energy tax, incl. VAT) are filled in and kept up to date every day, also when the energy tax changes on 1 January. Values you typed yourself in those two fields are overwritten. Source: SolarBuffer price service (hub.solarbuffer.nl/energieprijzen), purchase fees partly from github.com/zhinees/energieprijzen-nl (CC BY 4.0).",
+                "nl": "Alleen voor Nederland. Kies je leverancier met een dynamisch contract en de variabele opslag (btw) en de vaste opslag per kWh (inkoopvergoeding van je leverancier plus energiebelasting, incl. btw) worden ingevuld en elke dag bijgewerkt, ook als de energiebelasting op 1 januari verandert. Wat je zelf in die twee velden had staan wordt overschreven. Bron: prijzendienst van SolarBuffer (hub.solarbuffer.nl/energieprijzen), inkoopvergoedingen deels van github.com/zhinees/energieprijzen-nl (CC BY 4.0)."
+              },
+              "values": [
+                {
+                  "id": "NONE",
+                  "label": {
+                    "en": "SET MARKUPS MANUALLY",
+                    "nl": "OPSLAGEN ZELF INVULLEN"
+                  }
+                },
+                {
+                  "id": "anwb_energie",
+                  "label": {
+                    "en": "ANWB Energie"
+                  }
+                },
+                {
+                  "id": "budget_energie",
+                  "label": {
+                    "en": "Budget Energie"
+                  }
+                },
+                {
+                  "id": "coolblue_energie",
+                  "label": {
+                    "en": "Coolblue Energie"
+                  }
+                },
+                {
+                  "id": "delta_energie",
+                  "label": {
+                    "en": "Delta Energie"
+                  }
+                },
+                {
+                  "id": "easyenergy",
+                  "label": {
+                    "en": "easyEnergy"
+                  }
+                },
+                {
+                  "id": "eneco",
+                  "label": {
+                    "en": "Eneco"
+                  }
+                },
+                {
+                  "id": "energie_vanons",
+                  "label": {
+                    "en": "Energie VanOns"
+                  }
+                },
+                {
+                  "id": "energiedirect",
+                  "label": {
+                    "en": "Energiedirect"
+                  }
+                },
+                {
+                  "id": "energiek",
+                  "label": {
+                    "en": "Energiek"
+                  }
+                },
+                {
+                  "id": "energyzero",
+                  "label": {
+                    "en": "EnergyZero"
+                  }
+                },
+                {
+                  "id": "engie",
+                  "label": {
+                    "en": "Engie"
+                  }
+                },
+                {
+                  "id": "essent",
+                  "label": {
+                    "en": "Essent"
+                  }
+                },
+                {
+                  "id": "frank_energie",
+                  "label": {
+                    "en": "Frank Energie"
+                  }
+                },
+                {
+                  "id": "greenchoice",
+                  "label": {
+                    "en": "Greenchoice"
+                  }
+                },
+                {
+                  "id": "groenestroomlokaal",
+                  "label": {
+                    "en": "GroeneStroomLokaal"
+                  }
+                },
+                {
+                  "id": "live_energy",
+                  "label": {
+                    "en": "Live Energy"
+                  }
+                },
+                {
+                  "id": "mega",
+                  "label": {
+                    "en": "Mega"
+                  }
+                },
+                {
+                  "id": "nextenergy",
+                  "label": {
+                    "en": "NextEnergy"
+                  }
+                },
+                {
+                  "id": "om_nieuwe_energie",
+                  "label": {
+                    "en": "OM Nieuwe Energie"
+                  }
+                },
+                {
+                  "id": "oxxio",
+                  "label": {
+                    "en": "Oxxio"
+                  }
+                },
+                {
+                  "id": "powerpeers",
+                  "label": {
+                    "en": "Powerpeers"
+                  }
+                },
+                {
+                  "id": "pure_energie",
+                  "label": {
+                    "en": "Pure Energie"
+                  }
+                },
+                {
+                  "id": "tibber",
+                  "label": {
+                    "en": "Tibber"
+                  }
+                },
+                {
+                  "id": "vandebron",
+                  "label": {
+                    "en": "Vandebron"
+                  }
+                },
+                {
+                  "id": "vattenfall",
+                  "label": {
+                    "en": "Vattenfall"
+                  }
+                },
+                {
+                  "id": "vrijopnaam",
+                  "label": {
+                    "en": "Vrijopnaam"
+                  }
+                },
+                {
+                  "id": "zonneplan",
+                  "label": {
+                    "en": "Zonneplan"
+                  }
+                },
+                {
+                  "id": "zonopnaam_energie",
+                  "label": {
+                    "en": "Zonopnaam Energie"
+                  }
+                }
+              ]
+            },
+            {
               "id": "ignore_market_price",
               "type": "checkbox",
               "label": {
@@ -18099,6 +18479,196 @@
             "ar": "إعدادات السعر"
           },
           "children": [
+            {
+              "id": "nlSupplier",
+              "type": "dropdown",
+              "value": "NONE",
+              "label": {
+                "en": "Dutch supplier (fills in markups)",
+                "nl": "Nederlandse leverancier (vult opslagen in)"
+              },
+              "hint": {
+                "en": "Netherlands only. Pick your supplier with a dynamic contract and the variable markup (VAT) and the fixed markup per m3 (supplier purchase fee plus energy tax, incl. VAT) are filled in and kept up to date every day, also when the energy tax changes on 1 January. Values you typed yourself in those two fields are overwritten. Source: SolarBuffer price service (hub.solarbuffer.nl/energieprijzen), purchase fees partly from github.com/zhinees/energieprijzen-nl (CC BY 4.0).",
+                "nl": "Alleen voor Nederland. Kies je leverancier met een dynamisch contract en de variabele opslag (btw) en de vaste opslag per m3 (inkoopvergoeding van je leverancier plus energiebelasting, incl. btw) worden ingevuld en elke dag bijgewerkt, ook als de energiebelasting op 1 januari verandert. Wat je zelf in die twee velden had staan wordt overschreven. Bron: prijzendienst van SolarBuffer (hub.solarbuffer.nl/energieprijzen), inkoopvergoedingen deels van github.com/zhinees/energieprijzen-nl (CC BY 4.0)."
+              },
+              "values": [
+                {
+                  "id": "NONE",
+                  "label": {
+                    "en": "SET MARKUPS MANUALLY",
+                    "nl": "OPSLAGEN ZELF INVULLEN"
+                  }
+                },
+                {
+                  "id": "anwb_energie",
+                  "label": {
+                    "en": "ANWB Energie"
+                  }
+                },
+                {
+                  "id": "budget_energie",
+                  "label": {
+                    "en": "Budget Energie"
+                  }
+                },
+                {
+                  "id": "coolblue_energie",
+                  "label": {
+                    "en": "Coolblue Energie"
+                  }
+                },
+                {
+                  "id": "delta_energie",
+                  "label": {
+                    "en": "Delta Energie"
+                  }
+                },
+                {
+                  "id": "easyenergy",
+                  "label": {
+                    "en": "easyEnergy"
+                  }
+                },
+                {
+                  "id": "eneco",
+                  "label": {
+                    "en": "Eneco"
+                  }
+                },
+                {
+                  "id": "energie_vanons",
+                  "label": {
+                    "en": "Energie VanOns"
+                  }
+                },
+                {
+                  "id": "energiedirect",
+                  "label": {
+                    "en": "Energiedirect"
+                  }
+                },
+                {
+                  "id": "energiek",
+                  "label": {
+                    "en": "Energiek"
+                  }
+                },
+                {
+                  "id": "energyzero",
+                  "label": {
+                    "en": "EnergyZero"
+                  }
+                },
+                {
+                  "id": "engie",
+                  "label": {
+                    "en": "Engie"
+                  }
+                },
+                {
+                  "id": "essent",
+                  "label": {
+                    "en": "Essent"
+                  }
+                },
+                {
+                  "id": "frank_energie",
+                  "label": {
+                    "en": "Frank Energie"
+                  }
+                },
+                {
+                  "id": "greenchoice",
+                  "label": {
+                    "en": "Greenchoice"
+                  }
+                },
+                {
+                  "id": "groenestroomlokaal",
+                  "label": {
+                    "en": "GroeneStroomLokaal"
+                  }
+                },
+                {
+                  "id": "live_energy",
+                  "label": {
+                    "en": "Live Energy"
+                  }
+                },
+                {
+                  "id": "mega",
+                  "label": {
+                    "en": "Mega"
+                  }
+                },
+                {
+                  "id": "nextenergy",
+                  "label": {
+                    "en": "NextEnergy"
+                  }
+                },
+                {
+                  "id": "om_nieuwe_energie",
+                  "label": {
+                    "en": "OM Nieuwe Energie"
+                  }
+                },
+                {
+                  "id": "oxxio",
+                  "label": {
+                    "en": "Oxxio"
+                  }
+                },
+                {
+                  "id": "powerpeers",
+                  "label": {
+                    "en": "Powerpeers"
+                  }
+                },
+                {
+                  "id": "pure_energie",
+                  "label": {
+                    "en": "Pure Energie"
+                  }
+                },
+                {
+                  "id": "tibber",
+                  "label": {
+                    "en": "Tibber"
+                  }
+                },
+                {
+                  "id": "vandebron",
+                  "label": {
+                    "en": "Vandebron"
+                  }
+                },
+                {
+                  "id": "vattenfall",
+                  "label": {
+                    "en": "Vattenfall"
+                  }
+                },
+                {
+                  "id": "vrijopnaam",
+                  "label": {
+                    "en": "Vrijopnaam"
+                  }
+                },
+                {
+                  "id": "zonneplan",
+                  "label": {
+                    "en": "Zonneplan"
+                  }
+                },
+                {
+                  "id": "zonopnaam_energie",
+                  "label": {
+                    "en": "Zonopnaam Energie"
+                  }
+                }
+              ]
+            },
             {
               "id": "variableMarkup",
               "type": "number",
