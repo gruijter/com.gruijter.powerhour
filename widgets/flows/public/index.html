@@ -16,6 +16,13 @@
     .val { fill: var(--text); fill-opacity: 0.75; font-weight: 400; }
     .dots { fill: none; stroke: var(--text); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 0 12; opacity: 0.45; animation: run linear infinite; }
     @keyframes run { to { stroke-dashoffset: -36; } }
+    #flows { cursor: pointer; }
+    #detail {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 4px 10px; border-radius: 8px;
+      background: var(--node-bg); color: var(--text); font-size: 13px; font-weight: 600; pointer-events: none;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    #detail.on { opacity: 0.9; }
   </style>
   <script src="periodcache.js"></script>
 </head>
@@ -24,6 +31,7 @@
   <div class="chartbox">
     <svg id="flows" viewBox="0 0 320 250" role="img"></svg>
     <div id="empty"></div>
+    <div id="detail"></div>
   </div>
   <script>
     var started = false;
@@ -41,6 +49,7 @@
     var FONT_PX = 10;
     var LABEL = 12;
     var MAX_USERS = 16;
+    var DETAIL = [0.1, 0.05, 0.02, 0.01, 0.005];
     var MIN_SHARE = 0.02;
     var MAX_LABEL = 134;
     var NS = 'http://www.w3.org/2000/svg';
@@ -117,6 +126,30 @@
         Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.id === period); });
       }
       markTabs();
+
+      var detailBox = document.getElementById('detail');
+      var detailTimer = null;
+      var level = DETAIL.indexOf(MIN_SHARE);
+      try {
+        var kept = localStorage.getItem(key + '-detail');
+        if (kept !== null && DETAIL[Number(kept)] !== undefined) level = Number(kept);
+      } catch (e) { /* no storage: default */ }
+      MIN_SHARE = DETAIL[level];
+      svg.addEventListener('click', function (ev) {
+        var r = svg.getBoundingClientRect();
+        var next = Math.max(0, Math.min(DETAIL.length - 1, level + (ev.clientX - r.left > r.width / 2 ? 1 : -1)));
+        if (next !== level) {
+          if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+          level = next;
+          MIN_SHARE = DETAIL[level];
+          try { localStorage.setItem(key + '-detail', String(level)); } catch (e) { /* not kept */ }
+          if (store.get(period)) render(store.get(period));
+        }
+        detailBox.textContent = '≥ ' + new Intl.NumberFormat(lang, { style: 'percent', maximumFractionDigits: 1 }).format(MIN_SHARE);
+        detailBox.classList.add('on');
+        clearTimeout(detailTimer);
+        detailTimer = setTimeout(function () { detailBox.classList.remove('on'); }, 1000);
+      });
 
       function value(v, live) {
         var a = Math.abs(v || 0);
