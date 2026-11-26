@@ -41,6 +41,7 @@
     var FONT_PX = 10;
     var LABEL = 12;
     var MAX_USERS = 16;
+    var MIN_SHARE = 0.02;
     var MAX_LABEL = 134;
     var NS = 'http://www.w3.org/2000/svg';
     var COLORS = {
@@ -150,7 +151,7 @@
         var srcs = d.sources.filter(on).map(function (x) { return { name: t(x.key), kind: x.key, value: x.value }; });
         if (gas > 0) srcs.push({ name: t('gas'), kind: 'gas', value: gas, gas: true });
         var srcTotal = srcs.reduce(function (a, x) { return a + x.value; }, 0);
-        srcs = srcs.filter(function (x) { return x.gas || x.value >= srcTotal * 0.005; });
+        srcs = srcs.filter(function (x) { return x.gas || x.value >= srcTotal * MIN_SHARE; });
         var ORDER = ['solar', 'battery', 'ev', 'grid', 'gas'];
         srcs.sort(function (a, b) { return ORDER.indexOf(a.kind) - ORDER.indexOf(b.kind); });
 
@@ -166,9 +167,7 @@
         }
         var measured = sum(users);
         var total0 = srcs.reduce(function (a, x) { return a + x.value; }, 0);
-        var zoneMax = {};
-        users.forEach(function (u) { zoneMax[u.zone] = Math.max(zoneMax[u.zone] || 0, u.value); });
-        var top = users.filter(function (u) { return u.value >= total0 * 0.005 || (u.value > 0 && u.value === zoneMax[u.zone]); })
+        var top = users.filter(function (u) { return u.value >= total0 * MIN_SHARE; })
           .sort(function (a, b) { return b.value - a.value; }).slice(0, MAX_USERS);
         var big = users.filter(function (u) { return top.indexOf(u) >= 0; });
         var otherHome = d.home - measured;
@@ -214,7 +213,7 @@
             kids: kids(clim.map(function (x) { return { name: x.name, kind: 'climate', value: x.value }; })
               .concat(gas > 0 ? [{ name: t('gas'), kind: 'gas', value: gas }] : [])),
           },
-        ]).filter(on);
+        ]).filter(function (m) { return m.value >= total0 * MIN_SHARE; });
         middle.forEach(function (m) { if (m.el === undefined) m.el = m.value - (m.gasIn || 0); m.kids = m.kids || []; });
 
         var elSrc = srcs.filter(function (x) { return !x.gas; }).reduce(function (a, x) { return a + x.value; }, 0);
@@ -299,11 +298,16 @@
           var all = Object.keys(pairs).reduce(function (a, s) { return a + ((pairs[s] && pairs[s][dst]) || 0); }, 0);
           return all > 0 && pairs[x.kind] ? (pairs[x.kind][dst] || 0) / all : 0;
         };
+        var paired = function (m) {
+          var dst = dstOf(m);
+          return Object.keys(pairs).some(function (s) { return pairs[s] && pairs[s][dst] > 0; });
+        };
         var want = need.slice();
         (pairs ? ['pairs', 'rest'] : ['rest']).forEach(function (pass) {
           srcs.forEach(function (x) {
             middle.forEach(function (m, j) {
               if (x.left <= 1e-9 || NEVER[x.kind] === m.kind) return;
+              if (pairs && !x.gas && paired(m) && !(share(x, m) > 0)) return;
               var v = Math.min(x.left, need[j], pass === 'pairs' ? want[j] * share(x, m) : Infinity);
               if (v <= 1e-9) return;
               link(XL + BAR, x.out, xm, inAt[j], v * k, col(x), v);
