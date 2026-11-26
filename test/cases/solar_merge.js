@@ -28,13 +28,22 @@ test('merge: slot with samples but zero confidence still moves toward the fresh 
 test('merge: slot without samples halves, then reaches zero', () => {
   let y = fill(0);
   y[30] = 12;
+  const counts = fill(0);
+  counts[50] = 4;
   for (let n = 0; n < 12; n += 1) {
     y = mergeYields({
-      historicYields: fill(0), previousYields: y, trainingConfidence: fill(0), sampleCounts: fill(0),
+      historicYields: fill(0), previousYields: y, trainingConfidence: fill(0), sampleCounts: counts,
     }).yieldFactors;
     if (n === 0) assert.strictEqual(y[30], 6);
   }
   assert.strictEqual(y[30], 0);
+});
+
+test('merge: retrain without any sample keeps all factors', () => {
+  const { yieldFactors } = mergeYields({
+    historicYields: fill(null), previousYields: fill(5), trainingConfidence: fill(0), sampleCounts: fill(0),
+  });
+  assert.strictEqual(yieldFactors[30], 5);
 });
 
 test('merge: confident slot keeps the confidence-scaled alpha', () => {

@@ -551,8 +551,8 @@
 		};
 		document.querySelectorAll('input[name="commodity"]').forEach((r) => r.addEventListener('change', showTariffType));
 		showTariffType();
-		// The advanced step: on when one of its settings differs from the default.
-		const changed = (data.advanced || []).some((id) => data.defs[id] && String(data.values[id] ?? '') !== String(data.defs[id].value ?? ''));
+		const changed = (data.advanced || []).some((id) => data.defs[id] && data.values[id] !== undefined
+			&& String(data.values[id] ?? '') !== String(data.defs[id].value ?? ''));
 		data.defs.show_advanced = { type: 'checkbox', label: Homey.__('price_setup.show_advanced') };
 		data.values.show_advanced = changed;
 		field('advancedToggle', 'show_advanced');

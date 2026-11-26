@@ -2,10 +2,6 @@
 
 'use strict';
 
-// Run: node test/tools/forecastCompare.js collect [NL,BE,...]   (twice a day, e.g. cron 10:30 and 18:00)
-//      node test/tools/forecastCompare.js report [NL] [hours]
-// Data: test/zzz_forecasts/<zone>/snap_*.json and actuals.json (not in git or the app).
-
 const fs = require('fs');
 const path = require('path');
 
@@ -32,13 +28,12 @@ const PROVIDERS = {
 };
 const HOUR = 3600000;
 
-try {
-  fs.readFileSync(path.join(ROOT, 'test', 'zzz_energyforecast.env'), 'utf8').split('\n').forEach((line) => {
+const envFile = path.join(ROOT, 'test', 'zzz_energyforecast.env');
+if (fs.existsSync(envFile)) {
+  fs.readFileSync(envFile, 'utf8').split('\n').forEach((line) => {
     const m = line.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/);
     if (m) process.env[m[1]] = m[2];
   });
-} catch {
-  // no key: energyforecast.de is skipped
 }
 
 const readJson = (file, fallback) => {

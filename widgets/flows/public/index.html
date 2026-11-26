@@ -255,7 +255,7 @@
             kids: kids(clim.map(function (x) { return { name: x.name, kind: 'climate', value: x.value }; })
               .concat(gas > 0 ? [{ name: t('gas'), kind: 'gas', value: gas }] : [])),
           },
-        ]).filter(function (m) { return m.value >= total0 * MIN_SHARE; });
+        ]).filter(function (m) { return m.value > 0 && m.value >= total0 * MIN_SHARE; });
         middle.forEach(function (m) { if (m.el === undefined) m.el = m.value - (m.gasIn || 0); m.kids = m.kids || []; });
 
         var elSrc = srcs.filter(function (x) { return !x.gas; }).reduce(function (a, x) { return a + x.value; }, 0);
