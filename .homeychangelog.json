@@ -1,4 +1,7 @@
 {
+  "9.0.6": {
+    "en": "Choose your price forecast source. Flows widget: tap for more or less detail. Better solar forecast learning. Fix block starting in the current slot."
+  },
   "9.0.5": {
     "en": "New widgets: solar, grid, price, battery and EV. One colour scheme for graphs and widgets. Setup conflicts shown on the device. New tariff group option in setup. Fix history rebuild from Insights."
   },
