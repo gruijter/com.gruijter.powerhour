@@ -115,6 +115,7 @@
           period = p;
           try { localStorage.setItem(key, p); } catch (e) { /* not kept */ }
           markTabs();
+          useLevel();
           if (store.fresh(period)) {
             render(store.get(period));
             fit();
@@ -129,20 +130,28 @@
 
       var detailBox = document.getElementById('detail');
       var detailTimer = null;
-      var level = DETAIL.indexOf(MIN_SHARE);
-      try {
-        var kept = localStorage.getItem(key + '-detail');
-        if (kept !== null && DETAIL[Number(kept)] !== undefined) level = Number(kept);
-      } catch (e) { /* no storage: default */ }
-      MIN_SHARE = DETAIL[level];
+      var levels = {};
+      var level = 0;
+      PERIODS.forEach(function (p) {
+        levels[p] = DETAIL.indexOf(MIN_SHARE);
+        try {
+          var kept = localStorage.getItem(key + '-detail-' + p);
+          if (kept !== null && DETAIL[Number(kept)] !== undefined) levels[p] = Number(kept);
+        } catch (e) { /* no storage: default */ }
+      });
+      function useLevel() {
+        level = levels[period];
+        MIN_SHARE = DETAIL[level];
+      }
+      useLevel();
       svg.addEventListener('click', function (ev) {
         var r = svg.getBoundingClientRect();
         var next = Math.max(0, Math.min(DETAIL.length - 1, level + (ev.clientX - r.left > r.width / 2 ? 1 : -1)));
         if (next !== level) {
           if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
-          level = next;
-          MIN_SHARE = DETAIL[level];
-          try { localStorage.setItem(key + '-detail', String(level)); } catch (e) { /* not kept */ }
+          levels[period] = next;
+          useLevel();
+          try { localStorage.setItem(key + '-detail-' + period, String(next)); } catch (e) { /* not kept */ }
           if (store.get(period)) render(store.get(period));
         }
         detailBox.textContent = '≥ ' + new Intl.NumberFormat(lang, { style: 'percent', maximumFractionDigits: 1 }).format(MIN_SHARE);
