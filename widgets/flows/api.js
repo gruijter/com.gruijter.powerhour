@@ -45,7 +45,7 @@ module.exports = {
           const chosenExt = await deviceZones(homey, ids.filter(isExt));
           zoneIds = [...new Set(flows.users.map((u) => u.zoneId).concat(Object.values(chosenExt).map((z) => z && z.id)).filter(Boolean))];
         } else zoneIds = await allZoneIds(homey);
-        const homeyData = await homeyZoneTotals(homey, query.period, zoneIds);
+        const homeyData = await homeyZoneTotals(homey, query.period, zoneIds, sourceDeviceIds(homey, new Set()));
         if (homeyData) {
           const ext = Object.keys(homeyData.devices).filter((id) => isExt(id) && (!ids.length || ids.includes(id)));
           const extZones = await deviceZones(homey, ext);
