@@ -13,7 +13,7 @@
     .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
     svg { display: block; width: 100%; height: auto; }
     .name { fill: var(--text); font-weight: 400; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.8)); }
-    .val { fill: var(--muted); font-weight: 400; }
+    .val { fill: var(--text); fill-opacity: 0.75; font-weight: 400; }
     .dots { fill: none; stroke: var(--text); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 0 12; opacity: 0.45; animation: run linear infinite; }
     @keyframes run { to { stroke-dashoffset: -36; } }
   </style>
@@ -303,20 +303,28 @@
           return Object.keys(pairs).some(function (s) { return pairs[s] && pairs[s][dst] > 0; });
         };
         var want = need.slice();
+        var alloc = srcs.map(function () { return middle.map(function () { return 0; }); });
         (pairs ? ['pairs', 'rest'] : ['rest']).forEach(function (pass) {
-          srcs.forEach(function (x) {
+          srcs.forEach(function (x, i) {
             middle.forEach(function (m, j) {
               if (x.left <= 1e-9 || NEVER[x.kind] === m.kind) return;
               if (pairs && !x.gas && paired(m) && !(share(x, m) > 0)) return;
               var v = Math.min(x.left, need[j], pass === 'pairs' ? want[j] * share(x, m) : Infinity);
               if (v <= 1e-9) return;
-              link(XL + BAR, x.out, xm, inAt[j], v * k, col(x), v);
-              m.mix.push({ color: col(x), v: v });
-              x.out += v * k;
-              inAt[j] += v * k;
+              alloc[i][j] += v;
               need[j] -= v;
               x.left -= v;
             });
+          });
+        });
+        srcs.forEach(function (x, i) {
+          middle.forEach(function (m, j) {
+            var v = alloc[i][j];
+            if (!(v > 0)) return;
+            link(XL + BAR, x.out, xm, inAt[j], v * k, col(x), v);
+            m.mix.push({ color: col(x), v: v });
+            x.out += v * k;
+            inAt[j] += v * k;
           });
         });
         middle.forEach(function (m) {
