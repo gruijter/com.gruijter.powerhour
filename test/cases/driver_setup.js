@@ -351,7 +351,7 @@ const manifestIds = (driverId) => {
     const s = session();
     PriceSetup.registerPair(driver, s);
     const data = await s.handlers.setup_get();
-    assert.deepStrictEqual(data.advanced, ['priceProvider', 'entsoeApiKey', 'forecastEnable', 'variableMarkupAbsPrice',
+    assert.deepStrictEqual(data.advanced, ['priceProvider', 'entsoeApiKey', 'forecastEnable', 'forecastProvider', 'energyForecastApiKey', 'variableMarkupAbsPrice',
       'export_variableMarkupAbsPrice', 'formula', 'export_formula', 'decimals', 'priceLevelHours']);
     assert.strictEqual(data.defs.decimals.value, 4);
     assert.strictEqual(data.defs.priceLevelHours.value, 4);

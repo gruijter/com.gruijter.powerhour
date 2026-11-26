@@ -32,6 +32,9 @@ const Omie = require('../lib/providers/Omie');
 const Stekker = require('../lib/providers/Stekker');
 const Energyzero = require('../lib/providers/Energyzero');
 const EEX = require('../lib/providers/EEX');
+const EpexPredictor = require('../lib/providers/EpexPredictor');
+const EnergyPriceForecast = require('../lib/providers/EnergyPriceForecast');
+const EnergyForecast = require('../lib/providers/EnergyForecast');
 const TimeHelpers = require('../lib/helpers/TimeHelpers');
 
 const providers = {
@@ -52,6 +55,21 @@ try {
 } catch {
   // ignore
 }
+try {
+  fs.readFileSync('./test/zzz_energyforecast.env', 'utf8').split('\n').forEach((line) => {
+    const m = line.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/);
+    if (m) process.env[m[1]] = m[2];
+  });
+} catch {
+  // ignore
+}
+
+const forecastProviders = {
+  EPEX_PREDICTOR: EpexPredictor,
+  ENERGYPRICEFORECAST: EnergyPriceForecast,
+  ENERGYFORECAST: EnergyForecast,
+  STEKKER: Stekker,
+};
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -117,6 +135,40 @@ const printTable = (data) => {
   data.forEach((row) => console.log(rowToString(row)));
 };
 
+async function testForecasts(filter) {
+  const allZones = {};
+  Object.values(forecastProviders).forEach((P) => Object.assign(allZones, new P({}).getBiddingZones()));
+  const zoneKeys = Object.keys(allZones).sort().filter((k) => !filter || k.toUpperCase().startsWith(filter.toUpperCase()));
+  const results = [];
+  const now = Date.now();
+  // eslint-disable-next-line no-restricted-syntax
+  for (const zoneKey of zoneKeys) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [name, P] of Object.entries(forecastProviders)) {
+      if (!new P({}).getBiddingZones()[zoneKey]) continue;
+      const row = {
+        Zone: zoneKey, Provider: name, Count: '-', Interval: '-', First: '-', Last: '-', Ahead: '-', Error: '',
+      };
+      try {
+        const apiKey = name === 'ENERGYFORECAST' ? (process.env.ENERGYFORECAST_API_KEY || '') : '';
+        // eslint-disable-next-line no-await-in-loop
+        const prices = await new P({ apiKey, biddingZone: allZones[zoneKey] }).getPrices({ forecast: true, resolution: 'PT15M' });
+        if (!prices || !prices.length) throw Error('No prices');
+        const fmt = (p) => `${p.time.toISOString().replace('T', ' ').slice(5, 16)} (${Math.round(p.price * 100) / 100})`;
+        row.Count = prices.length;
+        row.Interval = prices.length > 1 ? `${(prices[1].time - prices[0].time) / 60000}m` : '-';
+        row.First = fmt(prices[0]);
+        row.Last = fmt(prices[prices.length - 1]);
+        row.Ahead = `${Math.round((prices[prices.length - 1].time - now) / 3600000)}h`;
+      } catch (err) {
+        row.Error = err.message;
+      }
+      results.push(row);
+    }
+  }
+  printTable(results);
+}
+
 async function main() {
   try {
     // 1. Select Provider
@@ -128,9 +180,16 @@ async function main() {
     console.log(`  ${providerKeys.length + 1}: ALL POWER`);
     console.log(`  ${providerKeys.length + 2}: ALL GAS`);
     console.log(`  ${providerKeys.length + 3}: ALL POWER (Single Zone)`);
+    console.log(`  ${providerKeys.length + 4}: ALL FORECAST (one call per provider and zone)`);
 
     const providerIndex = await askQuestion('Select a provider (number): ');
     const selection = parseInt(providerIndex, 10);
+
+    if (selection === providerKeys.length + 4) {
+      const filter = await askQuestion('Zone filter, e.g. NL (Enter = all zones): ');
+      await testForecasts(filter.trim());
+      return;
+    }
 
     if (selection === providerKeys.length + 1 || selection === providerKeys.length + 2) {
       const isGasTest = selection === providerKeys.length + 2;

@@ -33505,6 +33505,76 @@
               }
             },
             {
+              "id": "view_forecastProvider",
+              "type": "label",
+              "label": {
+                "en": "Forecast source",
+                "nl": "Voorspellingsbron",
+                "de": "Prognosequelle",
+                "fr": "Source des prévisions",
+                "it": "Fonte delle previsioni",
+                "sv": "Prognoskälla",
+                "no": "Prognosekilde",
+                "es": "Fuente de la previsión",
+                "da": "Prognosekilde",
+                "pl": "Źródło prognozy",
+                "ru": "Источник прогноза",
+                "ar": "مصدر التوقعات",
+                "ko": "예측 소스"
+              },
+              "value": "-",
+              "hint": {
+                "en": "Automatic tries EPEX Predictor, energypriceforecast.eu, energyforecast.de (with key) and Stekker, in that order.",
+                "nl": "Automatisch probeert EPEX Predictor, energypriceforecast.eu, energyforecast.de (met sleutel) en Stekker, in die volgorde.",
+                "de": "Automatisch versucht EPEX Predictor, energypriceforecast.eu, energyforecast.de (mit Schlüssel) und Stekker, in dieser Reihenfolge.",
+                "fr": "Automatique essaie EPEX Predictor, energypriceforecast.eu, energyforecast.de (avec clé) et Stekker, dans cet ordre.",
+                "it": "Automatico prova EPEX Predictor, energypriceforecast.eu, energyforecast.de (con chiave) e Stekker, in quest’ordine.",
+                "sv": "Automatisk provar EPEX Predictor, energypriceforecast.eu, energyforecast.de (med nyckel) och Stekker, i den ordningen.",
+                "no": "Automatisk prøver EPEX Predictor, energypriceforecast.eu, energyforecast.de (med nøkkel) og Stekker, i den rekkefølgen.",
+                "es": "Automático prueba EPEX Predictor, energypriceforecast.eu, energyforecast.de (con clave) y Stekker, en ese orden.",
+                "da": "Automatisk prøver EPEX Predictor, energypriceforecast.eu, energyforecast.de (med nøgle) og Stekker, i den rækkefølge.",
+                "pl": "Automatycznie próbuje EPEX Predictor, energypriceforecast.eu, energyforecast.de (z kluczem) i Stekker, w tej kolejności.",
+                "ru": "Автоматически пробует EPEX Predictor, energypriceforecast.eu, energyforecast.de (с ключом) и Stekker, в этом порядке.",
+                "ar": "التلقائي يجرّب EPEX Predictor ثم energypriceforecast.eu ثم energyforecast.de (مع مفتاح) ثم Stekker بهذا الترتيب.",
+                "ko": "자동은 EPEX Predictor, energypriceforecast.eu, energyforecast.de(키 필요), Stekker 순서로 시도합니다."
+              }
+            },
+            {
+              "id": "view_energyForecastApiKey",
+              "type": "label",
+              "label": {
+                "en": "energyforecast.de API key",
+                "nl": "energyforecast.de API-sleutel",
+                "de": "energyforecast.de API-Schlüssel",
+                "fr": "Clé API energyforecast.de",
+                "it": "Chiave API energyforecast.de",
+                "sv": "energyforecast.de API-nyckel",
+                "no": "energyforecast.de API-nøkkel",
+                "es": "Clave API energyforecast.de",
+                "da": "energyforecast.de API-nøgle",
+                "pl": "Klucz API energyforecast.de",
+                "ru": "API-ключ energyforecast.de",
+                "ar": "مفتاح API energyforecast.de",
+                "ko": "energyforecast.de API 키"
+              },
+              "value": "-",
+              "hint": {
+                "en": "Optional, also used by Automatic. Free key after signing up at energyforecast.de",
+                "nl": "Optioneel, ook gebruikt door Automatisch. Gratis sleutel na aanmelden op energyforecast.de",
+                "de": "Optional, auch für Automatisch genutzt. Kostenloser Schlüssel nach Anmeldung auf energyforecast.de",
+                "fr": "Facultatif, aussi utilisé par Automatique. Clé gratuite après inscription sur energyforecast.de",
+                "it": "Facoltativa, usata anche da Automatico. Chiave gratuita dopo la registrazione su energyforecast.de",
+                "sv": "Valfri, används även av Automatisk. Gratis nyckel efter registrering på energyforecast.de",
+                "no": "Valgfri, brukes også av Automatisk. Gratis nøkkel etter registrering på energyforecast.de",
+                "es": "Opcional, también la usa Automático. Clave gratuita tras registrarse en energyforecast.de",
+                "da": "Valgfri, bruges også af Automatisk. Gratis nøgle efter tilmelding på energyforecast.de",
+                "pl": "Opcjonalny, używany też przez Automatycznie. Darmowy klucz po rejestracji na energyforecast.de",
+                "ru": "Необязательно, используется и в режиме «Автоматически». Бесплатный ключ после регистрации на energyforecast.de",
+                "ar": "اختياري، يُستخدم أيضًا في الوضع التلقائي. مفتاح مجاني بعد التسجيل في energyforecast.de",
+                "ko": "선택 사항이며 자동에서도 사용됩니다. energyforecast.de 가입 후 무료 키"
+              }
+            },
+            {
               "id": "view_variableMarkupAbsPrice",
               "type": "label",
               "label": {

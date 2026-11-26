@@ -3153,6 +3153,176 @@
         "ko": "가능한 경우 공개된 가격 이후의 예상 가격을 추가합니다."
       }
     },
+    "forecastProvider": {
+      "id": "forecastProvider",
+      "type": "dropdown",
+      "value": "AUTO",
+      "label": {
+        "en": "Forecast source",
+        "nl": "Voorspellingsbron",
+        "de": "Prognosequelle",
+        "fr": "Source des prévisions",
+        "it": "Fonte delle previsioni",
+        "sv": "Prognoskälla",
+        "no": "Prognosekilde",
+        "es": "Fuente de la previsión",
+        "da": "Prognosekilde",
+        "pl": "Źródło prognozy",
+        "ru": "Источник прогноза",
+        "ar": "مصدر التوقعات",
+        "ko": "예측 소스"
+      },
+      "values": [
+        {
+          "id": "AUTO",
+          "label": {
+            "en": "Automatic (recommended)",
+            "nl": "Automatisch (aanbevolen)",
+            "de": "Automatisch (empfohlen)",
+            "fr": "Automatique (recommandé)",
+            "it": "Automatico (consigliato)",
+            "sv": "Automatisk (rekommenderas)",
+            "no": "Automatisk (anbefalt)",
+            "es": "Automático (recomendado)",
+            "da": "Automatisk (anbefales)",
+            "pl": "Automatyczny (zalecane)",
+            "ru": "Автоматически (рекомендуется)",
+            "ko": "자동 (권장)",
+            "ar": "تلقائي (مستحسن)"
+          }
+        },
+        {
+          "id": "EpexPredictor",
+          "label": {
+            "en": "EPEX Predictor",
+            "nl": "EPEX Predictor",
+            "de": "EPEX Predictor",
+            "fr": "EPEX Predictor",
+            "it": "EPEX Predictor",
+            "sv": "EPEX Predictor",
+            "no": "EPEX Predictor",
+            "es": "EPEX Predictor",
+            "da": "EPEX Predictor",
+            "pl": "EPEX Predictor",
+            "ru": "EPEX Predictor",
+            "ar": "EPEX Predictor",
+            "ko": "EPEX Predictor"
+          }
+        },
+        {
+          "id": "Stekker",
+          "label": {
+            "en": "Stekker",
+            "nl": "Stekker",
+            "de": "Stekker",
+            "fr": "Stekker",
+            "it": "Stekker",
+            "sv": "Stekker",
+            "no": "Stekker",
+            "es": "Stekker",
+            "da": "Stekker",
+            "pl": "Stekker",
+            "ru": "Stekker",
+            "ar": "Stekker",
+            "ko": "Stekker"
+          }
+        },
+        {
+          "id": "EnergyPriceForecast",
+          "label": {
+            "en": "energypriceforecast.eu",
+            "nl": "energypriceforecast.eu",
+            "de": "energypriceforecast.eu",
+            "fr": "energypriceforecast.eu",
+            "it": "energypriceforecast.eu",
+            "sv": "energypriceforecast.eu",
+            "no": "energypriceforecast.eu",
+            "es": "energypriceforecast.eu",
+            "da": "energypriceforecast.eu",
+            "pl": "energypriceforecast.eu",
+            "ru": "energypriceforecast.eu",
+            "ar": "energypriceforecast.eu",
+            "ko": "energypriceforecast.eu"
+          }
+        },
+        {
+          "id": "EnergyForecast",
+          "label": {
+            "en": "energyforecast.de",
+            "nl": "energyforecast.de",
+            "de": "energyforecast.de",
+            "fr": "energyforecast.de",
+            "it": "energyforecast.de",
+            "sv": "energyforecast.de",
+            "no": "energyforecast.de",
+            "es": "energyforecast.de",
+            "da": "energyforecast.de",
+            "pl": "energyforecast.de",
+            "ru": "energyforecast.de",
+            "ar": "energyforecast.de",
+            "ko": "energyforecast.de"
+          }
+        }
+      ],
+      "info": {
+        "en": "Automatic tries EPEX Predictor, energypriceforecast.eu, energyforecast.de (with key) and Stekker, in that order.",
+        "nl": "Automatisch probeert EPEX Predictor, energypriceforecast.eu, energyforecast.de (met sleutel) en Stekker, in die volgorde.",
+        "de": "Automatisch versucht EPEX Predictor, energypriceforecast.eu, energyforecast.de (mit Schlüssel) und Stekker, in dieser Reihenfolge.",
+        "fr": "Automatique essaie EPEX Predictor, energypriceforecast.eu, energyforecast.de (avec clé) et Stekker, dans cet ordre.",
+        "it": "Automatico prova EPEX Predictor, energypriceforecast.eu, energyforecast.de (con chiave) e Stekker, in quest’ordine.",
+        "sv": "Automatisk provar EPEX Predictor, energypriceforecast.eu, energyforecast.de (med nyckel) och Stekker, i den ordningen.",
+        "no": "Automatisk prøver EPEX Predictor, energypriceforecast.eu, energyforecast.de (med nøkkel) og Stekker, i den rekkefølgen.",
+        "es": "Automático prueba EPEX Predictor, energypriceforecast.eu, energyforecast.de (con clave) y Stekker, en ese orden.",
+        "da": "Automatisk prøver EPEX Predictor, energypriceforecast.eu, energyforecast.de (med nøgle) og Stekker, i den rækkefølge.",
+        "pl": "Automatycznie próbuje EPEX Predictor, energypriceforecast.eu, energyforecast.de (z kluczem) i Stekker, w tej kolejności.",
+        "ru": "Автоматически пробует EPEX Predictor, energypriceforecast.eu, energyforecast.de (с ключом) и Stekker, в этом порядке.",
+        "ar": "التلقائي يجرّب EPEX Predictor ثم energypriceforecast.eu ثم energyforecast.de (مع مفتاح) ثم Stekker بهذا الترتيب.",
+        "ko": "자동은 EPEX Predictor, energypriceforecast.eu, energyforecast.de(키 필요), Stekker 순서로 시도합니다."
+      },
+      "showIf": {
+        "id": "forecastEnable",
+        "value": true
+      }
+    },
+    "energyForecastApiKey": {
+      "id": "energyForecastApiKey",
+      "type": "text",
+      "value": "",
+      "label": {
+        "en": "energyforecast.de API key",
+        "nl": "energyforecast.de API-sleutel",
+        "de": "energyforecast.de API-Schlüssel",
+        "fr": "Clé API energyforecast.de",
+        "it": "Chiave API energyforecast.de",
+        "sv": "energyforecast.de API-nyckel",
+        "no": "energyforecast.de API-nøkkel",
+        "es": "Clave API energyforecast.de",
+        "da": "energyforecast.de API-nøgle",
+        "pl": "Klucz API energyforecast.de",
+        "ru": "API-ключ energyforecast.de",
+        "ar": "مفتاح API energyforecast.de",
+        "ko": "energyforecast.de API 키"
+      },
+      "info": {
+        "en": "Optional, also used by Automatic. Free key after signing up at energyforecast.de",
+        "nl": "Optioneel, ook gebruikt door Automatisch. Gratis sleutel na aanmelden op energyforecast.de",
+        "de": "Optional, auch für Automatisch genutzt. Kostenloser Schlüssel nach Anmeldung auf energyforecast.de",
+        "fr": "Facultatif, aussi utilisé par Automatique. Clé gratuite après inscription sur energyforecast.de",
+        "it": "Facoltativa, usata anche da Automatico. Chiave gratuita dopo la registrazione su energyforecast.de",
+        "sv": "Valfri, används även av Automatisk. Gratis nyckel efter registrering på energyforecast.de",
+        "no": "Valgfri, brukes også av Automatisk. Gratis nøkkel etter registrering på energyforecast.de",
+        "es": "Opcional, también la usa Automático. Clave gratuita tras registrarse en energyforecast.de",
+        "da": "Valgfri, bruges også af Automatisk. Gratis nøgle efter tilmelding på energyforecast.de",
+        "pl": "Opcjonalny, używany też przez Automatycznie. Darmowy klucz po rejestracji na energyforecast.de",
+        "ru": "Необязательно, используется и в режиме «Автоматически». Бесплатный ключ после регистрации на energyforecast.de",
+        "ar": "اختياري، يُستخدم أيضًا في الوضع التلقائي. مفتاح مجاني بعد التسجيل في energyforecast.de",
+        "ko": "선택 사항이며 자동에서도 사용됩니다. energyforecast.de 가입 후 무료 키"
+      },
+      "showIf": {
+        "id": "forecastEnable",
+        "value": true
+      }
+    },
     "tariff_update_group": {
       "id": "tariff_update_group",
       "type": "number",

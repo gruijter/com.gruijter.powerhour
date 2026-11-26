@@ -266,6 +266,8 @@
 		showField('priceProvider', market);
 		showField('entsoeApiKey', market && input('priceProvider').value === 'ENTSOE');
 		showField('forecastEnable', market && !perM3());
+		showField('forecastProvider', market && !perM3() && input('forecastEnable').checked);
+		showField('energyForecastApiKey', market && !perM3() && input('forecastEnable').checked);
 		showField('variableMarkupAbsPrice', market);
 		showField('export_variableMarkupAbsPrice', market && !perM3());
 		showField('export_formula', !perM3());
@@ -589,6 +591,8 @@
 		input('currencyChoice').addEventListener('change', currencyChosen);
 		input('fetchExchangeRate').addEventListener('change', showCurrencyFields);
 		input('priceProvider').addEventListener('change', showAdvancedFields);
+		input('forecastEnable').addEventListener('change', showAdvancedFields);
+		input('forecastProvider').addEventListener('change', showAdvancedFields);
 		selectCurrency();
 		document.getElementById('copyImport').addEventListener('click', () => {
 			PRICE_FIELDS.forEach((id) => {
