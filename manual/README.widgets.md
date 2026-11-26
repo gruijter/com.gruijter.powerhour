@@ -87,6 +87,7 @@
 
 ## Good to know
 
+- **Energy flows detail:** flows under 2% are hidden. Tap the right half for more detail (down to 0.5%), the left half for less (up to 10%). Kept per tab.
 - **Climate:** Power Monitors with **Heating or cooling** ticked, plus gas.
 - **Home other:** home use minus climate.
 - **Pale bars:** expected values. **Estimated:** a gap in the history is filled in.

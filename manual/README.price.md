@@ -68,7 +68,7 @@ Example: `max(market - 0.02, import * 0.5)`.
 
 - **Price provider:** Automatic picks the best source for your zone, with fallback.
 - **ENTSO-E key:** a shared key is built in. Own free key: register at [ENTSO-E](https://transparency.entsoe.eu/), mail `transparency@entsoe.eu` (*Restful API access*).
-- **Forecast prices:** AI prices (Stekker) for the planners to look further ahead.
+- **Forecast prices:** AI prices for the planners to look further ahead. Automatic picks a source for your zone (EPEX Predictor, Energy Price Forecast EU, Stekker), with fallback. energyforecast.de needs your own API key.
 - **Currency:** fixed exchange rate, or daily ECB rate.
 - **Lowest and highest hours per day:** how many hours get the cheap and dear colour.
 
@@ -91,7 +91,7 @@ Example: `max(market - 0.02, import * 0.5)`.
 - The price is P% above / below the average of …
 
 **Actions**
-- Find the cheapest / most expensive block in the next H hours, before a time (tokens: start, end, minutes until, average, price limit)
+- Find the cheapest / most expensive block in the next H hours, before a time (tokens: start, end, minutes until, average, price limit). A block that has already begun starts now and ends after the full duration.
 - Provide import / export prices JSON
 - Set a price component
 - Set time-of-day markup or own formula
