@@ -678,6 +678,7 @@ class SolarDevice extends GenericDevice {
         limit: aggregateResult.limit,
         peakPower: effectivePeakPower,
         trainingConfidence: aggregateResult.trainingConfidence,
+        sampleCounts: combinedSlotSamples.map((samples) => samples.length),
       });
       this.yieldFactors = mergeResult.yieldFactors;
       this.log(mergeResult.log);
