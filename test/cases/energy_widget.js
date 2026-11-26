@@ -65,6 +65,7 @@ const makeRig = () => {
         if (!drivers[id]) throw Error(`no driver ${id}`);
         return { getDevices: () => drivers[id] };
       },
+      getDrivers: () => Object.fromEntries(Object.keys(drivers).map((id) => [id, { getDevices: () => drivers[id] }])),
     },
   };
   const grid = Object.create(GridDevice.prototype);
@@ -216,6 +217,18 @@ test('flows: climate summarizers apart, chosen users in the chosen order, none c
   assert.deepStrictEqual(order.sources.map((x) => x.key), ['grid', 'solar', 'battery']);
   assert.strictEqual(order.gas, 3);
   assert.strictEqual(order.live, false);
+});
+
+test('flows: a summarizer on the solar source is no user', () => {
+  const { homey, drivers } = makeRig();
+  const pv = capDevice({ meter_kwh_this_day: 3 });
+  pv.getSettings = () => ({ homey_device_id: 'plug' });
+  const tv = capDevice({ meter_kwh_this_day: 1 });
+  drivers.power = [pv, tv];
+  const sun = capDevice({ meter_kwh_this_day: 3 });
+  sun.getSettings = () => ({ homey_device_id: 'plug' });
+  drivers.solar = [sun];
+  assert.deepStrictEqual(WidgetData.getFlows(homey, 'day', []).users.map((u) => u.name), [tv.id]);
 });
 
 test('money: grid meter and unit, no meter gives null', () => {
