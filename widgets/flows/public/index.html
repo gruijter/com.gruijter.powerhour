@@ -296,7 +296,8 @@
         var share = function (x, m) {
           var dst = dstOf(m);
           var all = Object.keys(pairs).reduce(function (a, s) { return a + ((pairs[s] && pairs[s][dst]) || 0); }, 0);
-          return all > 0 && pairs[x.kind] ? (pairs[x.kind][dst] || 0) / all : 0;
+          var f = all > 0 && pairs[x.kind] ? (pairs[x.kind][dst] || 0) / all : 0;
+          return f >= MIN_SHARE ? f : 0;
         };
         var paired = function (m) {
           var dst = dstOf(m);
